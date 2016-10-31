@@ -1,0 +1,7 @@
+## Interface: 70000
+## Title: tdBattlePetScript Rematch
+## Author: DengSir
+## Version: 70000.01
+## Dependencies: tdBattlePetScript
+
+Load.xml
