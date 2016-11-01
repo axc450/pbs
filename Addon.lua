@@ -101,8 +101,10 @@ function PluginRematch:OnTooltipFormatting(tip, key)
 end
 
 function PluginRematch:OnExport(key)
-    Rematch:SetSideline(key, RematchSaved[key])
-    return Rematch:ConvertSidelineToString()
+    if RematchSaved[key] then
+        Rematch:SetSideline(key, RematchSaved[key])
+        return Rematch:ConvertSidelineToString()
+    end
 end
 
 function PluginRematch:OnImport(data)
