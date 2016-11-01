@@ -52,7 +52,7 @@ function Addon:OnEnable()
 end
 
 function Addon:OnDisable()
-    tDeleteItem(Rematch:GetMenu('TeamMenu'), self.teamMenu)
+    tDeleteItem(Rematch:GetMenu('TeamMenu'), teamMenu)
 end
 
 function Addon:OnExport(key)
