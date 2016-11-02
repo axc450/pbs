@@ -27,6 +27,10 @@ function Addon:GetCurrentKey()
     return RematchSettings.loadedTeam
 end
 
+function Addon:GetTitleByKey(key)
+    return Rematch:GetTeamTitle(key)
+end
+
 function Addon:GetPetTip(id)
     if not id then
         return ' '
