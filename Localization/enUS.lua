@@ -9,7 +9,7 @@ local L = LibStub('AceLocale-3.0'):NewLocale('tdBattlePetScript_Rematch', 'enUS'
 if not L then return end
 
 L.TITLE = 'Rematch'
-L.NOTES = '这个脚本选择器匹配你当前Rematch插件加载的宠物队伍。'
+L.NOTES = 'This script selector matches your current Rematch loaded pet team.'
 
 L.WRITE_SCRIPT   = 'Write script'
-L.LEVELING_FIELD = '升级栏位'
+L.LEVELING_FIELD = 'Leveling slot'
