@@ -8,7 +8,7 @@ local L = LibStub('AceLocale-3.0'):NewLocale('tdBattlePetScript_Rematch', 'zhCN'
 if not L then return end
 
 L.TITLE = 'Rematch'
-L.NOTES = '这个脚本选择器匹配你当前Rematch插件加载的宠物队伍。'
+L.NOTES = '这个脚本选择器将脚本绑定到Rematch战队。'
 
 L.WRITE_SCRIPT   = '编写脚本'
 L.LEVELING_FIELD = '升级栏位'
