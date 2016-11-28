@@ -41,6 +41,14 @@ function Addon:OnEnable()
         end
     end)
 
+    self:SecureHook(RematchTeamPanel, 'FillTeamButton', function(_, button, key)
+        if self:GetScript(key) then
+            button.Name:SetTextColor(0, 1, 0)
+        else
+            button.Name:SetTextColor(1, 1, 1)
+        end
+    end)
+
     self:HookScript(RematchJournal, 'OnShow', function(self)
         CollectionsJournal:SetAttribute('UIPanelLayout-width', 870)
         UpdateUIPanelPositions()
