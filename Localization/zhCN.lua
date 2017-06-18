@@ -5,6 +5,7 @@ zhCN.lua
 ]]
 
 local L = LibStub('AceLocale-3.0'):NewLocale('tdBattlePetScript_Rematch', 'zhCN', true)
+if not L then return end
 
 L.TITLE = 'Rematch'
 L.NOTES = '这个脚本选择器将脚本绑定到Rematch战队。'
