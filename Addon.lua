@@ -47,9 +47,9 @@ end
 function Addon:OnTooltipFormatting(tip, key)
     local saved = RematchSaved[key]
     if not saved then
-        tip:AddLine('当前没有队伍匹配到该脚本。', RED_FONT_COLOR:GetRGB())
+        tip:AddLine(L.NO_TEAM_FOR_SCRIPT, RED_FONT_COLOR:GetRGB())
     else
-        tip:AddLine('队伍：' .. Rematch:GetTeamTitle(key), GREEN_FONT_COLOR:GetRGB())
+        tip:AddLine(L['Team:'] .. Rematch:GetTeamTitle(key), GREEN_FONT_COLOR:GetRGB())
         tip:AddLine(' ')
 
         for i, v in ipairs(saved) do

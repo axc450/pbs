@@ -15,4 +15,6 @@ L["LEVELING_FIELD"] = "Leveling slot"
 L["NOTES"] = "This script selector will be bound to Rematch team."
 L["TITLE"] = "Rematch"
 L["WRITE_SCRIPT"] = "Write script"
+L['Team:'] = true
+L['NO_TEAM_FOR_SCRIPT'] = 'No team matches the script.'
 --@end-debug@
