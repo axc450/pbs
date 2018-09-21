@@ -27,6 +27,14 @@ function Addon:GetCurrentKey()
     return RematchSettings.loadedTeam
 end
 
+function Addon:IterateKeys()
+    return coroutine.wrap(function()
+        for key in pairs(RematchSaved) do
+            coroutine.yield(key)
+        end
+    end)
+end
+
 function Addon:GetTitleByKey(key)
     return Rematch:GetTeamTitle(key)
 end
