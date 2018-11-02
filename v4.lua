@@ -17,6 +17,14 @@ local teamMenu = {
     end
 }
 
+local function errorhandler(err)
+    return geterrorhandler()(err)
+end
+
+local function safecall(func, ...)
+    return xpcall(func, errorhandler, ...)
+end
+
 local scriptButtons = setmetatable({}, {
     __index = function(t, parent)
         local button = CreateFrame('Button', nil, parent, 'RematchFootnoteButtonTemplate') do
@@ -43,28 +51,58 @@ local scriptButtons = setmetatable({}, {
 })
 
 function Addon:OnEnable()
-    tinsert(Rematch:GetMenu('TeamMenu'), 6, teamMenu)
+    local menu = Rematch:GetMenu('TeamMenu')
+    local deleteItem = self:FindMenuItem(menu, DELETE)
 
-    local teamKey
-    self:Hook(RematchDialog, 'AcceptOnClick', function(...)
-        if RematchDialog.dialogName ~= 'DeleteTeam' then
+    tinsert(menu, 6, teamMenu)
+
+    -- team delete
+
+    self:RawHook(deleteItem, 'func', function(obj, key, ...)
+        self.hooks[deleteItem].func(obj, key, ...)
+
+        local origAccept = RematchDialog.acceptFunc
+        RematchDialog.acceptFunc = function(...)
+            self:RemoveScript(key)
+            return origAccept(...)
+        end
+    end, true)
+
+    -- team rename
+
+    local function rename(old, new)
+        if not old then
             return
         end
-        if teamKey then
-            self:RemoveScript(teamKey)
-        end
-    end)
-    self:Hook(RematchDialog, 'FillTeam', function(_, _, team)
-        if RematchDialog.dialogName ~= 'DeleteTeam' then
+        if old == new then
             return
         end
-        for key, v in pairs(RematchSaved) do
-            if team == v then
-                teamKey = key
-                return
+        local script = self:GetScript(old)
+        if not script then
+            return
+        end
+
+        self:RemoveScript(old)
+        self:AddScript(new, script)
+    end
+
+    self:RawHook(Rematch, 'SaveAsAccept', function(...)
+        safecall(function()
+            local team, key = Rematch:GetSideline()
+            if not RematchSaved[key] or not Rematch:SidelinePetsDifferentThan(key) then
+                rename(Rematch:GetSidelineContext('originalKey'), key)
             end
-        end
+        end)
+        return self.hooks[Rematch].SaveAsAccept(...)
+    end, true)
+
+    self:SecureHook(Rematch, 'OverwriteAccept', function()
+        safecall(function()
+            rename(Rematch:GetSidelineContext('originalKey'), select(2, Rematch:GetSideline()))
+        end)
     end)
+
+    -- team update
 
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', function()
         if RematchLoadedTeamPanel:IsVisible() then
@@ -166,6 +204,14 @@ end
 
 function Addon:OnDisable()
     tDeleteItem(Rematch:GetMenu('TeamMenu'), teamMenu)
+end
+
+function Addon:FindMenuItem(menu, text)
+    for i, v in ipairs(menu) do
+        if v.text == text then
+            return v
+        end
+    end
 end
 
 function Addon:OnExport(key)
