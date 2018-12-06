@@ -2,6 +2,6 @@
 ..\FrameXML\UI.xsd">
   <Include file="Localization\Localization.xml" />
   <Script file="Addon.lua" />
-  <Script file="v3.lua" />
-  <Script file="v4.lua" />
+  <Script file="Version.lua" />
+  <Script file="UI.lua" />
 </Ui>
