@@ -28,8 +28,6 @@ function Version:Current()
     return Version:New(tonumber(major), tonumber(minor), tonumber(build), tonumber(revision))
 end
 
-print(Version)
-
 local Meta = Version._Meta
 
 function Meta.__lt(lhs, rhs)
