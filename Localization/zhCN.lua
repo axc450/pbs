@@ -7,7 +7,7 @@ zhCN.lua
 local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'zhCN')
 if not L then return end
 
--- @import@
+--@import@
 L.ADDON_NAME = '小宠物战斗脚本'
 
 L['Auto']             = '自动'
@@ -101,4 +101,4 @@ L.LEVELING_FIELD = '升级栏位'
 
 L['Team:'] = '队伍：'
 L.NO_TEAM_FOR_SCRIPT = '当前没有队伍匹配到该脚本。'
--- @end-import@
+--@end-import@

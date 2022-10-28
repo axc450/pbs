@@ -1,17 +1,17 @@
--- @debug@
+--@debug@
 local L = LibStub('AceLocale-3.0'):NewLocale(..., 'enUS', true)
--- @end-debug@
---[[@non-debug@
+--@end-debug@
+--[===[@non-debug@
 local L = LibStub('AceLocale-3.0'):NewLocale(..., 'enUS', true, true)
---@end-non-debug@]]
+--@end-non-debug@]===]
 if not L then
     return
 end
 
--- @localization(locale=""enUS", format="lua_additive_table", table-name="L", same-key-is-true=true)@
+--@localization(locale="enUS", format="lua_additive_table", table-name="L", same-key-is-true=true)@
 
--- @debug@
--- @import@
+--@debug@
+--@import@
 L['ADDON_NAME'] = 'Pet Battle Scripts'
 L['Auto'] = true
 L['Beauty script'] = true
@@ -93,5 +93,5 @@ L["TITLE"] = "Rematch"
 L["WRITE_SCRIPT"] = "Write script"
 L["Team:"] = true
 L["NO_TEAM_FOR_SCRIPT"] = "No team matches the script."
--- @end-import@
--- @end-debug@
+--@end-import@
+--@end-debug@
