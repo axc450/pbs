@@ -3,7 +3,7 @@
 ## Notes: Battle Pet Combat Scripting
 ## Author: axc450
 ## Version: 1.0
-## OptionalDeps: Ace3
+## OptionalDeps: Ace3, Rematch
 ## SavedVariables: TD_DB_BATTLEPETSCRIPT_GLOBAL
 ## SavedVariablesPerCharacter: TD_DB_BATTLEPETSCRIPT_BATTLE_CACHE
 ## LoadManagers: AddonLoader
