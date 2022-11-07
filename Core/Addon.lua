@@ -77,7 +77,7 @@ function Addon:UpdateDatabase()
 
         C_Timer.After(0.9, function()
             GUI:Notify{
-                text = format('%s\n|cff00ffff%s%s|r', ADDON, ns.L['Update to version: '], newVersion),
+                text = format('%s\n|cff00ffff%s%s|r', 'Pet Battle Scripts', ns.L['Update to version: '], newVersion),
                 icon = ns.ICON,
                 help = ''
             }
