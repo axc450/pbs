@@ -31,8 +31,8 @@ local scriptButtons = setmetatable({}, {
                 button:SetSize(18, 18)
             end
             button:SetPoint('CENTER')
-            button:SetNormalTexture("Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon")
-            button:SetPushedTexture("Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon")
+            button:SetNormalTexture("Interface/AddOns/PetBattleScripts/Rematch/Textures/ScriptIcon")
+            button:SetPushedTexture("Interface/AddOns/PetBattleScripts/Rematch/Textures/ScriptIcon")
             button:SetScript('OnClick', function(button)
                 Addon:OpenScriptEditor(button.key, Rematch:GetTeamTitle(button.key))
             end)

@@ -34,7 +34,7 @@ function Module:OnInitialize()
             PetBattleFrame.TopVersusText:SetTextColor(GREEN_FONT_COLOR:GetRGB())
 
             GameTooltip:SetOwner(ToolButton, 'ANCHOR_BOTTOM')
-            GameTooltip:SetText('tdBattlePetScript')
+            GameTooltip:SetText('Pet Battle Scripts')
             GameTooltip:AddLine(L.ADDON_NAME, GREEN_FONT_COLOR:GetRGB())
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(UI.LEFT_MOUSE_BUTTON .. L.TOGGLE_SCRIPT_SELECTOR, HIGHLIGHT_FONT_COLOR:GetRGB())
