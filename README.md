@@ -5,6 +5,7 @@
 - Write scripts to automate pet battles
 - Assign scripts to pet teams
 - Full Rematch integration
+- Export and share scripts
 
 ## Getting Started
 Download & install the addon from either:

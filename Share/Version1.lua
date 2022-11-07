@@ -12,8 +12,7 @@ local VERSION = 1
 local Share = Addon:NewShareHandler(VERSION)
 
 local template = [[
-# tdBattlePetScript Share String
-# Url: https://www.curseforge.com/wow/addons/tdbattlepetscript
+# Pet Battle Scripts
 # Version: %s
 # Name: %s
 # (Script) : #
