@@ -50,7 +50,7 @@ function Addon:OnInitialize()
         }
     }
 
-    self.db = LibStub('AceDB-3.0'):New('TD_DB_BATTLEPETSCRIPT_GLOBAL', defaults, true)
+    self.db = LibStub('AceDB-3.0'):New('pbs_db', defaults, true)
 
     self.db.RegisterCallback(self, 'OnDatabaseShutdown')
 end

@@ -13,7 +13,7 @@ ns.BattleCachePrototype = BattleCachePrototype
 BattleCacheManager:SetDefaultModulePrototype(BattleCachePrototype)
 
 function BattleCacheManager:OnInitialize()
-    self.caches = _G.TD_DB_BATTLEPETSCRIPT_BATTLE_CACHE or {}
+    self.caches = _G.pbs_cache or {}
 
     self:RegisterMessage('PET_BATTLE_SCRIPT_DB_SHUTDOWN')
 
@@ -29,9 +29,9 @@ end
 
 function BattleCacheManager:PET_BATTLE_SCRIPT_DB_SHUTDOWN()
     if C_PetBattles.IsInBattle() then
-        _G.TD_DB_BATTLEPETSCRIPT_BATTLE_CACHE = self.caches
+        _G.pbs_cache = self.caches
     else
-        _G.TD_DB_BATTLEPETSCRIPT_BATTLE_CACHE = nil
+        _G.pbs_cache = nil
     end
 end
 
