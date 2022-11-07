@@ -27,7 +27,7 @@ function Module:OnInitialize()
     local function UpdateSaveButton() self:UpdateSaveButton() end
 
     local MainPanel = GUI:GetClass('BasicPanel'):New(UIParent) do
-        MainPanel.SetTitle = function(p, t) return p:SetText('tdBattlePetScript - ' .. t) end
+        MainPanel.SetTitle = function(p, t) return p:SetText('Pet Battle Scripts - ' .. t) end
 
         MainPanel:Hide()
         MainPanel:SetSize(550, 450)
@@ -37,7 +37,7 @@ function Module:OnInitialize()
         MainPanel:SetResizeBounds(550, 350, 900, 700)
         MainPanel:ShowPortrait()
         MainPanel:SetFrameStrata('DIALOG')
-        MainPanel:SetTitle(L['Script editor'])
+        MainPanel:SetTitle(L['Script Editor'])
         MainPanel:SetPortrait(ns.ICON)
 
         MainPanel:RegisterConfig(Addon.db.profile.position)
