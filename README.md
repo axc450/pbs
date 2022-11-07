@@ -6,6 +6,11 @@
 - Assign scripts to pet teams
 - Full Rematch integration
 
+## Getting Started
+Download & install the addon from either:
+- [Curse](https://www.curseforge.com/wow/addons/pet-battle-scripts)
+- [Wago](https://addons.wago.io/addons/pbs)
+
 ## Documentation
 Please see the [wiki](https://github.com/axc450/pbs/wiki) for full addon documentation
 
