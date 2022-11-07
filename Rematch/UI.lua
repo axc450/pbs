@@ -7,7 +7,7 @@ UI.lua
 local ns = select(2, ...)
 
 local Addon = ns.Addon
-local L     = LibStub('AceLocale-3.0'):GetLocale('tdBattlePetScript_Rematch')
+local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
 local teamMenu = {
     text = L.WRITE_SCRIPT,
@@ -38,7 +38,7 @@ local scriptButtons = setmetatable({}, {
             end)
             button:SetScript('OnEnter', function(button)
                 GameTooltip:SetOwner(button, 'ANCHOR_RIGHT')
-                GameTooltip:SetText('tdBattlePetScript')
+                GameTooltip:SetText('Pet Battle Scripts')
                 GameTooltip:AddLine(L.WRITE_SCRIPT, HIGHLIGHT_FONT_COLOR:GetRGB())
                 GameTooltip:Show()
             end)

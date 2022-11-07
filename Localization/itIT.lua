@@ -1,5 +1,5 @@
 
-local L = LibStub('AceLocale-3.0'):NewLocale('tdBattlePetScript', 'itIT')
+local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'itIT')
 if not L then return end
 
 --@debug@

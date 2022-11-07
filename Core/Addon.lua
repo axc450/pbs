@@ -5,15 +5,15 @@ Addon.lua
 ]]
 
 local ADDON, ns = ...
-local Addon = LibStub('AceAddon-3.0'):NewAddon('tdBattlePetScript', 'AceEvent-3.0', 'LibClass-2.0')
+local Addon = LibStub('AceAddon-3.0'):NewAddon('PetBattleScripts', 'AceEvent-3.0', 'LibClass-2.0')
 local GUI   = LibStub('tdGUI-1.0')
 
 ns.Addon = Addon
 ns.UI    = {}
-ns.L     = LibStub('AceLocale-3.0'):GetLocale('tdBattlePetScript', true)
+ns.L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts', true)
 ns.ICON  = [[Interface\Icons\INV_Misc_PenguinPet]]
 
-_G.tdBattlePetScript = Addon
+_G.PetBattleScripts = Addon
 
 function Addon:OnInitialize()
     local defaults = {

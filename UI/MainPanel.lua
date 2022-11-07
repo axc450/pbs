@@ -37,7 +37,7 @@ function Module:OnInitialize()
         MainPanel:SetResizeBounds(550, 350, 900, 700)
         MainPanel:ShowPortrait()
         MainPanel:SetFrameStrata('DIALOG')
-        MainPanel:SetTitle(L['Script Editor'])
+        MainPanel:SetTitle(L['Script editor'])
         MainPanel:SetPortrait(ns.ICON)
 
         MainPanel:RegisterConfig(Addon.db.profile.position)

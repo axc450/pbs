@@ -5,8 +5,8 @@ Addon.lua
 ]]
 
 local ns    = select(2, ...)
-local L     = LibStub('AceLocale-3.0'):GetLocale('tdBattlePetScript_Rematch')
-local Addon = tdBattlePetScript:NewPlugin('Rematch', 'AceEvent-3.0', 'AceHook-3.0', 'LibClass-2.0')
+local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
+local Addon = PetBattleScripts:NewPlugin('Rematch', 'AceEvent-3.0', 'AceHook-3.0', 'LibClass-2.0')
 
 ns.Addon   = Addon
 

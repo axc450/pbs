@@ -12,7 +12,7 @@ end
 
 -- @debug@
 -- @import@
-L['ADDON_NAME'] = 'Battle pet script'
+L['ADDON_NAME'] = 'Pet Battle Scripts'
 L['Auto'] = true
 L['Beauty script'] = true
 L['Create script'] = true
@@ -91,7 +91,7 @@ L["LEVELING_FIELD"] = "Leveling slot"
 L["NOTES"] = "This script selector will be bound to Rematch team."
 L["TITLE"] = "Rematch"
 L["WRITE_SCRIPT"] = "Write script"
-L['Team:'] = true
-L['NO_TEAM_FOR_SCRIPT'] = 'No team matches the script.'
+L["Team:"] = true
+L["NO_TEAM_FOR_SCRIPT"] = "No team matches the script."
 -- @end-import@
 -- @end-debug@
