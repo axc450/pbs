@@ -33,19 +33,6 @@ function Addon:GetTitleByKey(key)
     return Rematch:GetTeamTitle(key)
 end
 
-function Addon:GetPetTip(id)
-    if not id then
-        return ' '
-    end
-    local _, customName, _, _, _, _, _, name, icon, petType = C_PetJournal.GetPetInfoByPetID(id)
-    if not name then
-        return ' '
-    end
-    local health, maxHealth, power, speed, rarity = C_PetJournal.GetPetStats(id)
-
-    return format('|T%s:20|t %s%s|r', icon, ITEM_QUALITY_COLORS[rarity-1].hex, customName or name)
-end
-
 function Addon:OnTooltipFormatting(tip, key)
     local saved = RematchSaved[key]
     if not saved then
@@ -54,12 +41,10 @@ function Addon:OnTooltipFormatting(tip, key)
         tip:AddLine(L['Team:'] .. Rematch:GetTeamTitle(key), GREEN_FONT_COLOR:GetRGB())
         tip:AddLine(' ')
 
-        for i, v in ipairs(saved) do
-            if v[1] ~= 0 then
-                tip:AddLine(self:GetPetTip(v[1]), HIGHLIGHT_FONT_COLOR:GetRGB())
-            else
-                tip:AddLine(format([[|TInterface\AddOns\Rematch\Textures\levelingicon:20|t %s]], L.LEVELING_FIELD), HIGHLIGHT_FONT_COLOR:GetRGB())
-            end
-        end
+		for i=1,3 do
+			local petID = saved[i][1]
+			local petInfo = Rematch.petInfo:Fetch(petID)
+			tip:AddLine(format([[|T%s:20|t %s]],petInfo.icon,petInfo.name))
+		end
     end
 end
