@@ -1,6 +1,6 @@
 ## Interface: 100000
 ## Title: Pet Battle Scripts
-## Description: Battle Pet Combat Scripting
+## Notes: Battle Pet Combat Scripting
 ## Author: axc450
 ## Version: 1.0
 ## OptionalDeps: Ace3
