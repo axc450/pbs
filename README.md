@@ -13,6 +13,6 @@ Please see the [wiki](https://github.com/axc450/pbs/wiki) for full addon documen
 <img src="https://i.imgur.com/Gh3LTWh.png">
 
 ## Credits
-- `axc450`
-- `bloerwald`
-- Dengzhun Lu (`Dencer`)
+- [axc450](https://github.com/axc450)
+- [bloerwald](https://github.com/bloerwald)
+- [Dengsir](https://github.com/DengSir)
