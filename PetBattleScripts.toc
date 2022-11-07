@@ -1,10 +1,9 @@
 ## Interface: 100000
-## Title: tdBattlePetScript
-## X-Wago-ID: WYK9036L
-## Description: Battle pet combat scripting
+## Title: Pet Battle Scripts
+## Description: Battle Pet Combat Scripting
 ## Author: axc450
-## Version: 10.0.0
-## OptionalDeps: tdGUI, Ace3
+## Version: 1.0
+## OptionalDeps: Ace3
 ## SavedVariables: TD_DB_BATTLEPETSCRIPT_GLOBAL
 ## SavedVariablesPerCharacter: TD_DB_BATTLEPETSCRIPT_BATTLE_CACHE
 ## LoadManagers: AddonLoader

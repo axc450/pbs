@@ -1,4 +1,4 @@
-## [10.0.0]
+## [1.0]
 
 - Updated for Dragonflight.
 - Added `collected` to the Pets API (`true` if the pet is in your collection).
