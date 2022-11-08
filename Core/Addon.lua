@@ -10,7 +10,7 @@ local GUI   = LibStub('tdGUI-1.0')
 
 ns.Addon = Addon
 ns.UI    = {}
-ns.L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts', true)
+ns.L     = LibStub('AceLocale-3.0'):GetLocale('tdBattlePetScript', true)
 ns.ICON  = [[Interface\Icons\INV_Misc_PenguinPet]]
 
 _G.PetBattleScripts = Addon
@@ -50,7 +50,7 @@ function Addon:OnInitialize()
         }
     }
 
-    self.db = LibStub('AceDB-3.0'):New('pbs_db', defaults, true)
+    self.db = LibStub('AceDB-3.0'):New('TD_DB_BATTLEPETSCRIPT_GLOBAL', defaults, true)
 
     self.db.RegisterCallback(self, 'OnDatabaseShutdown')
 end
