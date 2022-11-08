@@ -7,4 +7,5 @@
     <Include file="UI\UI.xml" />
     <Include file="Plugins\Plugins.xml" />
     <Include file="Extension\Extension.xml" />
+    <Include file="Rematch\Rematch.xml" />
 </Ui>

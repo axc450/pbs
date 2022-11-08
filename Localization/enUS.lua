@@ -86,5 +86,12 @@ L['TOGGLE_SCRIPT_MANAGER'] = 'Toggle script manager'
 L['TOGGLE_SCRIPT_SELECTOR'] = 'Toggle script selector'
 L['TOOLTIP_CREATE_OR_DEBUG_SCRIPT'] = 'Create or debug script'
 L['Update to version: '] = true
+
+L["LEVELING_FIELD"] = "Leveling slot"
+L["NOTES"] = "This script selector will be bound to Rematch team."
+L["TITLE"] = "Rematch"
+L["WRITE_SCRIPT"] = "Write script"
+L['Team:'] = true
+L['NO_TEAM_FOR_SCRIPT'] = 'No team matches the script.'
 -- @end-import@
 -- @end-debug@
