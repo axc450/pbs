@@ -8,5 +8,8 @@
 ## SavedVariablesPerCharacter: TD_DB_BATTLEPETSCRIPT_BATTLE_CACHE
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
+## X-Curse-Project-ID: 699660
+## X-Wago-ID: WYK9036L
+## X-WoWI-ID: 26435
 
 Load.xml
