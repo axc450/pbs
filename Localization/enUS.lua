@@ -14,7 +14,7 @@ end
 --@import@
 L['ADDON_NAME'] = 'Pet Battle Scripts'
 L['Auto'] = true
-L['Beauty script'] = true
+L['Beauty script'] = "Format script"
 L['Create script'] = true
 L['Debugging script'] = true
 L['DIALOG_COPY_URL_HELP'] = 'Press ctrl-c to copy and open it in the browser'
