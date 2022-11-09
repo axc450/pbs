@@ -1,6 +1,14 @@
-<img src="https://i.imgur.com/1bVE2iW.png">
+<p align="center">
+    <img src="https://i.imgur.com/1bVE2iW.png">
+    <br>
+    <img src="https://cf.way2muchnoise.eu/699660.svg">
+    <img src="https://cf.way2muchnoise.eu/versions/699660_latest.svg">
+    <img src="https://img.shields.io/github/v/release/axc450/pbs">  
+</p>
 
-Battle Pet Combat Scripting
+<hr>
+
+🐉 Battle Pet Combat Scripting🐉 
 
 - Write scripts to automate pet battles
 - Assign scripts to pet teams
@@ -10,7 +18,11 @@ Battle Pet Combat Scripting
 This addon is a fork of the popular, but now abandoned, [tdbattlePetScript](https://github.com/DengSir/tdBattlePetScript) addon.
 
 ## Getting Started
-Download & install the addon from either:
+If you already have `tdBattlePetScript` and `tdBattlePetScript_Rematch` installed, remove them both.
+
+⚠️ **Do not remove any saved variables otherwise this will also wipe your scripts.**
+
+Then download & install the addon from either:
 - [Curse](https://www.curseforge.com/wow/addons/pet-battle-scripts)
 - [Wago](https://addons.wago.io/addons/pbs)
 - [WoW Interface](https://www.wowinterface.com/downloads/info26435-PetBattleScripts.html)
