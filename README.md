@@ -28,6 +28,8 @@ Then download & install the addon from either:
 - [WoW Interface](https://www.wowinterface.com/downloads/info26435-PetBattleScripts.html)
 - [GitHub](https://github.com/axc450/pbs/releases)
 
+This addon takes the same name (`tdBattlePetScript`) under the hood so you should never have to transfer scripts over manually!
+
 ## Documentation & Support
 Please see the [wiki](https://github.com/axc450/pbs/wiki) for full addon documentation.
 If there is a problem, please raise it [here](https://github.com/axc450/pbs/issues) or contact Super#0100 on Discord.
