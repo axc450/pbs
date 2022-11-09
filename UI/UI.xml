@@ -9,4 +9,5 @@
     <Script file="Import.lua" />
     <Script file="MainPanel.lua" />
     <Script file="Minimap.lua" />
+    <Script file="Options.lua" />
 </Ui>

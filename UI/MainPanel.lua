@@ -652,7 +652,7 @@ function Module:OnShareButtonClick()
         {
             text = L['Options'],
             func = function()
-                Addon:OpenOptionFrame()
+                Addon:OpenOptionsFrame()
             end
         }
     })

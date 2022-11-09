@@ -56,7 +56,7 @@ function Minimap:OnInitialize()
                     {
                         text = L.Options,
                         func = function()
-                            Addon:OpenOptionFrame()
+                            Addon:OpenOptionsFrame()
                         end
                     }
                 })

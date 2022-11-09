@@ -106,7 +106,7 @@ function PluginManager:UpdatePlugins()
                 text = L.PLUGINFIRSTENEMY_NOTIFY,
                 icon = ns.ICON,
                 OnAccept = function()
-                    Addon:OpenOptionFrame('plugins')
+                    Addon:OpenOptionsFrame()
                 end
             }
         end)
