@@ -20,3 +20,5 @@ jobs:
           submodules: recursive
 
       - uses: BigWigsMods/packager@v2
+        with:
+          args: "-n 'Pet Battle Scripts {project-version}'"
