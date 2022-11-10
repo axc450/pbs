@@ -10,7 +10,7 @@ local GUI   = LibStub('tdGUI-1.0')
 
 ns.Addon = Addon
 ns.UI    = {}
-ns.L     = LibStub('AceLocale-3.0'):GetLocale('tdBattlePetScript', true)
+ns.L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts', true)
 ns.ICON  = [[Interface\Icons\Icon_petfamily_dragon]]
 
 _G.PetBattleScripts = Addon

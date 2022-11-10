@@ -7,7 +7,7 @@ UI.lua
 local ns = select(2, ...)
 
 local Addon = ns.Addon
-local L     = LibStub('AceLocale-3.0'):GetLocale('tdBattlePetScript')
+local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
 local teamMenu = {
     text = L.WRITE_SCRIPT,
