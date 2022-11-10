@@ -18,6 +18,7 @@
 This addon is a fork of the popular, but now abandoned, [tdbattlePetScript](https://github.com/DengSir/tdBattlePetScript) addon.
 
 ## Getting Started
+It is always a good idea to backup your `WTF` folder before replacing an addon to ensure no data is lost!  
 If you already have `tdBattlePetScript` and `tdBattlePetScript_Rematch` installed, remove them both.
 
 ⚠️ **Do not remove any saved variables otherwise this will also wipe your scripts.**
