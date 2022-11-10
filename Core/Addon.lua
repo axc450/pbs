@@ -11,7 +11,7 @@ local GUI   = LibStub('tdGUI-1.0')
 ns.Addon = Addon
 ns.UI    = {}
 ns.L     = LibStub('AceLocale-3.0'):GetLocale('tdBattlePetScript', true)
-ns.ICON  = [[Interface\Icons\INV_Misc_PenguinPet]]
+ns.ICON  = [[Interface\Icons\Icon_petfamily_dragon]]
 
 _G.PetBattleScripts = Addon
 
@@ -69,15 +69,15 @@ function Addon:InitSettings()
 end
 
 function Addon:UpdateDatabase()
-    local oldVersion = self.db.global.version or 0
-    local newVersion = tonumber(GetAddOnMetadata(ADDON, 'Version')) or 99999.99
+    local oldVersion = self.db.global.version
+    local newVersion = GetAddOnMetadata(ADDON, 'Version')
 
     if oldVersion ~= newVersion then
         self.db.global.version = newVersion
 
         C_Timer.After(0.9, function()
             GUI:Notify{
-                text = format('%s\n|cff00ffff%s%s|r', 'Pet Battle Scripts', ns.L['Update to version: '], newVersion),
+                text = format('%s\n|cff00ffff%s%s|r', 'Pet Battle Scripts', ns.L['UPDATED'], newVersion),
                 icon = ns.ICON,
                 help = ''
             }
