@@ -1,3 +1,9 @@
+## v1.1
+
+- Added addon options menu
+- Fixed various localization issues
+- Various small bugfixes
+
 ## v1.0
 
 - Updated for Dragonflight.
