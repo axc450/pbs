@@ -1,6 +1,7 @@
 ## v1.2
 
 - Fixed LUA error when attempting to export talents
+- Fixed LUA error in the script selector
 
 ## v1.1
 
