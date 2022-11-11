@@ -59,6 +59,8 @@ function Module:OnInitialize()
     end
 
     local AutoButton = CreateFrame('Button', 'tdBattlePetScriptAutoButton', SkipButton:GetParent(), 'UIPanelButtonTemplate') do
+		local width, height = SkipButton:GetSize()
+		SkipButton:SetSize(width + 20, height)
         AutoButton:SetSize(SkipButton:GetSize())
         AutoButton:SetPoint('LEFT', SkipButton, 'RIGHT')
         AutoButton:SetText(L['Auto'])
@@ -72,15 +74,6 @@ function Module:OnInitialize()
         AutoButton:SetScript('OnHide', function(AutoButton)
             ClearOverrideBindings(AutoButton)
         end)
-        -- AutoButton:SetScript('OnEnter', function(AutoButton)
-        --     local script = Director:GetScript()
-        --     if script then
-        --         UI.OpenScriptTooltip(script, AutoButton, 'ANCHOR_TOP')
-        --     end
-        -- end)
-        -- AutoButton:SetScript('OnLeave', function()
-        --     GameTooltip:Hide()
-        -- end)
 
         AutoButton.HotKey = AutoButton:CreateFontString(nil, 'OVERLAY', 'NumberFontNormalSmallGray')
         AutoButton.HotKey:SetPoint('TOPRIGHT', -1, -2)
@@ -88,7 +81,7 @@ function Module:OnInitialize()
     end
 
     local ArtFrame2 = CreateFrame('Frame', nil, TurnTimer) do
-        ArtFrame2:SetSize(208, 32)
+        ArtFrame2:SetSize(248, 32)
         ArtFrame2:SetPoint('CENTER', 0, -2)
 
         local Left = ArtFrame2:CreateTexture(nil, 'OVERLAY') do

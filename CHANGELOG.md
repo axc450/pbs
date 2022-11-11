@@ -2,6 +2,7 @@
 
 - Fixed LUA error when attempting to export talents
 - Fixed LUA error in the script selector
+- Updated the size of some pet battle UI components
 
 ## v1.1
 
