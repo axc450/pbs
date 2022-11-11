@@ -1,3 +1,7 @@
+## v1.3
+
+- Updated UI icon in script editor
+
 ## v1.2
 
 - Fixed LUA error when attempting to export talents

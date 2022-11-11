@@ -14,7 +14,7 @@ function Addon:OnInitialize()
     self:EnableWithAddon('Rematch')
     self:SetPluginTitle(L.TITLE)
     self:SetPluginNotes(L.NOTES)
-    self:SetPluginIcon([[Interface\Icons\PetJournalPortrait]])
+    self:SetPluginIcon([[Interface\Icons\Icon_petfamily_dragon]])
 end
 
 function Addon:GetCurrentKey()
