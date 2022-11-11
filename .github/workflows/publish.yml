@@ -21,4 +21,4 @@ jobs:
 
       - uses: BigWigsMods/packager@v2
         with:
-          args: "-n 'Pet Battle Scripts {project-version}'"
+          args: "-n 'PetBattleScripts-{project-version}'"
