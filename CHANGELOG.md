@@ -1,3 +1,7 @@
+## v1.2
+
+- Fixed LUA error when attempting to export talents
+
 ## v1.1
 
 - Added addon options menu

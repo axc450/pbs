@@ -91,7 +91,7 @@ function Module:OnInitialize()
         ArtFrame2:SetSize(208, 32)
         ArtFrame2:SetPoint('CENTER', 0, -2)
 
-        local Left = ArtFrame2:CreateTexture('nil', 'OVERLAY') do
+        local Left = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
             Left:SetParent(ArtFrame2)
             Left:ClearAllPoints()
             Left:SetSize(32, 32)
@@ -100,14 +100,14 @@ function Module:OnInitialize()
             Left:SetTexCoord(0, 0.25, 0, 1)
         end
 
-        local Right = ArtFrame2:CreateTexture('nil', 'OVERLAY') do
+        local Right = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
             Right:SetSize(32, 32)
             Right:SetPoint('TOPRIGHT')
             Right:SetTexture([[Interface\PetBattles\PassButtonFrame]])
             Right:SetTexCoord(0.75, 1, 0, 1)
         end
 
-        local Middle = ArtFrame2:CreateTexture('nil', 'OVERLAY') do
+        local Middle = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
             Middle:SetPoint('TOPLEFT', Left, 'TOPRIGHT')
             Middle:SetPoint('BOTTOMRIGHT', Right, 'BOTTOMLEFT')
             Middle:SetTexture([[Interface\PetBattles\PassButtonFrame]])
