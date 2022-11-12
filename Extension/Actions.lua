@@ -15,7 +15,7 @@ Addon:RegisterAction('test', function(arg)
 end)
 
 
-Addon:RegisterAction('change', function(index)
+Addon:RegisterAction('change', function(index,run)
     local active = C_PetBattles.GetActivePet(Enum.BattlePetOwner.Ally)
     if index == 'next' then
         index = active % C_PetBattles.GetNumPets(Enum.BattlePetOwner.Ally) + 1
@@ -29,13 +29,14 @@ Addon:RegisterAction('change', function(index)
     if not index or active == index or not (C_PetBattles.CanActivePetSwapOut() or C_PetBattles.ShouldShowPetSelect()) or not C_PetBattles.CanPetSwapIn(index) then
         return false
     end
-
-    C_PetBattles.ChangePet(index)
+    if run then
+        C_PetBattles.ChangePet(index)
+    end
     return true
 end)
 
 
-Addon:RegisterAction('ability', 'use', function(ability)
+Addon:RegisterAction('ability', 'use', function(ability,run)
     local index = C_PetBattles.GetActivePet(Enum.BattlePetOwner.Ally)
     local ability= Util.ParseAbility(Enum.BattlePetOwner.Ally, index, ability)
     if not ability then
@@ -44,34 +45,42 @@ Addon:RegisterAction('ability', 'use', function(ability)
     if not C_PetBattles.GetAbilityState(Enum.BattlePetOwner.Ally, index, ability) then
         return false
     end
-    C_PetBattles.UseAbility(ability)
+    if run then
+        C_PetBattles.UseAbility(ability)
+    end
     return true
 end)
 
 
-Addon:RegisterAction('quit', function()
-    C_PetBattles.ForfeitGame()
+Addon:RegisterAction('quit', function(run)
+    if run then
+        C_PetBattles.ForfeitGame()
+    end
     return true
 end)
 
 
-Addon:RegisterAction('standby', function()
+Addon:RegisterAction('standby', function(run)
     if not C_PetBattles.IsSkipAvailable() then
         return false
     end
-    C_PetBattles.SkipTurn()
+    if run then
+        C_PetBattles.SkipTurn()
+    end
     return true
 end)
 
 
-Addon:RegisterAction('catch', function()
+Addon:RegisterAction('catch', function(run)
     if not C_PetBattles.IsTrapAvailable() then
         return false
     end
-    C_PetBattles.UseTrap()
+    if run then
+        C_PetBattles.UseTrap()
+    end
     return true
 end)
 
-Addon:RegisterAction('--', function()
+Addon:RegisterAction('--', function(run)
     return false
 end)

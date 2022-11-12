@@ -28,7 +28,14 @@ function Action:Run(action)
     local cmd, value = self:ParseAction(action)
 
     local fn = self.apis[cmd]
-    return fn and fn(value)
+    return fn and (value ~= nil and fn(value, true) or fn(true))
+end
+
+function Action:Test(action)
+    local cmd, value = self:ParseAction(action)
+
+    local fn = self.apis[cmd]
+    return fn and (value ~= nil and fn(value, false) or fn(false))
 end
 
 function Action:ParseAction(action)
