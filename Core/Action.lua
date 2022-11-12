@@ -24,11 +24,19 @@ function Addon:RegisterAction(...)
     end
 end
 
-function Action:Run(action)
+function Action:CallAction(action, run)
     local cmd, value = self:ParseAction(action)
 
     local fn = self.apis[cmd]
-    return fn and fn(value)
+    return fn and ((value ~= nil and fn(value, run)) or (value == nil and fn(run)))
+end
+
+function Action:Run(action)
+    return self:CallAction(action, true)
+end
+
+function Action:Test(action)
+    return self:CallAction(action, false)
 end
 
 function Action:ParseAction(action)

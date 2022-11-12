@@ -31,7 +31,7 @@ end
 function Director:Test(script)
 	local action = nil
     for i, v in ipairs(script) do
-        if Condition:Run(v[2]) then
+        if Condition:Run(v[2]) and Action:Test(v[1]) then
             action = v[1]
 			break
         end
