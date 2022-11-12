@@ -1,3 +1,7 @@
+## v1.4
+
+- Fixed issue with Test button not correctly disabling during pet battle animations
+
 ## v1.3
 
 - Added script test button (allows you to see the next action that will be taken without having to run the script)

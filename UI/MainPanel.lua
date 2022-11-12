@@ -374,6 +374,7 @@ function Module:OnFontChanged()
 end
 
 function Module:PET_BATTLE_ACTION_SELECTED()
+    self.TestButton:Disable()
     self.DebugButton:Disable()
 end
 
