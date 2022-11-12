@@ -1,6 +1,7 @@
 ## v1.3
 
 - Updated UI icon in script editor
+- Notification boxes now fade out after a few seconds
 
 ## v1.2
 

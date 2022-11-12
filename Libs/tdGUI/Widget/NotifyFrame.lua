@@ -31,6 +31,7 @@ function NotifyFrame:Constructor()
 
     self:SetScript('OnClick', self.OnClick)
     self:SetScript('OnHide', self.OnHide)
+	C_Timer.After(5, function() self:FadeOut() end)
 
     local Close = CreateFrame('Button', nil, self, GUI.BackdropTemplate) do
         Close:SetBackdrop(BACKGROP)
