@@ -9,8 +9,10 @@ local Addon = ns.Addon
 local Util  = ns.Util
 
 
-Addon:RegisterAction('test', function(arg)
-    print(arg)
+Addon:RegisterAction('test', function(arg,run)
+    if run then
+        print(arg)
+    end
     return Addon:GetSetting('testBreak')
 end)
 
