@@ -1,5 +1,6 @@
 ## v1.3
 
+- Added script test button (allows you to see the next action that will be taken without having to run the script)
 - Updated UI icon in script editor
 - Notification boxes now fade out after a few seconds
 

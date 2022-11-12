@@ -8,8 +8,10 @@ local ns        = select(2, ...)
 local Util      = ns.Util
 local Addon     = ns.Addon
 local Action    = ns.Action
+local L         = ns.L
 local Condition = ns.Condition
 local Director  = Addon:NewModule('Director', 'AceEvent-3.0')
+local GUI   	= LibStub('tdGUI-1.0')
 
 function Director:OnInitialize()
     self:RegisterEvent('PET_BATTLE_CLOSE', 'ClearScript')
@@ -24,6 +26,21 @@ end
 
 function Director:Debug(script)
     self:Action(script)
+end
+
+function Director:Test(script)
+	local action = nil
+    for i, v in ipairs(script) do
+        if Condition:Run(v[2]) then
+            action = v[1]
+			break
+        end
+    end
+	GUI:Notify {
+                text = format('%s\n|cff00ffff%s: |cffffff00%s|r', 'Pet Battle Scripts', L.NEXT_ACTION, action or "-"),
+                icon = ns.ICON,
+                help = ''
+    }
 end
 
 function Director:Action(item)

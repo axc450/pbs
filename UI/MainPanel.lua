@@ -199,8 +199,17 @@ function Module:OnInitialize()
         end)
     end
 
+    local TestButton = CreateFrame('Button', nil, Content, 'UIPanelButtonTemplate') do
+        TestButton:SetPoint('RIGHT', SaveButton, 'LEFT')
+        TestButton:SetSize(80, 22)
+        TestButton:SetText("Test")
+        TestButton:SetScript('OnClick', function()
+            self:Test()
+        end)
+    end
+
     local DebugButton = CreateFrame('Button', nil, Content, 'UIPanelButtonTemplate') do
-        DebugButton:SetPoint('RIGHT', SaveButton, 'LEFT')
+        DebugButton:SetPoint('RIGHT', TestButton, 'LEFT')
         DebugButton:SetSize(80, 22)
         DebugButton:SetText(L['Run'])
         DebugButton:SetScript('OnClick', function()
@@ -326,6 +335,7 @@ function Module:OnInitialize()
     self.CollapseButton = CollapseButton
     self.Content        = Content
     self.Content        = Content
+    self.TestButton     = TestButton
     self.DebugButton    = DebugButton
     self.DeleteButton   = DeleteButton
     self.EditBoxGroup   = EditBoxGroup
@@ -349,9 +359,9 @@ function Module:OnEnable()
     self:OnFontChanged()
 
     self:RegisterEvent('PET_BATTLE_ACTION_SELECTED')
-    self:RegisterEvent('PET_BATTLE_OPENING_START', 'UpdateDebugButton')
-    self:RegisterEvent('PET_BATTLE_CLOSE', 'UpdateDebugButton')
-    self:RegisterEvent('PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE', 'UpdateDebugButton')
+    self:RegisterEvent('PET_BATTLE_OPENING_START', 'UpdateButtons')
+    self:RegisterEvent('PET_BATTLE_CLOSE', 'UpdateButtons')
+    self:RegisterEvent('PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE', 'UpdateButtons')
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', 'UpdateScriptList')
 
     self:RegisterMessage('PET_BATTLE_SCRIPT_RESET_FRAMES')
@@ -533,7 +543,9 @@ function Module:UpdateScript()
     self.ScriptBox:SetText(self.script:GetCode() or '')
 end
 
-function Module:UpdateDebugButton()
+function Module:UpdateButtons()
+    self.TestButton:SetShown(C_PetBattles.IsInBattle())
+    self.TestButton:SetEnabled(C_PetBattles.IsSkipAvailable() or C_PetBattles.ShouldShowPetSelect())
     self.DebugButton:SetShown(C_PetBattles.IsInBattle())
     self.DebugButton:SetEnabled(C_PetBattles.IsSkipAvailable() or C_PetBattles.ShouldShowPetSelect())
 end
@@ -546,6 +558,7 @@ function Module:UpdateStatus()
     self.Name:SetFormattedText('%s: |cff00ff00%s|r-|cffffffff%s|r', STATUS_LABELS[self.status], self.plugin:GetPluginTitle(), self.defaultName)
 
     self.DeleteButton:SetShown(self.status == STATUS_EDIT)
+    self.TestButton:SetShown(C_PetBattles.IsInBattle())
     self.DebugButton:SetShown(C_PetBattles.IsInBattle())
 end
 
@@ -606,6 +619,15 @@ function Module:OnDeleteButtonClick()
             end
         end,
     }
+end
+
+function Module:Test()
+    local script, err = Director:BuildScript(self:GetEditBoxText(self.ScriptBox))
+    if not script then
+        self:Message(false, L['Found error'], err)
+    else
+        Director:Test(script)
+    end
 end
 
 function Module:Run()
