@@ -28,14 +28,14 @@ function Action:Run(action)
     local cmd, value = self:ParseAction(action)
 
     local fn = self.apis[cmd]
-    return fn and (value ~= nil and fn(value, true) or fn(true))
+    return fn and ((value ~= nil and fn(value, true)) or (value == nil and fn(true)))
 end
 
 function Action:Test(action)
     local cmd, value = self:ParseAction(action)
 
     local fn = self.apis[cmd]
-    return fn and (value ~= nil and fn(value, false) or fn(false))
+    return fn and ((value ~= nil and fn(value, false)) or (value == nil and fn(false)))
 end
 
 function Action:ParseAction(action)
