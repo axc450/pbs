@@ -204,14 +204,24 @@ end)
 
 Addon:RegisterCondition('collected.count', { type = 'compare', arg = false }, function(owner, pet)
     local species = C_PetJournal.FindPetIDByName(select(2, C_PetBattles.GetName(owner, pet)))
-    local collected = C_PetJournal.GetNumCollectedInfo(species)
-    return collected
+    local obtainable = species and select(11, C_PetJournal.GetPetInfoBySpeciesID(species))
+
+    if not obtainable then
+        return 0
+    end
+
+    return species and select(1, C_PetJournal.GetNumCollectedInfo(species)) or 0
 end)
 
 Addon:RegisterCondition('collected.max', { type = 'compare', arg = false }, function(owner, pet)
     local species = C_PetJournal.FindPetIDByName(select(2, C_PetBattles.GetName(owner, pet)))
-    local max = select(2, C_PetJournal.GetNumCollectedInfo(species))
-    return max
+    local obtainable = species and select(11, C_PetJournal.GetPetInfoBySpeciesID(species))
+    
+    if not obtainable then
+        return 0
+    end
+
+    return species and select(2, C_PetJournal.GetNumCollectedInfo(species)) or 0
 end)
 
 Addon:RegisterCondition('trap', { type = 'boolean', owner = false , pet = false, arg = false }, function()
