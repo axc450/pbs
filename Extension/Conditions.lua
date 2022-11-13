@@ -174,7 +174,7 @@ end)
 
 
 Addon:RegisterCondition('type', { type = 'equality', arg = false, valueParse = Util.ParsePetType }, function(owner, pet)
-    return C_PetBattles.GetPetType(owner, pet)
+    return pet and C_PetBattles.GetPetType(owner, pet)
 end)
 
 

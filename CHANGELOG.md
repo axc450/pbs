@@ -2,6 +2,7 @@
 
 - Fixed issue with Test button not correctly disabling during pet battle animations
 - Fixed issue where the Test button crashed on if/endif blocks in the script.
+- Fixed condition (pet) `type` to correctly handle bad pets (e.g. `self(#4).type`) again.
 
 ## v1.3
 
