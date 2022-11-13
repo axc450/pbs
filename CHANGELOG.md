@@ -1,6 +1,7 @@
 ## v1.4
 
 - Fixed issue with Test button not correctly disabling during pet battle animations
+- Fixed issue where the Test button crashed on if/endif blocks in the script.
 
 ## v1.3
 
