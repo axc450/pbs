@@ -28,19 +28,23 @@ function Director:Debug(script)
     self:Action(script)
 end
 
-function Director:Test(script)
-	local action = nil
-    for i, v in ipairs(script) do
-        if Condition:Run(v[2]) and Action:Test(v[1]) then
-            action = v[1]
-			break
+function Director:Test(item)
+    if type(item) == 'table' then
+        for i, v in ipairs(item) do
+            if Condition:Run(v[2]) and self:Test(v[1]) then
+                return true
+            end
+        end
+    elseif type(item) == 'string' then
+        if Action:Test(item) then
+            GUI:Notify {
+                        text = format('%s\n|cff00ffff%s: |cffffff00%s|r', 'Pet Battle Scripts', L.NEXT_ACTION, item or "-"),
+                        icon = ns.ICON,
+                        help = ''
+            }
+            return true
         end
     end
-	GUI:Notify {
-                text = format('%s\n|cff00ffff%s: |cffffff00%s|r', 'Pet Battle Scripts', L.NEXT_ACTION, action or "-"),
-                icon = ns.ICON,
-                help = ''
-    }
 end
 
 function Director:Action(item)
