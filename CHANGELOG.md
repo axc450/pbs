@@ -3,7 +3,7 @@
 - Fixed issue with Test button not correctly disabling during pet battle animations
 - Fixed issue where the Test button crashed on if/endif blocks in the script.
 - Fixed condition (pet) `type` to correctly handle bad pets (e.g. `self(#4).type`) again.
-- Allow using math within "compare" conditions, like `hp` or `speed`. Basic math operations like `+-*/%()` are available. Additionally the functions `ceil()` and `floor()`, `abs()`, `min(a, b)` and `max(a, b)`, `cond(c, yes, no)` and `clamp(v, min, max)` can be used.
+- Allow using math within "compare" conditions, like `hp` or `speed`. Basic math operations like `+-*/%()` are available. Additionally the functions `ceil()` and `floor()`, `abs()`, `min(a, b)` and `max(a, b)` can be used.
 
 ## v1.3
 

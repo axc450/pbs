@@ -149,8 +149,6 @@ local mathParserEnv = {
     abs = math.abs,
     min = math.min,
     max = math.max,
-    cond = function(conditional, onTrue, onFalse) if ( conditional ) then return onTrue; else return onFalse; end end,
-    clamp = function(value, minClamp, maxClamp) return min(max(value, minClamp), maxClamp); end,
 }
 
 local mathParserSafeEnv = {}
