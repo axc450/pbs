@@ -141,3 +141,17 @@ end
 function Util.ParseQuality(value)
     return value and PET_QUALITIES[lower(value)] or nil
 end
+
+function Util.ParseMultiplication(value)
+    if 'string' == type(value) then
+        local values, newvalue = {strsplit('*', value)}, 1
+
+        for i, v in ipairs(values) do
+            v = Util.assert(tonumber(v:trim()), 'Invalid Numerical: `%s` in `%s`', v, value)
+            newvalue = newvalue * v
+        end
+        return floor(newvalue)
+    else
+        return value
+    end
+end

@@ -44,7 +44,7 @@ Addon:RegisterCondition('dead', { type = 'boolean', arg = false }, function(owne
 end)
 
 
-Addon:RegisterCondition('hp', { type = 'compare', arg = false }, function(owner, pet)
+Addon:RegisterCondition('hp', { type = 'compare', arg = false, valueParse = Util.ParseMultiplication }, function(owner, pet)
     return C_PetBattles.GetHealth(owner, pet)
 end)
 
