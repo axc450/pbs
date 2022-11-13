@@ -3,6 +3,8 @@
 - Fixed issue with Test button not correctly disabling during pet battle animations
 - Fixed issue where the Test button crashed on if/endif blocks in the script.
 - Fixed condition (pet) `type` to correctly handle bad pets (e.g. `self(#4).type`) again.
+- Added `collected.count` to the Pets API (the amount of a specific pet you have in your collection).
+- Added `collected.max` to the Pets API (the maximum amount of a specific pet you can have in your collection).
 
 ## v1.3
 
