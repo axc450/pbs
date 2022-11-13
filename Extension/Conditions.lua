@@ -44,7 +44,7 @@ Addon:RegisterCondition('dead', { type = 'boolean', arg = false }, function(owne
 end)
 
 
-Addon:RegisterCondition('hp', { type = 'compare', arg = false }, function(owner, pet)
+Addon:RegisterCondition('hp', { type = 'compare', arg = false, valueParse = Util.ParseNumberWithMath }, function(owner, pet)
     return C_PetBattles.GetHealth(owner, pet)
 end)
 
@@ -69,7 +69,7 @@ Addon:RegisterCondition('hp.high', { type = 'boolean', pet = false, arg = false 
 end)
 
 
-Addon:RegisterCondition('hpp', { type = 'compare', arg = false }, function(owner, pet)
+Addon:RegisterCondition('hpp', { type = 'compare', arg = false, valueParse = Util.ParseNumberWithMath }, function(owner, pet)
     return C_PetBattles.GetHealth(owner, pet) / logical_max_health(owner, pet) * 100
 end)
 
@@ -153,9 +153,9 @@ Addon:RegisterCondition('played', { type = 'boolean', arg = false }, function(ow
     return pet and Played:IsPetPlayed(owner, pet)
 end)
 
-Addon:RegisterCondition('speed', { type = 'compare', arg = false }, C_PetBattles.GetSpeed)
-Addon:RegisterCondition('power', { type = 'compare', arg = false }, C_PetBattles.GetPower)
-Addon:RegisterCondition('level', { type = 'compare', arg = false }, C_PetBattles.GetLevel)
+Addon:RegisterCondition('speed', { type = 'compare', arg = false, valueParse = Util.ParseNumberWithMath }, C_PetBattles.GetSpeed)
+Addon:RegisterCondition('power', { type = 'compare', arg = false, valueParse = Util.ParseNumberWithMath }, C_PetBattles.GetPower)
+Addon:RegisterCondition('level', { type = 'compare', arg = false, valueParse = Util.ParseNumberWithMath }, C_PetBattles.GetLevel)
 
 
 Addon:RegisterCondition('level.max', { type = 'boolean', arg = false }, function(owner, pet)

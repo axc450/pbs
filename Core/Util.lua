@@ -141,3 +141,40 @@ end
 function Util.ParseQuality(value)
     return value and PET_QUALITIES[lower(value)] or nil
 end
+
+-- See Interface/FrameXML/SharedPetBattleTemplates.lua's SharedPetAbilityTooltip_ParseExpressionInsecure for how this works.
+local mathParserEnv = {
+    ceil = math.ceil,
+    floor = math.floor,
+    abs = math.abs,
+    min = math.min,
+    max = math.max,
+}
+
+local mathParserSafeEnv = {}
+setmetatable(mathParserSafeEnv, { __index = mathParserEnv, __newindex = function() end, __metatable = false })
+
+local function mathParseExpression(expression)
+    forceinsecure()
+
+    local expr = loadstring("return ("..expression..")")
+    if not expr then
+        return nil
+    end
+
+    setfenv(expr, mathParserSafeEnv)
+
+    local success, repl = pcall(expr)
+    if not success then
+        return nil
+    end
+
+    return repl
+end
+
+function Util.ParseNumberWithMath(value)
+    if type(value) ~= 'string' then
+        return tonumber(value) or value
+    end
+    return mathParseExpression(value)
+end
