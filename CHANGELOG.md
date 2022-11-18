@@ -1,6 +1,7 @@
 ## v1.6
 
 - Updated readme to reflect an issue with `Rematch` when uninstalling `tdBattlePetScript`
+- Updated calculation for can_explode, to use "<=" instead of "<"
 
 ## v1.5
 
