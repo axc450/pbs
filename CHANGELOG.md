@@ -1,3 +1,11 @@
+## v1.6
+
+- Updated readme to reflect an issue with `Rematch` when uninstalling `tdBattlePetScript`
+
+## v1.5
+
+- Updated to WoW 10.0.2
+
 ## v1.4
 
 - Fixed issue with Test button not correctly disabling during pet battle animations

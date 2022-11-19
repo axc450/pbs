@@ -23,7 +23,9 @@ If you already have `tdBattlePetScript` and `tdBattlePetScript_Rematch` installe
 
 ⚠️ **Do not remove any saved variables otherwise this will also wipe your scripts.**
 
-Then download & install the addon from either:
+You may find that uninstalling these also removes Rematch. If this happens, simply reinstall it.
+
+Then download & install Pet Battle Scripts from either:
 - [Curse](https://www.curseforge.com/wow/addons/pet-battle-scripts)
 - [Wago](https://addons.wago.io/addons/pbs)
 - [WoW Interface](https://www.wowinterface.com/downloads/info26435-PetBattleScripts.html)
