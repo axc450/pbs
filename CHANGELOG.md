@@ -1,6 +1,7 @@
 ## v1.6
 
 - Updated readme to reflect an issue with `Rematch` when uninstalling `tdBattlePetScript`
+- Fixed issue with ability conditions passing when a pet does not have the ability.
 
 ## v1.5
 

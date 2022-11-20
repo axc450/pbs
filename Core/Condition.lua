@@ -105,7 +105,11 @@ function Condition:Run(condition)
 end
 
 function Condition:RunCondition(condition)
-    local owner, pet, cmd, arg, op, value = self:ParseCondition(condition)
+    local owner, pet, cmd, arg, op, value, validCondition = self:ParseCondition(condition)
+
+    if not validCondition then
+        return false
+    end
 
     local fn  = self.apis[cmd]
     local opts = self.opts[cmd]
@@ -177,6 +181,8 @@ function Condition:ParseCondition(condition)
 
     local owner, pet, cmd, arg, petInputed, argInputed = self:ParseApi(args:trim())
 
+    local validCondition = true
+
     Util.assert(cmd, 'Invalid Condition: `%s` (Can`t parse)', condition)
     Util.assert(self.apis[cmd], 'Invalid Condition: `%s` (Not found cmd: `%s`)', condition, cmd)
 
@@ -236,7 +242,11 @@ function Condition:ParseCondition(condition)
         arg = trynumber(arg)
         if opts.argParse then
             arg = opts.argParse(owner, pet, arg)
+            if arg == nil then
+                -- Invalidate the condition if argParse is provided but it returned a nil
+                validCondition = false
+            end
         end
     end
-    return owner, pet, cmd, arg, op, value
+    return owner, pet, cmd, arg, op, value, validCondition
 end
