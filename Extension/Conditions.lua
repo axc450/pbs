@@ -55,7 +55,7 @@ end)
 
 
 Addon:RegisterCondition('hp.can_explode', { type = 'boolean', arg = false }, function(owner, pet)
-    return pet and C_PetBattles.GetHealth(owner, pet) < floor(logical_max_health(getOpponentActivePet(owner)) * 0.4)
+    return pet and C_PetBattles.GetHealth(owner, pet) <= floor(logical_max_health(getOpponentActivePet(owner)) * 0.4)
 end)
 
 
