@@ -38,7 +38,7 @@ local scriptButtons = setmetatable({}, {
             end)
             button:SetScript('OnEnter', function(button)
                 GameTooltip:SetOwner(button, 'ANCHOR_RIGHT')
-                GameTooltip:SetText('Pet Battle Scripts')
+                GameTooltip:SetText(L.ADDON_NAME)
                 GameTooltip:AddLine(L.WRITE_SCRIPT, HIGHLIGHT_FONT_COLOR:GetRGB())
                 GameTooltip:Show()
             end)
