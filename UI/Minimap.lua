@@ -37,7 +37,7 @@ function Minimap:OnInitialize()
             if click == 'RightButton' then
                 GUI:ToggleMenu(button, {
                     {
-                        text = 'Pet Battle Scripts',
+                        text = L.ADDON_NAME,
                         isTitle = true,
                     },
                     {
@@ -65,8 +65,7 @@ function Minimap:OnInitialize()
             end
         end,
         OnTooltipShow = function(tooltip)
-            tooltip:SetText('Pet Battle Scripts')
-            tooltip:AddLine(L.ADDON_NAME, GREEN_FONT_COLOR:GetRGB())
+            tooltip:SetText(L.ADDON_NAME)
             tooltip:AddLine(' ')
             tooltip:AddLine(UI.LEFT_MOUSE_BUTTON .. L.TOGGLE_SCRIPT_MANAGER, 1, 1, 1)
             tooltip:AddLine(UI.RIGHT_MOUSE_BUTTON .. L.Options, 1, 1, 1)

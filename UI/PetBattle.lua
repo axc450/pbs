@@ -19,23 +19,31 @@ function Module:OnInitialize()
     TurnTimer.ArtFrame2:Hide()
     TurnTimer.ArtFrame2.Show = nop
 
-    local ToolButton = CreateFrame('Button', nil, PetBattleFrame) do
-        ToolButton:SetPoint('TOP')
-        ToolButton:SetSize(155, 50)
-        ToolButton:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
+    self.ElvUIAlsoPresent = ElvUI and select(3, unpack(ElvUI)).skins.blizzard.petbattleui
 
-        local Highlight = ToolButton:CreateTexture(nil, 'HIGHLIGHT') do
-            Highlight:SetPoint('TOP')
-            Highlight:SetAtlas('BattleHUD-Versus', true)
-            Highlight:SetBlendMode('ADD')
+    local ToolButton = CreateFrame('Button', nil, PetBattleFrame) do
+        if not self.ElvUIAlsoPresent then
+            ToolButton:SetPoint('TOP')
+            ToolButton:SetSize(155, 50)
+
+            local Highlight = ToolButton:CreateTexture(nil, 'HIGHLIGHT') do
+                Highlight:SetPoint('TOP')
+                Highlight:SetAtlas('BattleHUD-Versus', true)
+                Highlight:SetBlendMode('ADD')
+            end
+        else
+            ToolButton:ClearAllPoints()
+            ToolButton:Point('TOPLEFT', PetBattleFrame.TopVersusText, 'TOPLEFT', 0, 0)
+            ToolButton:Point('BOTTOMRIGHT', PetBattleFrame.TopVersusText, 'BOTTOMRIGHT', 0, 0)
         end
+
+        ToolButton:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
 
         ToolButton:SetScript('OnEnter', function(ToolButton)
             PetBattleFrame.TopVersusText:SetTextColor(GREEN_FONT_COLOR:GetRGB())
 
             GameTooltip:SetOwner(ToolButton, 'ANCHOR_BOTTOM')
-            GameTooltip:SetText('Pet Battle Scripts')
-            GameTooltip:AddLine(L.ADDON_NAME, GREEN_FONT_COLOR:GetRGB())
+            GameTooltip:SetText(L.ADDON_NAME)
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(UI.LEFT_MOUSE_BUTTON .. L.TOGGLE_SCRIPT_SELECTOR, HIGHLIGHT_FONT_COLOR:GetRGB())
             -- GameTooltip:AddLine(UI.RIGHT_MOUSE_BUTTON .. L.TOOLTIP_CREATE_OR_DEBUG_SCRIPT, HIGHLIGHT_FONT_COLOR:GetRGB())
@@ -80,35 +88,46 @@ function Module:OnInitialize()
         AutoButton.HotKey:SetText('')
     end
 
-    local ArtFrame2 = CreateFrame('Frame', nil, TurnTimer) do
-        ArtFrame2:SetSize(248, 32)
-        ArtFrame2:SetPoint('CENTER', 0, -2)
+    if self.ElvUIAlsoPresent then
+        local E, L, V, P, G = unpack(ElvUI)
+        local S = E:GetModule('Skins')
+        S:HandleButton(AutoButton)
+        -- It would be great to not attach auto button right of skip button, but ElvUI
+        -- doesn't really help there by hooking turnTimer.SkipButton:SetPoint to re-set
+        -- points, so @bloerwald really doesn't want to bother with it. Bad enough we
+        -- have to hack around their UI skining anyway.
+    else
+        local ArtFrame2 = CreateFrame('Frame', nil, TurnTimer) do
+            ArtFrame2:SetSize(248, 32)
+            ArtFrame2:SetPoint('CENTER', 0, -2)
 
-        local Left = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
-            Left:SetParent(ArtFrame2)
-            Left:ClearAllPoints()
-            Left:SetSize(32, 32)
-            Left:SetPoint('TOPLEFT')
-            Left:SetTexture([[Interface\PetBattles\PassButtonFrame]])
-            Left:SetTexCoord(0, 0.25, 0, 1)
+            local Left = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
+                Left:SetParent(ArtFrame2)
+                Left:ClearAllPoints()
+                Left:SetSize(32, 32)
+                Left:SetPoint('TOPLEFT')
+                Left:SetTexture([[Interface\PetBattles\PassButtonFrame]])
+                Left:SetTexCoord(0, 0.25, 0, 1)
+            end
+
+            local Right = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
+                Right:SetSize(32, 32)
+                Right:SetPoint('TOPRIGHT')
+                Right:SetTexture([[Interface\PetBattles\PassButtonFrame]])
+                Right:SetTexCoord(0.75, 1, 0, 1)
+            end
+
+            local Middle = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
+                Middle:SetPoint('TOPLEFT', Left, 'TOPRIGHT')
+                Middle:SetPoint('BOTTOMRIGHT', Right, 'BOTTOMLEFT')
+                Middle:SetTexture([[Interface\PetBattles\PassButtonFrame]])
+                Middle:SetTexCoord(0.25, 0.75, 0, 1)
+            end
+
+            SkipButton:SetFrameLevel(ArtFrame2:GetFrameLevel() + 10)
+            AutoButton:SetFrameLevel(ArtFrame2:GetFrameLevel() + 10)
         end
-
-        local Right = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
-            Right:SetSize(32, 32)
-            Right:SetPoint('TOPRIGHT')
-            Right:SetTexture([[Interface\PetBattles\PassButtonFrame]])
-            Right:SetTexCoord(0.75, 1, 0, 1)
-        end
-
-        local Middle = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
-            Middle:SetPoint('TOPLEFT', Left, 'TOPRIGHT')
-            Middle:SetPoint('BOTTOMRIGHT', Right, 'BOTTOMLEFT')
-            Middle:SetTexture([[Interface\PetBattles\PassButtonFrame]])
-            Middle:SetTexCoord(0.25, 0.75, 0, 1)
-        end
-
-        SkipButton:SetFrameLevel(ArtFrame2:GetFrameLevel() + 10)
-        AutoButton:SetFrameLevel(ArtFrame2:GetFrameLevel() + 10)
+        self.ArtFrame2   = ArtFrame2
     end
 
     local ScriptFrame = GUI:GetClass('BasicPanel'):New(PetBattleFrame) do
@@ -199,7 +218,6 @@ function Module:OnInitialize()
     self.ToolButton  = ToolButton
     self.SkipButton  = SkipButton
     self.AutoButton  = AutoButton
-    self.ArtFrame2   = ArtFrame2
     self.ScriptList  = ScriptList
     self.ScriptFrame = ScriptFrame
 end
@@ -292,11 +310,15 @@ function Module:PetBattleFrame_UpdatePassButtonAndTimer()
     local pveBattle = C_PetBattles.IsPlayerNPC(Enum.BattlePetOwner.Enemy)
 
     self.AutoButton:SetShown(pveBattle)
-    self.ArtFrame2:SetShown(pveBattle)
+    -- Hopefully if some other addon stole ArtFrame2, it also stole the skip button,
+    -- but left it somewhere visible for us to attach auto button.
+    if self.ArtFrame2 then
+        self.ArtFrame2:SetShown(pveBattle)
 
-    if pveBattle then
-        self.SkipButton:ClearAllPoints()
-        self.SkipButton:SetPoint('RIGHT', self.ArtFrame2, 'CENTER', 0, 2)
+        if pveBattle then
+            self.SkipButton:ClearAllPoints()
+            self.SkipButton:SetPoint('RIGHT', self.ArtFrame2, 'CENTER', 0, 2)
+        end
     end
 end
 

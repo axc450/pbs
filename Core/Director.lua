@@ -38,7 +38,7 @@ function Director:Test(item)
     elseif type(item) == 'string' then
         if Action:Test(item) then
             GUI:Notify {
-                        text = format('%s\n|cff00ffff%s: |cffffff00%s|r', 'Pet Battle Scripts', L.NEXT_ACTION, item or "-"),
+                        text = format('%s\n|cff00ffff%s: |cffffff00%s|r', L.ADDON_NAME, L.NEXT_ACTION, item or "-"),
                         icon = ns.ICON,
                         help = ''
             }

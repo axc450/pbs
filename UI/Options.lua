@@ -36,8 +36,8 @@ function Options:InitOptions()
 		}
     }
 
-    AceConfigRegistry:RegisterOptionsTable("Pet Battle Scripts", options)
-    AceConfigDialog:AddToBlizOptions("Pet Battle Scripts", "Pet Battle Scripts")
+    AceConfigRegistry:RegisterOptionsTable(L.ADDON_NAME, options)
+    AceConfigDialog:AddToBlizOptions(L.ADDON_NAME, L.ADDON_NAME)
 end
 
 function getAutoButtonHotKey(item)
@@ -57,5 +57,5 @@ function setHideMinimap(item, value)
 end
 
 function Addon:OpenOptionsFrame()
-    InterfaceOptionsFrame_OpenToCategory("Pet Battle Scripts")
+    InterfaceOptionsFrame_OpenToCategory(L.ADDON_NAME)
 end

@@ -27,7 +27,7 @@ function Module:OnInitialize()
     local function UpdateSaveButton() self:UpdateSaveButton() end
 
     local MainPanel = GUI:GetClass('BasicPanel'):New(UIParent) do
-        MainPanel.SetTitle = function(p, t) return p:SetText('Pet Battle Scripts - ' .. t) end
+        MainPanel.SetTitle = function(p, t) return p:SetText(L.ADDON_NAME .. ' - ' .. t) end
 
         MainPanel:Hide()
         MainPanel:SetSize(550, 450)
