@@ -11,6 +11,7 @@ local UI       = ns.UI
 local Addon    = ns.Addon
 local Director = ns.Director
 local Module   = Addon:NewModule('UI.PetBattle', 'AceEvent-3.0', 'AceHook-3.0', 'AceTimer-3.0')
+local LibSharedMedia = LibStub("LibSharedMedia-3.0")
 
 function Module:OnInitialize()
     local TurnTimer = PetBattleFrame.BottomFrame.TurnTimer
@@ -282,7 +283,11 @@ function Module:UpdateHotKey()
 end
 
 function Module:UpdateAutoButton()
-    self.AutoButton:SetEnabled(Director:GetScript() and (C_PetBattles.IsSkipAvailable() or C_PetBattles.ShouldShowPetSelect()))
+    local isEnabled = Director:GetScript() and (C_PetBattles.IsSkipAvailable() or C_PetBattles.ShouldShowPetSelect())
+    self.AutoButton:SetEnabled(isEnabled)
+    if isEnabled and Addon:GetSetting('notifyButtonActive') then
+        PlaySoundFile(LibSharedMedia:Fetch("sound", Addon:GetSetting('notifyButtonActiveSound')), "Master")
+    end
 end
 
 function Module:UpdateScriptList(userCall)

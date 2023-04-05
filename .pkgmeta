@@ -11,6 +11,8 @@ embedded-libraries:
   - libdatabroker-1-1
   - libdbicon-1-0
   - libstub
+  - libsharedmedia-3-0
+  - ace-gui-3-0-shared-media-widgets
   ## not published separately
   # - tdGUI
   # - LibCRC32-1.0

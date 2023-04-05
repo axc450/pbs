@@ -37,6 +37,8 @@ function Addon:OnInitialize()
                 autoButtonHotKey   = 'A',
                 testBreak          = true,
                 lockScriptSelector = false,
+                notifyButtonActive = false,
+                notifyButtonActiveSound = 'None',
             },
             minimap = {
                 minimapPos = 50,

@@ -3,6 +3,8 @@ local Addon             = ns.Addon
 local L                 = ns.L
 local AceConfigRegistry = LibStub('AceConfigRegistry-3.0')
 local AceConfigDialog   = LibStub('AceConfigDialog-3.0')
+local AceGUISharedMediaWidgets = LibStub('AceGUISharedMediaWidgets-1.0')
+local LibSharedMedia = LibStub("LibSharedMedia-3.0")
 local Options           = Addon:NewModule('Options')
 
 
@@ -21,7 +23,7 @@ function Options:InitOptions()
 				get = getHideMinimap,
 				set = setHideMinimap
 			},
-			newLine = {
+			newLine1 = {
 				order = 1,
 				type = "description",
 				name = ""
@@ -32,6 +34,35 @@ function Options:InitOptions()
 				name = L.OPTION_SETTINGS_AUTOBUTTON_HOTKEY,
 				get = getAutoButtonHotKey,
 				set = setAutoButtonHotKey
+			},
+			newLine2 = {
+				order = 3,
+				type = "description",
+				name = ""
+			},
+			notifyButtonActive = {
+				order = 4,
+				type = "toggle",
+				name = L.OPTION_SETTINGS_NOTIFY_BUTTON_ACTIVE,
+				get = function(item)
+					return Addon:GetSetting("notifyButtonActive")
+				end,
+				set = function(item, value)
+					Addon:SetSetting("notifyButtonActive", value)
+				end,
+			},
+			notifyButtonActiveSound = {
+				order = 5,
+				type = "select",
+				name = L.OPTION_SETTINGS_NOTIFY_BUTTON_ACTIVE_SOUND,
+				values = LibSharedMedia:HashTable("sound"),
+				dialogControl = "LSM30_Sound",
+				get = function(item)
+					return Addon:GetSetting("notifyButtonActiveSound")
+				end,
+				set = function(item, value)
+					Addon:SetSetting("notifyButtonActiveSound", value)
+				end,
 			},
 		}
     }
