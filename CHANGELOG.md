@@ -1,3 +1,7 @@
+## v1.7
+
+- Added an option to have an audible notification once the battle round finished and the "autobattle" button becomes active again. Disabled by default.
+
 ## v1.6
 
 - Updated calculation for can_explode, to use "<=" instead of "<".
