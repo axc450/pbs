@@ -13,6 +13,16 @@ local Director = ns.Director
 local Module   = Addon:NewModule('UI.PetBattle', 'AceEvent-3.0', 'AceHook-3.0', 'AceTimer-3.0')
 local LibSharedMedia = LibStub("LibSharedMedia-3.0")
 
+local ElvUIAlsoPresent = function()
+    if not ElvUI then
+        return false
+    end
+
+    local E, L, V, P, G = unpack(ElvUI)
+    local blizzardSkinsTable = E.private.skins.blizzard
+    return blizzardSkinsTable.enable and blizzardSkinsTable.petbattleui
+end
+
 function Module:OnInitialize()
     local TurnTimer = PetBattleFrame.BottomFrame.TurnTimer
     local SkipButton = TurnTimer.SkipButton
@@ -20,10 +30,8 @@ function Module:OnInitialize()
     TurnTimer.ArtFrame2:Hide()
     TurnTimer.ArtFrame2.Show = nop
 
-    self.ElvUIAlsoPresent = ElvUI and select(3, unpack(ElvUI)).skins.blizzard.petbattleui
-
     local ToolButton = CreateFrame('Button', nil, PetBattleFrame) do
-        if not self.ElvUIAlsoPresent then
+        if not ElvUIAlsoPresent() then
             ToolButton:SetPoint('TOP')
             ToolButton:SetSize(155, 50)
 
@@ -89,7 +97,7 @@ function Module:OnInitialize()
         AutoButton.HotKey:SetText('')
     end
 
-    if self.ElvUIAlsoPresent then
+    if ElvUIAlsoPresent() then
         local E, L, V, P, G = unpack(ElvUI)
         local S = E:GetModule('Skins')
         S:HandleButton(AutoButton)
