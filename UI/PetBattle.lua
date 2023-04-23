@@ -294,7 +294,7 @@ function Module:UpdateAutoButton()
     local isEnabled = Director:GetScript() and (C_PetBattles.IsSkipAvailable() or C_PetBattles.ShouldShowPetSelect())
     self.AutoButton:SetEnabled(isEnabled)
     if isEnabled and Addon:GetSetting('notifyButtonActive') then
-        PlaySoundFile(LibSharedMedia:Fetch("sound", Addon:GetSetting('notifyButtonActiveSound')), "Master")
+        PlaySoundFile(LibSharedMedia:Fetch(LibSharedMedia.MediaType.SOUND, Addon:GetSetting('notifyButtonActiveSound')), "Master")
     end
 end
 
