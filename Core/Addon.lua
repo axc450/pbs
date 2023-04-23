@@ -29,6 +29,7 @@ function Addon:OnInitialize()
             pluginDisabled = {},
             pluginOrders = {},
             settings = {
+                hideMinimap        = false,
                 autoSelect         = true,
                 hideNoScript       = true,
                 noWaitDeleteScript = false,
