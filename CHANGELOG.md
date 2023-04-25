@@ -1,3 +1,9 @@
+## v1.9
+
+### New features
+
+- Added condition `hp.diff` and `hpp.diff` allowing to compare own and enemy pet HP. `hp.diff = self.hp - enemy.hp` and `hpp.diff = self.hpp - enemy.hpp`. This can be used as condition for abilities that do more than one effect but use a condition after a subset of those effects (i.e. "does double damage if health difference is bigger than x after first damage effect").
+
 ## v1.8
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.
