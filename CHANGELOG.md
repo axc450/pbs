@@ -1,3 +1,7 @@
+## v1.8
+
+- Added condition `hp.can_explode_pct(x)` to use the `hp.can_explode` logic for values other that `40`. `hp.can_explode_pct(40) == hp.can_explode`.
+
 ## v1.7
 
 ### Breaking Changes
