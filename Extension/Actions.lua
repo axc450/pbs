@@ -20,7 +20,18 @@ end)
 Addon:RegisterAction('change', function(index,run)
     local active = C_PetBattles.GetActivePet(Enum.BattlePetOwner.Ally)
     if index == 'next' then
-        index = active % C_PetBattles.GetNumPets(Enum.BattlePetOwner.Ally) + 1
+        local function nextAfter(index)
+            return index % C_PetBattles.GetNumPets(Enum.BattlePetOwner.Ally) + 1
+        end
+        local function canUse(index)
+            return C_PetBattles.GetHealth(Enum.BattlePetOwner.Ally, index) ~= 0 and
+                   C_PetBattles.CanPetSwapIn(index)
+        end
+
+        index = nextAfter(active)
+        while not canUse(index) and index ~= active do
+            index = nextAfter(index)
+        end
     else
         index = Util.ParsePetIndex(Enum.BattlePetOwner.Ally, index)
     end
