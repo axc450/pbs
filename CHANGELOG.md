@@ -1,5 +1,11 @@
 ## v1.7
 
+### Breaking Changes
+
+- `change(next)` now skips dead pets as well as pets that can't be swapped in due to debuffs. Previously `change(next)` only skipped to the exactly next pet, and if that was unable to be swapped in did nothing. It now first checks whether the next pet can be swapped in, and if it can't checks the one after the next pet, until it finds a valid pet or loops around to the current pet.
+
+### Other
+
 - Added an option to have an audible notification once the battle round finished and the "autobattle" button becomes active again. Disabled by default.
 
 ## v1.6
