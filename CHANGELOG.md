@@ -6,6 +6,7 @@
 
 ### Other
 
+- Updated for Dragonflight 10.1
 - Added an option to have an audible notification once the battle round finished and the "autobattle" button becomes active again. Disabled by default.
 - ElvUI detection is now working correctly if the global toggle for "all Blizzard frames" is disabled, rather than just the petbattle one.
 
