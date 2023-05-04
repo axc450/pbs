@@ -1,3 +1,7 @@
+## v1.7.5
+
+- Fixed locale strings
+
 ## v1.7
 
 ### Breaking Changes
