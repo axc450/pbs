@@ -2,6 +2,10 @@
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.
 
+## v1.7.5
+
+- Fixed locale strings
+
 ## v1.7
 
 ### Breaking Changes
