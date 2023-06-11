@@ -14,10 +14,6 @@ local LibDBIcon = LibStub('LibDBIcon-1.0')
 local Minimap = Addon:NewModule('UI.Minimap', 'AceEvent-3.0')
 
 function Minimap:OnInitialize()
-    if Addon:GetSetting('hideMinimap') then
-        return
-    end
-
     local LDB = LibStub('LibDataBroker-1.1')
 
     local function HideTooltip()
@@ -72,6 +68,10 @@ function Minimap:OnInitialize()
         end,
         OnLeave = HideTooltip
     })
+
+    if Addon:GetSetting('hideMinimap') then
+        return
+    end
 
     LibDBIcon:Register('tdBattlePetScript', BrokerObject, Addon.db.profile.minimap)
 
