@@ -69,13 +69,11 @@ function Minimap:OnInitialize()
         OnLeave = HideTooltip
     })
 
-    if Addon:GetSetting('hideMinimap') then
-        return
-    end
-
     LibDBIcon:Register('tdBattlePetScript', BrokerObject, Addon.db.profile.minimap)
 
     self:RegisterMessage('PET_BATTLE_SCRIPT_SETTING_CHANGED_hideMinimap', 'Refresh')
+
+    self:Refresh()
 end
 
 function Minimap:Refresh()

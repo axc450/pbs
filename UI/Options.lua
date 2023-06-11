@@ -121,10 +121,7 @@ function Options:UpdateOptions()
     optionsArgs.testBreak = makeToggle(L.OPTION_SETTINGS_TEST_BREAK)
 
     optionsArgs.noWaitDeleteScript = makeToggle(L.OPTION_SETTINGS_NO_WAIT_DELETE_SCRIPT)
-    optionsArgs.hideMinimap = makeToggle(L.OPTION_SETTINGS_HIDE_MINIMAP, {
-        confirm = function() return L.OPTION_SETTINGS_HIDE_MINIMAP_TOOLTIP end,
-        needsReload = true,
-    })
+    optionsArgs.hideMinimap = makeToggle(L.OPTION_SETTINGS_HIDE_MINIMAP)
     optionsArgs.scriptSelectorResetPos = makeExecute(L.OPTION_SETTINGS_RESET_FRAMES, function() Addon:ResetFrames() end)
 
     --- Script Selector
