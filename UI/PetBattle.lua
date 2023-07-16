@@ -101,10 +101,25 @@ function Module:OnInitialize()
         local E, L, V, P, G = unpack(ElvUI)
         local S = E:GetModule('Skins')
         S:HandleButton(AutoButton)
-        -- It would be great to not attach auto button right of skip button, but ElvUI
-        -- doesn't really help there by hooking turnTimer.SkipButton:SetPoint to re-set
-        -- points, so @bloerwald really doesn't want to bother with it. Bad enough we
-        -- have to hack around their UI skining anyway.
+	S:RegisterSkin('tdBattlePetScript', function()
+            local yOffset = E.PixelMode and -1 or 1
+            local gap = E.PixelMode and 1 or 3
+            local xOffset = gap + AutoButton:GetWidth()
+
+            AutoButton:SetPoint('LEFT', SkipButton,'RIGHT', gap, 0)
+
+            -- When the SkipButton is placed, make room for the AutoButton
+            hooksecurefunc(SkipButton, "SetPoint", function(btn, _, _, _, _, _, forced)
+                if forced == true then return end
+
+                btn:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', -xOffset, yOffset, true)
+            end)
+            -- When the AutoButton visibility is toggled, reset the SkipButton width
+            hooksecurefunc(AutoButton, "SetShown", function(btn, show)
+                local xOffset = show and -xOffset or 0
+                SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', xOffset, yOffset, true)
+            end)
+        end)
     else
         local ArtFrame2 = CreateFrame('Frame', nil, TurnTimer) do
             ArtFrame2:SetSize(248, 32)
