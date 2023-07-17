@@ -13,14 +13,48 @@ local Director = ns.Director
 local Module   = Addon:NewModule('UI.PetBattle', 'AceEvent-3.0', 'AceHook-3.0', 'AceTimer-3.0')
 local LibSharedMedia = LibStub("LibSharedMedia-3.0")
 
-local ElvUIAlsoPresent = function()
-    if not ElvUI then
-        return false
-    end
-
+if ElvUI then
     local E, L, V, P, G = unpack(ElvUI)
-    local blizzardSkinsTable = E.private.skins.blizzard
-    return blizzardSkinsTable.enable and blizzardSkinsTable.petbattleui
+    local S = E.Skins
+
+    S:AddCallbackForAddon('tdBattlePetScript', function()
+        local blizzardSkinsTable = E.private.skins.blizzard
+        if not blizzardSkinsTable.enable or not blizzardSkinsTable.petbattleui then return end
+
+        local ToolButton = Module.ToolButton
+        local ArtFrame2 = Module.ArtFrame2
+        local AutoButton = Module.AutoButton
+        local SkipButton = Module.SkipButton
+
+        ToolButton:ClearAllPoints()
+        ToolButton:Point('TOPLEFT', PetBattleFrame.TopVersusText, 'TOPLEFT', 0, 0)
+        ToolButton:Point('BOTTOMRIGHT', PetBattleFrame.TopVersusText, 'BOTTOMRIGHT', 0, 0)
+
+        ArtFrame2:Hide()
+        ArtFrame2.Show = nop
+        ArtFrame2.SetShown = nop
+
+        local yOffset = E.PixelMode and -1 or 1
+        local gap = E.PixelMode and 1 or 3
+        local xOffset = gap + AutoButton:GetWidth()
+
+        S:HandleButton(AutoButton)
+        AutoButton:SetPoint('LEFT', SkipButton,'RIGHT', gap, 0)
+
+        -- When the SkipButton is placed, make room for the AutoButton
+        hooksecurefunc(SkipButton, "SetPoint", function(_, _, _, _, _, _, forced)
+            if forced == true then return end
+
+            SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', -xOffset, yOffset, true)
+        end)
+
+        -- When the AutoButton visibility is toggled, reset the SkipButton width
+        hooksecurefunc(AutoButton, "SetShown", function(_, show)
+            local xOffset = show and -xOffset or 0
+
+            SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', xOffset, yOffset, true)
+        end)
+    end)
 end
 
 function Module:OnInitialize()
@@ -31,19 +65,13 @@ function Module:OnInitialize()
     TurnTimer.ArtFrame2.Show = nop
 
     local ToolButton = CreateFrame('Button', nil, PetBattleFrame) do
-        if not ElvUIAlsoPresent() then
-            ToolButton:SetPoint('TOP')
-            ToolButton:SetSize(155, 50)
+        ToolButton:SetPoint('TOP')
+        ToolButton:SetSize(155, 50)
 
-            local Highlight = ToolButton:CreateTexture(nil, 'HIGHLIGHT') do
-                Highlight:SetPoint('TOP')
-                Highlight:SetAtlas('BattleHUD-Versus', true)
-                Highlight:SetBlendMode('ADD')
-            end
-        else
-            ToolButton:ClearAllPoints()
-            ToolButton:Point('TOPLEFT', PetBattleFrame.TopVersusText, 'TOPLEFT', 0, 0)
-            ToolButton:Point('BOTTOMRIGHT', PetBattleFrame.TopVersusText, 'BOTTOMRIGHT', 0, 0)
+        local Highlight = ToolButton:CreateTexture(nil, 'HIGHLIGHT') do
+            Highlight:SetPoint('TOP')
+            Highlight:SetAtlas('BattleHUD-Versus', true)
+            Highlight:SetBlendMode('ADD')
         end
 
         ToolButton:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
@@ -76,8 +104,8 @@ function Module:OnInitialize()
     end
 
     local AutoButton = CreateFrame('Button', 'tdBattlePetScriptAutoButton', SkipButton:GetParent(), 'UIPanelButtonTemplate') do
-		local width, height = SkipButton:GetSize()
-		SkipButton:SetSize(width + 20, height)
+        local width, height = SkipButton:GetSize()
+        SkipButton:SetSize(width + 20, height)
         AutoButton:SetSize(SkipButton:GetSize())
         AutoButton:SetPoint('LEFT', SkipButton, 'RIGHT')
         AutoButton:SetText(L['Auto'])
@@ -97,61 +125,35 @@ function Module:OnInitialize()
         AutoButton.HotKey:SetText('')
     end
 
-    if ElvUIAlsoPresent() then
-        local E, L, V, P, G = unpack(ElvUI)
-        local S = E:GetModule('Skins')
-        S:HandleButton(AutoButton)
-	S:RegisterSkin('tdBattlePetScript', function()
-            local yOffset = E.PixelMode and -1 or 1
-            local gap = E.PixelMode and 1 or 3
-            local xOffset = gap + AutoButton:GetWidth()
+    local ArtFrame2 = CreateFrame('Frame', nil, TurnTimer) do
+        ArtFrame2:SetSize(248, 32)
+        ArtFrame2:SetPoint('CENTER', 0, -2)
 
-            AutoButton:SetPoint('LEFT', SkipButton,'RIGHT', gap, 0)
-
-            -- When the SkipButton is placed, make room for the AutoButton
-            hooksecurefunc(SkipButton, "SetPoint", function(btn, _, _, _, _, _, forced)
-                if forced == true then return end
-
-                btn:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', -xOffset, yOffset, true)
-            end)
-            -- When the AutoButton visibility is toggled, reset the SkipButton width
-            hooksecurefunc(AutoButton, "SetShown", function(btn, show)
-                local xOffset = show and -xOffset or 0
-                SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', xOffset, yOffset, true)
-            end)
-        end)
-    else
-        local ArtFrame2 = CreateFrame('Frame', nil, TurnTimer) do
-            ArtFrame2:SetSize(248, 32)
-            ArtFrame2:SetPoint('CENTER', 0, -2)
-
-            local Left = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
-                Left:SetParent(ArtFrame2)
-                Left:ClearAllPoints()
-                Left:SetSize(32, 32)
-                Left:SetPoint('TOPLEFT')
-                Left:SetTexture([[Interface\PetBattles\PassButtonFrame]])
-                Left:SetTexCoord(0, 0.25, 0, 1)
-            end
-
-            local Right = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
-                Right:SetSize(32, 32)
-                Right:SetPoint('TOPRIGHT')
-                Right:SetTexture([[Interface\PetBattles\PassButtonFrame]])
-                Right:SetTexCoord(0.75, 1, 0, 1)
-            end
-
-            local Middle = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
-                Middle:SetPoint('TOPLEFT', Left, 'TOPRIGHT')
-                Middle:SetPoint('BOTTOMRIGHT', Right, 'BOTTOMLEFT')
-                Middle:SetTexture([[Interface\PetBattles\PassButtonFrame]])
-                Middle:SetTexCoord(0.25, 0.75, 0, 1)
-            end
-
-            SkipButton:SetFrameLevel(ArtFrame2:GetFrameLevel() + 10)
-            AutoButton:SetFrameLevel(ArtFrame2:GetFrameLevel() + 10)
+        local Left = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
+            Left:SetParent(ArtFrame2)
+            Left:ClearAllPoints()
+            Left:SetSize(32, 32)
+            Left:SetPoint('TOPLEFT')
+            Left:SetTexture([[Interface\PetBattles\PassButtonFrame]])
+            Left:SetTexCoord(0, 0.25, 0, 1)
         end
-        self.ArtFrame2   = ArtFrame2
+
+        local Right = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
+            Right:SetSize(32, 32)
+            Right:SetPoint('TOPRIGHT')
+            Right:SetTexture([[Interface\PetBattles\PassButtonFrame]])
+            Right:SetTexCoord(0.75, 1, 0, 1)
+        end
+
+        local Middle = ArtFrame2:CreateTexture(nil, 'OVERLAY') do
+            Middle:SetPoint('TOPLEFT', Left, 'TOPRIGHT')
+            Middle:SetPoint('BOTTOMRIGHT', Right, 'BOTTOMLEFT')
+            Middle:SetTexture([[Interface\PetBattles\PassButtonFrame]])
+            Middle:SetTexCoord(0.25, 0.75, 0, 1)
+        end
+
+        SkipButton:SetFrameLevel(ArtFrame2:GetFrameLevel() + 10)
+        AutoButton:SetFrameLevel(ArtFrame2:GetFrameLevel() + 10)
     end
 
     local ScriptFrame = GUI:GetClass('BasicPanel'):New(PetBattleFrame) do
@@ -242,6 +244,7 @@ function Module:OnInitialize()
     self.ToolButton  = ToolButton
     self.SkipButton  = SkipButton
     self.AutoButton  = AutoButton
+    self.ArtFrame2   = ArtFrame2
     self.ScriptList  = ScriptList
     self.ScriptFrame = ScriptFrame
 end
