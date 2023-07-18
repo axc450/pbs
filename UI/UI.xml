@@ -6,6 +6,7 @@
     <Script file="Widgets\ScriptEditor.lua" />
     <Script file="UI.lua" />
     <Script file="PetBattle.lua" />
+    <Script file="ElvUISkin.lua" />
     <Script file="Import.lua" />
     <Script file="MainPanel.lua" />
     <Script file="Minimap.lua" />
