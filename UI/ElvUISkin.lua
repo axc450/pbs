@@ -12,6 +12,7 @@ function S:tdBattlePetScript()
     if not blizzardSkinsTable.enable or not blizzardSkinsTable.petbattleui then return end
 
     local ToolButton = Module.ToolButton
+    local Highlight = ToolButton:GetRegions()
     local ArtFrame2 = Module.ArtFrame2
     local AutoButton = Module.AutoButton
     local SkipButton = Module.SkipButton
@@ -19,6 +20,10 @@ function S:tdBattlePetScript()
     ToolButton:ClearAllPoints()
     ToolButton:Point('TOPLEFT', PetBattleFrame.TopVersusText, 'TOPLEFT', 0, 0)
     ToolButton:Point('BOTTOMRIGHT', PetBattleFrame.TopVersusText, 'BOTTOMRIGHT', 0, 0)
+
+    Highlight:Hide()
+    Highlight.Show = nop
+    Highlight.SetShown = nop
 
     ArtFrame2:Hide()
     ArtFrame2.Show = nop
