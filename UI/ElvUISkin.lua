@@ -16,6 +16,7 @@ function S:tdBattlePetScript()
     local ArtFrame2 = Module.ArtFrame2
     local AutoButton = Module.AutoButton
     local SkipButton = Module.SkipButton
+    local XPBar = PetBattleFrame.BottomFrame.xpBar
 
     ToolButton:ClearAllPoints()
     ToolButton:Point('TOPLEFT', PetBattleFrame.TopVersusText, 'TOPLEFT', 0, 0)
@@ -41,6 +42,7 @@ function S:tdBattlePetScript()
         if forced == true then return end
 
         SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', -xOffset, yOffset, true)
+        XPBar:Point('BOTTOMRIGHT', SkipButton, 'TOPRIGHT', xOffset-E.Border, yOffset)
     end)
 
     -- When the AutoButton visibility is toggled, reset the SkipButton width
@@ -48,6 +50,7 @@ function S:tdBattlePetScript()
         local xOffset = show and -xOffset or 0
 
         SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', xOffset, yOffset, true)
+        XPBar:Point('BOTTOMRIGHT', SkipButton, 'TOPRIGHT', -E.Border, yOffset)
     end)
 end
 
