@@ -1,3 +1,7 @@
+## v1.8
+
+- Updated for Dragonflight 10.1.5
+
 ## v1.7.5
 
 - Fixed locale strings
