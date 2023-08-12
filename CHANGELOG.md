@@ -1,6 +1,7 @@
 ## v1.8
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.
+- Updated for Dragonflight 10.1.5
 
 ## v1.7.5
 
