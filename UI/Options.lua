@@ -125,7 +125,7 @@ function Options:UpdateOptions()
     optionsArgs.scriptSelectorResetPos = makeExecute(L.OPTION_SETTINGS_RESET_FRAMES, function() Addon:ResetFrames() end)
 
     --- Script Selector
-    optionsArgs.headerPlugins = makeHeader(L['Script selector'])
+    optionsArgs.headerPlugins = makeHeader(L.SCRIPT_SELECTOR)
 
     optionsArgs.autoSelect = makeToggle(L.OPTION_SETTINGS_AUTO_SELECT_SCRIPT_BY_ORDER)
     optionsArgs.hideNoScript = makeToggle(L.OPTION_SETTINGS_HIDE_SELECTOR_NO_SCRIPT)
@@ -135,9 +135,9 @@ function Options:UpdateOptions()
     self:FillInstalledPlugins(optionsArgs, order)
 
     --- Script Editor
-    optionsArgs.headerScriptEditor = makeHeader(L['Script editor'])
+    optionsArgs.headerScriptEditor = makeHeader(L.SCRIPT_EDITOR)
 
-    optionsArgs.editorFontFace = makeSelect(L['Font face'], LibSharedMedia.MediaType.FONT, {width = 'double',
+    optionsArgs.editorFontFace = makeSelect(L.FONT_FACE, LibSharedMedia.MediaType.FONT, {width = 'double',
         set = function(item, value)
             return defaultSet(item, LibSharedMedia:Fetch(LibSharedMedia.MediaType.FONT, value))
         end,
@@ -152,7 +152,7 @@ function Options:UpdateOptions()
         end,
     })
     optionsArgs.editorFontPadding = makePadding(0.2)
-    optionsArgs.editorFontSize = makeRange(L['Font size'], 9, 32, 1, {width = 'normal'})
+    optionsArgs.editorFontSize = makeRange(L.FONT_SIZE, 9, 32, 1, {width = 'normal'})
 
     AceConfigRegistry:NotifyChange(ADDON)
 end

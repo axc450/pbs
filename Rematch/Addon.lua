@@ -38,7 +38,7 @@ function Addon:OnTooltipFormatting(tip, key)
     if not saved then
         tip:AddLine(L.NO_TEAM_FOR_SCRIPT, RED_FONT_COLOR:GetRGB())
     else
-        tip:AddLine(L['TEAM'] .. Rematch:GetTeamTitle(key), GREEN_FONT_COLOR:GetRGB())
+        tip:AddLine(L.TEAM .. Rematch:GetTeamTitle(key), GREEN_FONT_COLOR:GetRGB())
         tip:AddLine(' ')
 
 		for i=1,3 do

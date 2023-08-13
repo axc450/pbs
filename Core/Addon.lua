@@ -13,6 +13,22 @@ ns.UI    = {}
 ns.L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts', true)
 ns.ICON  = [[Interface\Icons\Icon_petfamily_dragon]]
 
+ns.L["BEAUTY_SCRIPT"] = ns.L['Beauty script']
+ns.L["CREATE_SCRIPT"] = ns.L["Create script"]
+ns.L["DEBUGGING_SCRIPT"] = ns.L['Debugging script']
+ns.L["EDIT_SCRIPT"] = ns.L["Edit script"]
+ns.L["FONT_FACE"] = ns.L['Font face']
+ns.L["FONT_SIZE"] = ns.L['Font size']
+ns.L["FOUND_ERROR"] = ns.L['Found error']
+ns.L["NEW_SCRIPT"] = ns.L["New script"]
+ns.L["NO_SCRIPT"] = ns.L['No script']
+ns.L["SAVE_SUCCESS"] = ns.L['Save success']
+ns.L["SCRIPT_EDITOR"] = ns.L['Script editor']
+ns.L["SCRIPT_MANAGER"] = ns.L['Script manager']
+ns.L["SCRIPT_NAME"] = ns.L['Script name']
+ns.L["SCRIPT_SELECTOR"] = ns.L['Script selector']
+ns.L["SELECT_SCRIPT"] = ns.L['Select script']
+
 _G.PetBattleScripts = Addon
 
 function Addon:OnInitialize()
@@ -80,7 +96,7 @@ function Addon:UpdateDatabase()
 
         C_Timer.After(0.9, function()
             GUI:Notify{
-                text = format('%s\n|cff00ffff%s: |cffffff00%s|r', ns.L.ADDON_NAME, ns.L['UPDATED'], newVersion),
+                text = format('%s\n|cff00ffff%s: |cffffff00%s|r', ns.L.ADDON_NAME, ns.L.UPDATED, newVersion),
                 icon = ns.ICON,
                 help = ''
             }

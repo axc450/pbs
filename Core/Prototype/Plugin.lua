@@ -90,10 +90,10 @@ end
 function PluginPrototype:AllocName()
     local id = 0
     for key, script in self:IterateScripts() do
-        local _id = tonumber(script:GetName():match('^' .. L['New script'] .. ' (%d+)$'))
+        local _id = tonumber(script:GetName():match('^' .. L.NEW_SCRIPT .. ' (%d+)$'))
         if _id then
             id = max(id, _id)
         end
     end
-    return L['New script'] .. ' ' .. (id + 1)
+    return L.NEW_SCRIPT .. ' ' .. (id + 1)
 end

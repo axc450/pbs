@@ -18,7 +18,7 @@ function Import:OnInitialize()
         Frame:SetSize(350, 280)
         Frame:SetPoint('CENTER')
         Frame:SetFrameStrata('DIALOG')
-        Frame:SetText(L['Import'])
+        Frame:SetText(L.Import)
         Frame:SetCallback('OnShow', function()
             self.script = nil
             self.data = nil
