@@ -18,8 +18,8 @@ local STATUS_EDIT = 2
 
 
 local STATUS_LABELS = {
-    [STATUS_ADD]   = L.CREATE_SCRIPT,
-    [STATUS_EDIT]  = L.EDIT_SCRIPT,
+    [STATUS_ADD]   = L.EDITOR_CREATE_SCRIPT,
+    [STATUS_EDIT]  = L.EDITOR_EDIT_SCRIPT,
 }
 
 local Module = Addon:NewModule('UI.MainPanel', 'AceEvent-3.0')
@@ -38,7 +38,7 @@ function Module:OnInitialize()
         MainPanel:SetResizeBounds(550, 350, 900, 700)
         MainPanel:ShowPortrait()
         MainPanel:SetFrameStrata('DIALOG')
-        MainPanel:SetTitle(L.SCRIPT_EDITOR)
+        MainPanel:SetTitle(L.SCRIPT_EDITOR_TITLE)
         MainPanel:SetPortrait(ns.ICON)
 
         MainPanel:RegisterConfig(Addon.db.profile.position)
@@ -212,7 +212,7 @@ function Module:OnInitialize()
     local DebugButton = CreateFrame('Button', nil, Content, 'UIPanelButtonTemplate') do
         DebugButton:SetPoint('RIGHT', TestButton, 'LEFT')
         DebugButton:SetSize(80, 22)
-        DebugButton:SetText(L.Run)
+        DebugButton:SetText(L.SCRIPT_EDITOR_RUN_BUTTON)
         DebugButton:SetScript('OnClick', function()
             self:Run()
         end)
@@ -248,7 +248,7 @@ function Module:OnInitialize()
         return box
     end
 
-    local NameBox = MakeBox('InputBox', ExtraFrame, L.SCRIPT_NAME) do
+    local NameBox = MakeBox('InputBox', ExtraFrame, L.SCRIPT_EDITOR_NAME_TITLE) do
         NameBox:SetPoint('TOPLEFT', 10, -25)
         NameBox:SetPoint('TOPRIGHT', -10, -25)
         NameBox:SetHeight(22)
@@ -260,7 +260,7 @@ function Module:OnInitialize()
         ScriptEditor:SetPoint('BOTTOMRIGHT')
     end
 
-    local ScriptBox = MakeBox(Addon:GetClass('ScriptEditor'), ScriptEditor, L.Script) do
+    local ScriptBox = MakeBox(Addon:GetClass('ScriptEditor'), ScriptEditor, L.SCRIPT_EDITOR_TEXTAREA_TITLE) do
         ScriptBox:SetPoint('TOPLEFT', 10, -25)
         ScriptBox:SetPoint('BOTTOMRIGHT', -10, 10)
         ScriptBox:SetCallback('OnTextChanged', function(ScriptBox, userInput)
@@ -470,7 +470,7 @@ function Module:ShowDialog()
     self.MainPanel:SetMovable(true)
     self.MainPanel:SetResizable(true)
     self.MainPanel:SetFrameStrata('DIALOG')
-    self.MainPanel:SetTitle(L.SCRIPT_EDITOR)
+    self.MainPanel:SetTitle(L.SCRIPT_EDITOR_TITLE)
 
     if self.MainPanel:IsShown() then
         self:HidePanel()
@@ -487,7 +487,7 @@ function Module:ShowPanel()
     self.MainPanel:SetMovable(false)
     self.MainPanel:SetResizable(false)
     self.MainPanel:SetFrameStrata('MEDIUM')
-    self.MainPanel:SetTitle(L.SCRIPT_MANAGER)
+    self.MainPanel:SetTitle(L.SCRIPT_MANAGER_TITLE)
 
     if self.MainPanel:IsShown() then
         self:HidePanel()
@@ -584,7 +584,7 @@ function Module:OnSaveButtonClick()
         self.plugin:AddScript(self.key, self.script)
     end
 
-    self:Message(ok, ok and L.SAVE_SUCCESS or L.FOUND_ERROR, err)
+    self:Message(ok, ok and L.SCRIPT_EDITOR_SAVE_SUCCESS or L.SCRIPT_EDITOR_FOUND_ERROR, err)
 
     if not ok then
         return
@@ -609,7 +609,7 @@ end
 function Module:OnDeleteButtonClick()
     self.EditBoxGroup:ClearFocus()
     self.BlockDialog:Open{
-        text     = format(L.SCRIPT_EDITOR_DELETE_SCRIPT, self.plugin:GetPluginTitle(), self.script:GetName()),
+        text     = format(L.SCRIPT_EDITOR_DELETE_SCRIPT_CONFIRMATION, self.plugin:GetPluginTitle(), self.script:GetName()),
         delay    = Addon:GetSetting('noWaitDeleteScript') and 0 or 3,
         ctx      = self.script,
         OnAccept = function(script)
@@ -626,7 +626,7 @@ end
 function Module:Test()
     local script, err = Director:BuildScript(self:GetEditBoxText(self.ScriptBox))
     if not script then
-        self:Message(false, L.FOUND_ERROR, err)
+        self:Message(false, L.SCRIPT_EDITOR_FOUND_ERROR, err)
     else
         Director:Test(script)
     end
@@ -635,7 +635,7 @@ end
 function Module:Run()
     local script, err = Director:BuildScript(self:GetEditBoxText(self.ScriptBox))
     if not script then
-        self:Message(false, L.FOUND_ERROR, err)
+        self:Message(false, L.SCRIPT_EDITOR_FOUND_ERROR, err)
     else
         Director:Debug(script)
     end
@@ -644,25 +644,25 @@ end
 function Module:OnShareButtonClick()
     GUI:ToggleMenu(self.ShareButton, {
         {
-            text     = L.BEAUTY_SCRIPT,
+            text     = L.SCRIPT_EDITOR_AUTOFORMAT_SCRIPT,
             disabled = not self.script or not self.script:GetCode() or self:IsCanSave(),
             func     = function()
                 self:OnBeautyButtonClick()
             end
         },
         {
-            text = L.Import,
+            text = L.SHARE_IMPORT_SCRIPT,
             func = function()
                 UI.Import.Frame:Show()
                 self:HidePanel()
             end
         },
         {
-            text     = L.Export,
+            text     = L.SHARE_EXPORT_SCRIPT,
             disabled = self.status ~= STATUS_EDIT,
             func     = function()
                 self.BlockDialog:Open{
-                    text             = L.Export,
+                    text             = L.SHARE_EXPORT_SCRIPT,
                     cancelHidden     = true,
                     acceptText       = OKAY,
                     editBox          = true,
@@ -674,7 +674,7 @@ function Module:OnShareButtonClick()
             end
         },
         {
-            text = L.Options,
+            text = SETTINGS_TITLE,
             func = function()
                 Addon:OpenOptionsFrame()
             end

@@ -114,30 +114,30 @@ function Options:UpdateOptions()
     local optionsArgs = wipe(self.optionsArgs)
 
     --- General
-    optionsArgs.autoButtonHotKey = makeKeybinding(L.OPTION_SETTINGS_AUTOBUTTON_HOTKEY)
-    optionsArgs.notifyButtonActive = makeToggle(L.OPTION_SETTINGS_NOTIFY_BUTTON_ACTIVE, {width = 'double'})
+    optionsArgs.autoButtonHotKey = makeKeybinding(L.OPTION_AUTOBUTTON_HOTKEY)
+    optionsArgs.notifyButtonActive = makeToggle(L.OPTION_NOTIFY_BUTTON_ACTIVE, {width = 'double'})
     optionsArgs.notifyButtonActivePadding = makePadding(0.2)
-    optionsArgs.notifyButtonActiveSound = makeSelect(L.OPTION_SETTINGS_NOTIFY_BUTTON_ACTIVE_SOUND, LibSharedMedia.MediaType.SOUND, {width = 'normal',})
-    optionsArgs.testBreak = makeToggle(L.OPTION_SETTINGS_TEST_BREAK)
+    optionsArgs.notifyButtonActiveSound = makeSelect(L.OPTION_NOTIFY_BUTTON_ACTIVE_SOUND, LibSharedMedia.MediaType.SOUND, {width = 'normal',})
+    optionsArgs.testBreak = makeToggle(L.OPTION_TEST_BREAK)
 
-    optionsArgs.noWaitDeleteScript = makeToggle(L.OPTION_SETTINGS_NO_WAIT_DELETE_SCRIPT)
-    optionsArgs.hideMinimap = makeToggle(L.OPTION_SETTINGS_HIDE_MINIMAP)
-    optionsArgs.scriptSelectorResetPos = makeExecute(L.OPTION_SETTINGS_RESET_FRAMES, function() Addon:ResetFrames() end)
+    optionsArgs.noWaitDeleteScript = makeToggle(L.OPTION_NO_WAIT_DELETE_SCRIPT)
+    optionsArgs.hideMinimap = makeToggle(L.OPTION_HIDE_MINIMAP)
+    optionsArgs.scriptSelectorResetPos = makeExecute(L.OPTION_RESET_FRAMES, function() Addon:ResetFrames() end)
 
     --- Script Selector
-    optionsArgs.headerPlugins = makeHeader(L.SCRIPT_SELECTOR)
+    optionsArgs.headerPlugins = makeHeader(L.SCRIPT_SELECTOR_TITLE)
 
-    optionsArgs.autoSelect = makeToggle(L.OPTION_SETTINGS_AUTO_SELECT_SCRIPT_BY_ORDER)
-    optionsArgs.hideNoScript = makeToggle(L.OPTION_SETTINGS_HIDE_SELECTOR_NO_SCRIPT)
-    optionsArgs.lockScriptSelector = makeToggle(L.OPTION_SETTINGS_LOCK_SCRIPT_SELECTOR)
+    optionsArgs.autoSelect = makeToggle(L.OPTION_AUTO_SELECT_SCRIPT_BY_ORDER)
+    optionsArgs.hideNoScript = makeToggle(L.OPTION_HIDE_SELECTOR_NO_SCRIPT)
+    optionsArgs.lockScriptSelector = makeToggle(L.OPTION_LOCK_SCRIPT_SELECTOR)
 
     optionsArgs.descriptionPlugins = makeDescription(L.OPTION_SCRIPTSELECTOR_NOTES)
     self:FillInstalledPlugins(optionsArgs, order)
 
     --- Script Editor
-    optionsArgs.headerScriptEditor = makeHeader(L.SCRIPT_EDITOR)
+    optionsArgs.headerScriptEditor = makeHeader(L.SCRIPT_EDITOR_TITLE)
 
-    optionsArgs.editorFontFace = makeSelect(L.FONT_FACE, LibSharedMedia.MediaType.FONT, {width = 'double',
+    optionsArgs.editorFontFace = makeSelect(L.OPTION_EDITOR_FONT_FACE, LibSharedMedia.MediaType.FONT, {width = 'double',
         set = function(item, value)
             return defaultSet(item, LibSharedMedia:Fetch(LibSharedMedia.MediaType.FONT, value))
         end,
@@ -152,7 +152,7 @@ function Options:UpdateOptions()
         end,
     })
     optionsArgs.editorFontPadding = makePadding(0.2)
-    optionsArgs.editorFontSize = makeRange(L.FONT_SIZE, 9, 32, 1, {width = 'normal'})
+    optionsArgs.editorFontSize = makeRange(L.OPTION_EDITOR_FONT_SIZE, 9, 32, 1, {width = 'normal'})
 
     AceConfigRegistry:NotifyChange(ADDON)
 end

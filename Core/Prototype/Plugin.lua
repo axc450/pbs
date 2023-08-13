@@ -14,7 +14,7 @@ local PluginPrototype = ns.PluginPrototype
 ---- override
 
 function PluginPrototype:GetCurrentKey()
-    error(format('`%s`:GetCurrentKey not define', self:GetPluginName()))
+    error(format('`%s`:GetCurrentKey not defined', self:GetPluginName()))
 end
 
 function PluginPrototype:GetTitleByKey(key)
@@ -22,7 +22,7 @@ function PluginPrototype:GetTitleByKey(key)
 end
 
 function PluginPrototype:OnTooltipFormatting(tip, key)
-    tip:AddLine(L.SCRIPT_SELECTOR_LOST_TOOLTIP, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b, true)
+    error(format('`%s`:OnTooltipFormatting not defined', self:GetPluginName()))
 end
 
 function PluginPrototype:OnExport(key)
@@ -90,10 +90,10 @@ end
 function PluginPrototype:AllocName()
     local id = 0
     for key, script in self:IterateScripts() do
-        local _id = tonumber(script:GetName():match('^' .. L.NEW_SCRIPT .. ' (%d+)$'))
+        local _id = tonumber(script:GetName():match('^' .. L.DEFAULT_NEW_SCRIPT_NAME .. ' (%d+)$'))
         if _id then
             id = max(id, _id)
         end
     end
-    return L.NEW_SCRIPT .. ' ' .. (id + 1)
+    return L.DEFAULT_NEW_SCRIPT_NAME .. ' ' .. (id + 1)
 end

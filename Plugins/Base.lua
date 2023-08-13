@@ -13,8 +13,8 @@ local Base = Addon:NewPlugin('Base')
 
 function Base:OnInitialize()
     self:EnableWithAddon('Blizzard_PetBattleUI')
-    self:SetPluginTitle(L.PLUGINBASE_TITLE)
-    self:SetPluginNotes(L.PLUGINBASE_NOTES)
+    self:SetPluginTitle(L.SELECTOR_BASE_TITLE)
+    self:SetPluginNotes(L.SELECTOR_BASE_NOTES)
     self:SetPluginIcon([[Interface\ICONS\Ability_Garrison_OrangeBird]])
 end
 
@@ -62,7 +62,7 @@ end
 function Base:OnTooltipFormatting(tip, key)
     local allys, enemys = SplitTeams(key)
 
-    tip:AddDoubleLine(L.PLUGINBASE_TEAM_ALLY, L.PLUGINBASE_TEAM_ENEMY, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
+    tip:AddDoubleLine(L.SELECTOR_BASE_ALLY, L.SELECTOR_BASE_ENEMY, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b, RED_FONT_COLOR.r, RED_FONT_COLOR.g, RED_FONT_COLOR.b)
 
     for i = 1, max(#allys, #enemys) do
         tip:AddDoubleLine(

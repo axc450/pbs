@@ -103,7 +103,7 @@ function PluginManager:UpdatePlugins()
     if found then
         C_Timer.After(1, function()
             GUI:Notify{
-                text = L.PLUGINFIRSTENEMY_NOTIFY,
+                text = L.DATABASE_UPDATE_BASE_TO_FIRSTENEMY_NOTIFICATION,
                 icon = ns.ICON,
                 OnAccept = function()
                     Addon:OpenOptionsFrame()
