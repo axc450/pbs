@@ -2,6 +2,7 @@
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.
 - Updated for Dragonflight 10.1.5
+- Auto button now properly fits in the ElvUI theme.
 
 ## v1.7.5
 
