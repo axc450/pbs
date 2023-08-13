@@ -26,13 +26,11 @@ L["OPTION_GENERAL_NOTES"] = "Ecco alcune impostazioni generali."
 L["OPTION_SCRIPTEDITOR_NOTES"] = "Ecco le preferenze dell'editor di script"
 L["OPTION_SCRIPTSELECTOR_NOTES"] = "Qui puoi gestire se il selettore di script è abilitato e la priorità del selettore di script."
 L["OPTION_SETTINGS_AUTO_SELECT_SCRIPT_BY_ORDER"] = "Seleziona automaticamente gli script in base alla priorità del selettore di script"
-L["OPTION_SETTINGS_AUTO_SELECT_SCRIPT_ONLY_ONE"] = [=[Seleziona automaticamente quando è presente un solo script
-]=]
+L["OPTION_SETTINGS_AUTO_SELECT_SCRIPT_ONLY_ONE"] = "Seleziona automaticamente quando è presente un solo script"
 L["OPTION_SETTINGS_AUTOBUTTON_HOTKEY"] = "Tasti di scelta rapida automatici"
 L["OPTION_SETTINGS_HIDE_MINIMAP"] = "Nascondi l'icona della minimappa"
 L["OPTION_SETTINGS_HIDE_MINIMAP_TOOLTIP"] = "La modifica di questa impostazione richiede il ricaricamento dell'interfaccia utente. Continuare?"
-L["OPTION_SETTINGS_HIDE_SELECTOR_NO_SCRIPT"] = [=[Non mostrare il selettore di script quando non c'è uno script
-]=]
+L["OPTION_SETTINGS_HIDE_SELECTOR_NO_SCRIPT"] = "Non mostrare il selettore di script quando non c'è uno script"
 L["OPTION_SETTINGS_LOCK_SCRIPT_SELECTOR"] = "Blocca il selettore di script"
 L["OPTION_SETTINGS_NO_WAIT_DELETE_SCRIPT"] = "Non aspettare quando elimini gli script"
 L["OPTION_SETTINGS_RESET_FRAMES"] = "Ripristina le dimensioni e la posizione del pannello"
