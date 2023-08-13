@@ -70,7 +70,6 @@ L["SCRIPT_SELECTOR_NOT_MATCH"] = "Kein Skript-Selektor stimmt mit dem aktuellen 
 L["SCRIPT_SELECTOR_NOTINSTALLED_HELP"] = "Linksklick zum Anschauen, Rechtsklick zum Schließen"
 L["SCRIPT_SELECTOR_NOTINSTALLED_TEXT"] = "Kein geeigneter Skript-Selektor installiert!"
 L["Select script"] = "Skript auswählen"
-L["TEAM"] = "Team: "
 L["TOGGLE_SCRIPT_MANAGER"] = "Skript-Manager öffnen/schließen"
 L["TOGGLE_SCRIPT_SELECTOR"] = "Skript-Selektor öffnen/schließen"
 L["TOOLTIP_CREATE_OR_DEBUG_SCRIPT"] = "Ein Skript erstellen oder debuggen"

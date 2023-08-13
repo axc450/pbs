@@ -65,7 +65,6 @@ L["SCRIPT_SELECTOR_NOT_MATCH"] = "Aucun script ne correspond à la bataille en c
 L["SCRIPT_SELECTOR_NOTINSTALLED_HELP"] = "Clic gauche pour voir, clic droit pour fermer"
 L["SCRIPT_SELECTOR_NOTINSTALLED_TEXT"] = "Un sélecteur de script utile n'a pas été installé"
 L["Select script"] = "Sélectionnez le script"
-L["TEAM"] = "tdBattlePetScript"
 L["TOGGLE_SCRIPT_MANAGER"] = "Activer / désactiver le gestionnaire de scripts"
 L["TOGGLE_SCRIPT_SELECTOR"] = "Active/désactive le sélecteur de script"
 L["TOOLTIP_CREATE_OR_DEBUG_SCRIPT"] = "Créer ou déboguer un script"

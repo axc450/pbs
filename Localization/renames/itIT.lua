@@ -67,7 +67,6 @@ L["SCRIPT_SELECTOR_NOT_MATCH"] = "Nessun selettore di script corrisponde alla ba
 L["SCRIPT_SELECTOR_NOTINSTALLED_HELP"] = "Fare clic con il tasto sinistro per visualizzare, fare clic con il tasto destro per chiudere"
 L["SCRIPT_SELECTOR_NOTINSTALLED_TEXT"] = "Trovato un utile selettore di script non installato!"
 L["Select script"] = "Seleziona script"
-L["TEAM"] = "Script di Battaglia Pokemon"
 L["TOGGLE_SCRIPT_MANAGER"] = "Attiva/disattiva gestione degli script"
 L["TOGGLE_SCRIPT_SELECTOR"] = "Attiva/disattiva il selettore di script"
 L["TOOLTIP_CREATE_OR_DEBUG_SCRIPT"] = "Crea o esegui il debug di script"
