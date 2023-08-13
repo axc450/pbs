@@ -1,6 +1,7 @@
 ## v1.8
 
 - Updated for Dragonflight 10.1.5
+- Auto button now properly fits in the ElvUI theme.
 
 ## v1.7.5
 
