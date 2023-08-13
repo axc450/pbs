@@ -3,4 +3,5 @@
   <Script file="Addon.lua" />
   <Script file="Version.lua" />
   <Script file="UI.lua" />
+  <Script file="UpdateDB.lua" />
 </Ui>

@@ -18,6 +18,10 @@ local teamMenu = {
 }
 
 function Addon:OnEnable()
+    -- This should run after rematch,
+    Addon:UpdateDB()
+
+    -- Add menu to edit script
     local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
     Rematch.menus:AddToMenu('TeamMenu', teamMenu, afterText)
     Rematch.menus:AddToMenu('LoadedTeamMenu', teamMenu, afterText)
