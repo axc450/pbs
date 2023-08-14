@@ -41,10 +41,10 @@ function Addon:OnTooltipFormatting(tip, key)
         tip:AddLine(L['TEAM'] .. saved.name, GREEN_FONT_COLOR:GetRGB())
         tip:AddLine(' ')
 
-		for i=1,3 do
-			local petID = saved.pets[i]
-			local petInfo = Rematch.petInfo:Fetch(petID)
-			tip:AddLine(format([[|T%s:20|t %s]],petInfo.icon,petInfo.name))
-		end
+        for i=1,3 do
+            local petID = saved.pets[i]
+            local petInfo = Rematch.petInfo:Fetch(petID)
+            tip:AddLine(format([[|T%s:20|t %s]],petInfo.icon,petInfo.name))
+        end
     end
 end
