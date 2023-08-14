@@ -9,8 +9,7 @@ local ns = select(2, ...)
 local Addon = ns.Addon
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
--- Team menu entry to edit script
-local teamMenu = {
+local scriptMenu = {
     text = L.WRITE_SCRIPT,
     func = function(_, key, ...)
         Addon:OpenScriptEditor(key, Addon:GetTitleByKey(key))
@@ -23,8 +22,8 @@ function Addon:OnEnable()
 
     -- Add menu to edit script
     local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
-    Rematch.menus:AddToMenu('TeamMenu', teamMenu, afterText)
-    Rematch.menus:AddToMenu('LoadedTeamMenu', teamMenu, afterText)
+    Rematch.menus:AddToMenu('TeamMenu', scriptMenu, afterText)
+    Rematch.menus:AddToMenu('LoadedTeamMenu', scriptMenu, afterText)
 
     -- Button to indicate a script exists
     local icon = 'Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon'
