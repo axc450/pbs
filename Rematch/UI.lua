@@ -18,7 +18,7 @@ local scriptMenu = {
 
 function Addon:OnEnable()
     -- This should run after rematch,
-    Addon:UpdateDB()
+    self:UpdateDB()
 
     -- Add menu to edit script
     local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
@@ -28,12 +28,12 @@ function Addon:OnEnable()
     -- Button to indicate a script exists
     local icon = 'Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon'
     Rematch.badges:RegisterBadge('teams', 'PetBattleScripts', icon, nil, function(teamID)
-        return teamID and Addon:GetScript(teamID)
+        return teamID and self:GetScript(teamID)
     end)
 
     -- Team is deleted
-    Rematch.events:Register(Addon, 'REMATCH_TEAM_DELETED', function(self, teamID)
-        Addon:RemoveScript(teamID)
+    Rematch.events:Register(self, 'REMATCH_TEAM_DELETED', function(self, teamID)
+        self:RemoveScript(teamID)
     end)
 
     -- TODO: do we want to maintain sync between script name, and team name?

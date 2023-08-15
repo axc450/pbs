@@ -14,7 +14,7 @@ function Addon:UpdateDB()
 
     local moveTasks = {}
 
-    for key, script in Addon:IterateScripts() do
+    for key, script in self:IterateScripts() do
         if type(key)=="number" then
 
             -- Attach script to first team found
@@ -33,7 +33,7 @@ function Addon:UpdateDB()
 
             if teamID then
                 -- Does the team already have a matching script
-                if not Addon:GetScript(teamID) then
+                if not self:GetScript(teamID) then
                     -- print('found matching team with no script')
                     tinsert(moveTasks, {key, teamID, script})
                 else
@@ -47,8 +47,8 @@ function Addon:UpdateDB()
 
     if #moveTasks>0 then
         for _, info in ipairs(moveTasks) do
-            Addon:RemoveScript(info[1])
-            Addon:AddScript(info[2], info[3])
+            self:RemoveScript(info[1])
+            self:AddScript(info[2], info[3])
         end
     end
 end
