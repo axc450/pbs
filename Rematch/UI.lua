@@ -36,6 +36,9 @@ function Addon:OnEnable()
         Addon:RemoveScript(teamID)
     end)
 
+    -- TODO: do we want to maintain sync between script name, and team name?
+    --Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED' function(self, teamID) end)
+
     -- When a script is added/removed, refresh the teams list.
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
 end
@@ -48,17 +51,27 @@ end
 
 
 function Addon:OnDisable()
-    -- TODO: Hide menu, disable badge
+    -- TODO: hide menu, disable badge?
+
+    -- Is there even a way to disable this plugin after its loaded? (outisde of source)
+
+    -- Should we Unregister REMATCH_TEAM_DELETED?
+    -- If a team is deleted when this plugin is disabled, matching scripts will
+    -- be made orphans, and if a new team is created with that same key, the
+    -- old script will be matched with it.
 end
 
 function Addon:OnExport(key)
-    --if RematchSaved[key] then
-    --    Rematch:SetSideline(key, RematchSaved[key])
-    --    return Rematch:ConvertSidelineToString()
+    --if Rematch.savedTeams[key] then
+    --    return Rematch.teamStrings:ExportTeam(key)
     --end
 end
 
 function Addon:OnImport(data)
-    --Rematch:ShowImportDialog()
-    --RematchDialog.MultiLine.EditBox:SetText(data)
+    -- TODO: Bug. (Do people even use this?)
+    --   When importing a PBS script, the key is preset in the data,
+    --   but it wont match up after importing this Rematch team.
+
+    --Rematch.dialog:ShowDialog('ImportTeams')
+    --Rematch.dialog.Canvas.MultiLineEditBox:SetText(data)
 end
