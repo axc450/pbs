@@ -1,4 +1,4 @@
-local _, ns 		= ...
+local ADDON, ns		      = ...
 local Addon             = ns.Addon
 local L                 = ns.L
 local AceConfigRegistry = LibStub('AceConfigRegistry-3.0')
@@ -6,85 +6,220 @@ local AceConfigDialog   = LibStub('AceConfigDialog-3.0')
 local AceGUISharedMediaWidgets = LibStub('AceGUISharedMediaWidgets-1.0')
 local LibSharedMedia = LibStub("LibSharedMedia-3.0")
 local Options           = Addon:NewModule('Options')
+local PluginManager     = ns.PluginManager
 
+local function orderGen()
+    local order = 0
+    return function()
+        order = order + 1
+        return order
+    end
+end
 
 function Options:OnEnable()
     self:InitOptions()
 end
 
 function Options:InitOptions()
+    self.optionsArgs = {}
     local options = {
-        type = "group",
-		args = {
-			hideMinimap = {
-				order = 0,
-				type = "toggle",
-				name = L.OPTION_SETTINGS_HIDE_MINIMAP,
-				get = getHideMinimap,
-				set = setHideMinimap
-			},
-			newLine1 = {
-				order = 1,
-				type = "description",
-				name = ""
-			},
-			autoButtonHotKey = {
-				order = 2,
-				type = "keybinding",
-				name = L.OPTION_SETTINGS_AUTOBUTTON_HOTKEY,
-				get = getAutoButtonHotKey,
-				set = setAutoButtonHotKey
-			},
-			newLine2 = {
-				order = 3,
-				type = "description",
-				name = ""
-			},
-			notifyButtonActive = {
-				order = 4,
-				type = "toggle",
-				name = L.OPTION_SETTINGS_NOTIFY_BUTTON_ACTIVE,
-				get = function(item)
-					return Addon:GetSetting("notifyButtonActive")
-				end,
-				set = function(item, value)
-					Addon:SetSetting("notifyButtonActive", value)
-				end,
-			},
-			notifyButtonActiveSound = {
-				order = 5,
-				type = "select",
-				name = L.OPTION_SETTINGS_NOTIFY_BUTTON_ACTIVE_SOUND,
-				values = LibSharedMedia:HashTable("sound"),
-				dialogControl = "LSM30_Sound",
-				get = function(item)
-					return Addon:GetSetting("notifyButtonActiveSound")
-				end,
-				set = function(item, value)
-					Addon:SetSetting("notifyButtonActiveSound", value)
-				end,
-			},
-		}
+        type = 'group',
+        args = self.optionsArgs
     }
-
     AceConfigRegistry:RegisterOptionsTable(L.ADDON_NAME, options)
     AceConfigDialog:AddToBlizOptions(L.ADDON_NAME, L.ADDON_NAME)
+
+    self:UpdateOptions()
 end
 
-function getAutoButtonHotKey(item)
-	return Addon:GetSetting("autoButtonHotKey")
+function Options:UpdateOptions()
+    local order = orderGen()
+
+    local function defaultGet(item)
+        return Addon:GetSetting(item[#item])
+    end
+
+    local function defaultSet(item, value)
+        return Addon:SetSetting(item[#item], value)
+    end
+
+    local function makeBase(name, type, extra)
+        local tab = extra or {}
+        tab.order = order()
+        tab.width = tab.width or 'full'
+        tab.name = name
+        tab.type = type
+
+        local set = (extra and extra.set) or defaultSet
+        local get = (extra and extra.get) or defaultGet
+
+        if extra and extra.needsReload then
+            extra.needsReload = nil
+            set = function(item, value)
+                set(item, value)
+                C_UI.Reload()
+            end
+        end
+
+        tab.set = set
+        tab.get = get
+
+        return tab
+    end
+    local function makeHeader(name, extra)
+        local tab = makeBase(name, 'header', extra)
+        return tab
+    end
+    local function makeToggle(name, extra)
+        local tab = makeBase(name, 'toggle', extra)
+        return tab
+    end
+    local function makeExecute(name, func, extra)
+        local tab = makeBase(name, 'execute', extra)
+        tab.func = func
+        return tab
+    end
+    local function makeKeybinding(name, extra)
+        local tab = makeBase(name, 'keybinding', extra)
+        return tab
+    end
+    local function makeSelect(name, values, extra)
+        local tab = makeBase(name, 'select', extra)
+        tab.values = LibSharedMedia:HashTable(values)
+        tab.dialogControl = 'LSM30_' .. ((values:gsub("^%l", string.upper)))
+        return tab
+    end
+    local function makeDescription(name, extra)
+        local tab = makeBase(name, 'description', extra)
+        tab.fontSize = 'medium'
+        tab.image = [[Interface\Common\help-i]]
+        tab.imageWidth = 16
+        tab.imageHeight = 16
+        tab.imageCoords = {.2, .8, .2, .8}
+        return tab
+    end
+    local function makeRange(name, min, max, step, extra)
+        local tab = makeBase(name, 'range', extra)
+        tab.min = min
+        tab.max = max
+        tab.step = step
+        return tab
+    end
+    local function makePadding(width)
+        local tab = makeBase('', 'description', {})
+        tab.width = width
+        return tab
+    end
+
+    local optionsArgs = wipe(self.optionsArgs)
+
+    --- General
+    optionsArgs.autoButtonHotKey = makeKeybinding(L.OPTION_SETTINGS_AUTOBUTTON_HOTKEY)
+    optionsArgs.notifyButtonActive = makeToggle(L.OPTION_SETTINGS_NOTIFY_BUTTON_ACTIVE, {width = 'double'})
+    optionsArgs.notifyButtonActivePadding = makePadding(0.2)
+    optionsArgs.notifyButtonActiveSound = makeSelect(L.OPTION_SETTINGS_NOTIFY_BUTTON_ACTIVE_SOUND, LibSharedMedia.MediaType.SOUND, {width = 'normal',})
+    optionsArgs.testBreak = makeToggle(L.OPTION_SETTINGS_TEST_BREAK)
+
+    optionsArgs.noWaitDeleteScript = makeToggle(L.OPTION_SETTINGS_NO_WAIT_DELETE_SCRIPT)
+    optionsArgs.hideMinimap = makeToggle(L.OPTION_SETTINGS_HIDE_MINIMAP)
+    optionsArgs.scriptSelectorResetPos = makeExecute(L.OPTION_SETTINGS_RESET_FRAMES, function() Addon:ResetFrames() end)
+
+    --- Script Selector
+    optionsArgs.headerPlugins = makeHeader(L['Script selector'])
+
+    optionsArgs.autoSelect = makeToggle(L.OPTION_SETTINGS_AUTO_SELECT_SCRIPT_BY_ORDER)
+    optionsArgs.hideNoScript = makeToggle(L.OPTION_SETTINGS_HIDE_SELECTOR_NO_SCRIPT)
+    optionsArgs.lockScriptSelector = makeToggle(L.OPTION_SETTINGS_LOCK_SCRIPT_SELECTOR)
+
+    optionsArgs.descriptionPlugins = makeDescription(L.OPTION_SCRIPTSELECTOR_NOTES)
+    self:FillInstalledPlugins(optionsArgs, order)
+
+    --- Script Editor
+    optionsArgs.headerScriptEditor = makeHeader(L['Script editor'])
+
+    optionsArgs.editorFontFace = makeSelect(L['Font face'], LibSharedMedia.MediaType.FONT, {width = 'double',
+        set = function(item, value)
+            return defaultSet(item, LibSharedMedia:Fetch(LibSharedMedia.MediaType.FONT, value))
+        end,
+        get = function(item, value)
+            local val = defaultGet(item)
+            for k, v in pairs(LibSharedMedia:HashTable(LibSharedMedia.MediaType.FONT)) do
+                if v == val then
+                    return k
+                end
+            end
+            return nil
+        end,
+    })
+    optionsArgs.editorFontPadding = makePadding(0.2)
+    optionsArgs.editorFontSize = makeRange(L['Font size'], 9, 32, 1, {width = 'normal'})
+
+    AceConfigRegistry:NotifyChange(ADDON)
 end
 
-function setAutoButtonHotKey(item, value)
-	Addon:SetSetting("autoButtonHotKey", value)
-end
+function Options:FillInstalledPlugins(args, order)
+    local pluginCount = #PluginManager:GetPluginList()
 
-function getHideMinimap(item)
-	return Addon:GetSetting("hideMinimap")
-end
+    for i, plugin in PluginManager:IteratePlugins() do
+        local name = plugin:GetPluginName()
+        local isFirst = i == 1
+        local isLast = i == pluginCount
 
-function setHideMinimap(item, value)
-	Addon:SetSetting("hideMinimap", value)
+        args[name] = {
+            type = 'toggle',
+            name = function()
+                return PluginManager:IsPluginAllowed(name) and plugin:GetPluginTitle() or
+                    format('|cff808080%s (%s)|r', plugin:GetPluginTitle(), DISABLE)
+            end,
+            desc = plugin:GetPluginNotes(),
+            width = 'double',
+            order = order(),
+            get = function(item)
+                return PluginManager:IsPluginAllowed(name)
+            end,
+            set = function(item, value)
+                return PluginManager:SetPluginAllowed(name, value)
+            end,
+        }
+
+        args[name .. 'Up'] = {
+            type = 'execute',
+            name = '',
+            width = 0.3,
+            disabled = isFirst,
+            image = function()
+                return isFirst and [[Interface\MINIMAP\MiniMap-VignetteArrow]] or
+                    [[Interface\MINIMAP\MiniMap-QuestArrow]]
+            end,
+            imageCoords = {0.1875, 0.8125, 0.1875, 0.8125},
+            imageWidth = 16,
+            imageHeight = 16,
+            order = order(),
+            func = function()
+                PluginManager:MoveUpPlugin(name)
+                self:UpdateOptions()
+            end
+        }
+
+        args[name .. 'Down'] = {
+            type = 'execute',
+            name = '',
+            width = 0.3,
+            disabled = isLast,
+            image = function()
+                return isLast and [[Interface\MINIMAP\MiniMap-VignetteArrow]] or
+                    [[Interface\MINIMAP\MiniMap-QuestArrow]]
+            end,
+            imageCoords = {0.1875, 0.8125, 0.8125, 0.1875},
+            imageWidth = 16,
+            imageHeight = 16,
+            order = order(),
+            func = function()
+                PluginManager:MoveDownPlugin(name)
+                self:UpdateOptions()
+            end
+        }
+    end
 end
 
 function Addon:OpenOptionsFrame()
