@@ -149,7 +149,7 @@ function Director:BuildScript(code)
                 if line:find('^%-%-') then
                     action = line
                 elseif line:find('[', nil, true) then
-                    action, condition = line:match('^/?(.+)%s+%[(.+)%]$')
+                    action, condition = line:match('^/?([^%[]-)%s*%[([^%]]+)%]$')
                 else
                     action = line:match('^/?(.+)$')
                 end
