@@ -159,17 +159,7 @@ function Snippets:ParseCondition(condition)
         return
     end
 
-    local non do
-        local _cond
-        non, _cond = condition:match('^(!?)%s*(.+)$')
-        non = non == '!'
-
-        if non then
-            condition = _cond
-        end
-    end
-
-    local owner, pet, cmd, arg, petInputed, argInputed = Condition:ParseApi(condition)
+    local non, owner, pet, cmd, arg, _, _, petInputed, argInputed = Condition:ParseApi(condition)
 
     return owner, pet, cmd, arg, non, petInputed, argInputed
 end

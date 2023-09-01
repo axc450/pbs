@@ -26,6 +26,14 @@ Condition.opts = setmetatable({
     end,
 })
 
+local opChar = {
+    ['!'] = true,
+    ['='] = true,
+    ['<'] = true,
+    ['>'] = true,
+    ['~'] = true
+}
+
 local opTabler = {
     compare = {
         ['=']  = function(a, b) return a == b   end,
@@ -148,10 +156,15 @@ function Condition:ParseApi(str)
     end
 
     local inQuote = false
-    local args = {''}
+    local non, tail = str:match('^(!?)(.+)')
+    local args, op, value = {''}, '', ''
 
-    for char in str:gmatch('.') do
-        if char == '.' and not inQuote then
+    for char in tail:gmatch('.') do
+        if opChar[char] and not inQuote then
+            op = op .. char
+        elseif op ~= '' then
+            value = value .. char
+        elseif char == '.' and not inQuote then
             tinsert(args, '')
         else
             args[#args] = args[#args] .. char
@@ -164,25 +177,23 @@ function Condition:ParseApi(str)
         end
     end
 
+    non   = trynil(non)
+    op    = trynil(op)
+    value = trynil(value:trim())
+
+    args = TableUtil.Transform(args, strtrim)
+
     local owner, pet, petInputed = self:ParsePet(args[1])
     local cmd,   arg, argInputed = self:ParseCmd(unpack(args, owner and 2 or 1))
 
-    return owner, pet, cmd, arg, petInputed, argInputed
+    return non, owner, pet, cmd, arg, op, value, petInputed, argInputed
 end
 
 function Condition:ParseCondition(condition)
-    local non, args, op, value = condition:match('^(!?)([^!=<>~]+)%s*([!=<>~]*)%s*(.*)$')
-
-    Util.assert(non, 'Invalid Condition: `%s` (Can`t parse)', condition)
-
-    local owner, pet, cmd, arg, petInputed, argInputed = self:ParseApi(args:trim())
+    local non, owner, pet, cmd, arg, op, value, petInputed, argInputed = self:ParseApi(condition:trim())
 
     Util.assert(cmd, 'Invalid Condition: `%s` (Can`t parse)', condition)
     Util.assert(self.apis[cmd], 'Invalid Condition: `%s` (Not found cmd: `%s`)', condition, cmd)
-
-    op    = trynil(op)
-    value = trynil(value)
-    non   = trynil(non)
 
     local opts = self.opts[cmd]
 
