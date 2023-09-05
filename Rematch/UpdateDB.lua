@@ -49,21 +49,27 @@ function Addon:UpdateDB()
                     self:RemoveScript(key)
                     self:AddScript(teamID, script)
                 else
-                    print('found a matching team, but it has a script. looking for another …', key)
+                    print('found a matching team, but it has a script. looking for another …', 'oldkey:', key)
 
                     local name = key:trim():gsub(" %(%d+%)$", "") -- take off any trailing (2)s
-                    local num = 1
-                    local newTeamID
-                    repeat
-                        num = num+1
+                    local newTeamID, newTeamFound
+                    for num = 2, 100 do -- stop looking after 100.
                         local newName = format("%s (%d)", name, num)
                         newTeamID = Rematch.savedTeams:GetTeamIDByName(newName)
-                    until newTeamID and not self:GetScript(newTeamID)
-                    -- is there a chance that this could run forever if a team is not found?
 
-                    print('   … found a team without a script!', newTeamID, Rematch.savedTeams[newTeamID].name)
-                    self:RemoveScript(key)
-                    self:AddScript(newTeamID, script)
+                        if newTeamID and not self:GetScript(newTeamID) then
+                            newTeamFound = true
+                            break
+                        end
+                    end
+
+                    if newTeamFound then
+                        print('   … found a team without a script!', 'newKey:', newTeamID, Rematch.savedTeams[newTeamID].name)
+                        self:RemoveScript(key)
+                        self:AddScript(newTeamID, script)
+                    else
+                        print('   … faild looking for another matching team. Sorry.')
+                    end
                 end
             else
                 print('no team found.', 'name:', key)
