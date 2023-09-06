@@ -17,8 +17,8 @@ local scriptMenu = {
 }
 
 function Addon:OnEnable()
-    -- This should run after rematch,
-    self:UpdateDB()
+    -- This should run after rematch converts its teams
+    self:SecureHook(Rematch.convert, 'ImportTeams', 'UpdateDB')
 
     -- Add menu to edit script
     local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
