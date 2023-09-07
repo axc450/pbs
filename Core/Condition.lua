@@ -181,7 +181,7 @@ function Condition:ParseApi(str)
     op    = trynil(op)
     value = trynil(value:trim())
 
-    args = TableUtil.Transform(args, strtrim)
+    args[#args] = args[#args]:gsub('%s*$','')
 
     local owner, pet, petInputed = self:ParsePet(args[1])
     local cmd,   arg, argInputed = self:ParseCmd(unpack(args, owner and 2 or 1))
