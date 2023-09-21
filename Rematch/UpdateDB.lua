@@ -1,6 +1,13 @@
 local ns = select(2, ...)
 local Addon = ns.Addon
 
+function Addon.ResetEverything()
+    local scriptsDB = PetBattleScripts.db.global.scripts
+
+    scriptsDB.Rematch = CopyTable(scriptsDB.Rematch4)
+    wipe(scriptsDB.Rematch4)
+end
+
 function Addon:UpdateDB(convertedTeams)
     -- Backup old scripts
     local scriptsDB = PetBattleScripts.db.global.scripts

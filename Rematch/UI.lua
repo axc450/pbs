@@ -45,6 +45,13 @@ function Addon:OnEnable()
     -- Database script conversion.
     Rematch.events:Register(self, 'REMATCH_TEAMS_CONVERTED', self.UpdateDB)
 
+    -- Hook `/rematch reset everything` This is a messy way to hook that function
+    self:Hook(Rematch.dialog, 'Register', function(_, name, info)
+        if name == 'ResetEverything' then
+            self:Hook(info, 'acceptFunc', self.ResetEverything)
+        end
+    end)
+
     -- When a script is added/removed, refresh the teams list.
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
 end
