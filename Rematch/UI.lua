@@ -17,9 +17,6 @@ local scriptMenu = {
 }
 
 function Addon:OnEnable()
-    -- This should run after rematch converts its teams
-    self:SecureHook(Rematch.convert, 'ImportTeams', 'UpdateDB')
-
     -- Add menu to edit script
     local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
     Rematch.menus:AddToMenu('TeamMenu', scriptMenu, afterText)
@@ -38,6 +35,15 @@ function Addon:OnEnable()
 
     -- TODO: do we want to maintain sync between script name, and team name?
     --Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED' function(self, teamID) end)
+
+    -- TODO: what do we want to do when a team is overwritten? delete the script? keep it? migrate the old script to the new teamID?
+    --Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, teamID, oldTeamID) end)
+
+    -- TODO: delete all scripts as they'll be orphans otherwise
+    --Rematch.events:Register(self, 'REMATCH_TEAMS_WIPED', function(self) end)
+
+    -- Database script conversion.
+    Rematch.events:Register(self, 'REMATCH_TEAMS_CONVERTED', self.UpdateDB)
 
     -- When a script is added/removed, refresh the teams list.
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
