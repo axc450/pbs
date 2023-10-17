@@ -39,8 +39,12 @@ function Addon:OnEnable()
     -- TODO: what do we want to do when a team is overwritten? delete the script? keep it? migrate the old script to the new teamID?
     --Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, teamID, oldTeamID) end)
 
-    -- TODO: delete all scripts as they'll be orphans otherwise
-    --Rematch.events:Register(self, 'REMATCH_TEAMS_WIPED', function(self) end)
+    -- All teams are wiped, wipe all scripts.
+    Rematch.events:Register(self, 'REMATCH_TEAMS_WIPED', function(self)
+        for key in self:IterateScripts() do
+            self:RemoveScript(key)
+        end
+    end)
 
     -- Database script conversion.
     Rematch.events:Register(self, 'REMATCH_TEAMS_CONVERTED', self.UpdateDB)
