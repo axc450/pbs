@@ -33,8 +33,15 @@ function Addon:OnEnable()
         self:RemoveScript(teamID)
     end)
 
-    -- TODO: do we want to maintain sync between script name, and team name?
-    --Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED' function(self, teamID) end)
+    -- Maintain sync between script name, and team name
+    Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED', function(self, teamID)
+        local team = Rematch.savedTeams[teamID]
+        local script = self:GetScript(teamID)
+
+        if team and script then
+            script:SetName(team.name)
+        end
+    end)
 
     -- TODO: what do we want to do when a team is overwritten? delete the script? keep it? migrate the old script to the new teamID?
     --Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, teamID, oldTeamID) end)
