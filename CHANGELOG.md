@@ -14,6 +14,10 @@
 - Add missing check that conditions with comparisons compare against numbers.
 - If the same ability is available multiple times, the instance with the shortest cooldown **and** lockdown is chosen now.
 
+### Other
+
+- Some localization strings have been adjusted and errors have been fixed. If you find translation issues, please report them.
+
 ## v1.8
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.
