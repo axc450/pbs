@@ -242,5 +242,5 @@ end)
 
 Addon:RegisterCondition('trap', { type = 'boolean', owner = 'not-allowed', pet = false, arg = false }, function()
     local usable, err = C_PetBattles.IsTrapAvailable()
-    return usable or (not usable and err == 4)
+    return usable or (not usable and err == 4) -- 4 = PETBATTLE_TRAPSTATUS_CANT_TRAP_TOO_MUCH_HEALTH
 end)
