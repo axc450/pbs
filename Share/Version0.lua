@@ -21,7 +21,7 @@ function Share:Import(code)
     if not Director:BuildScript(code) then
         return
     end
-    return true, {db = {code = code}, warning = ns.L.IMPORT_SCRIPT_WARNING}
+    return true, {db = {code = code}, warning = ns.L.SHARE_IMPORT_SCRIPT_NOT_IMPORT_STRING_WARNING}
 end
 
 function Share:Is()

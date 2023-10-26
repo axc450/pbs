@@ -80,7 +80,7 @@ function Addon:UpdateDatabase()
 
         C_Timer.After(0.9, function()
             GUI:Notify{
-                text = format('%s\n|cff00ffff%s: |cffffff00%s|r', ns.L.ADDON_NAME, ns.L['UPDATED'], newVersion),
+                text = format('%s\n|cff00ffff%s: |cffffff00%s|r', ns.L.ADDON_NAME, ns.L.DATABASE_UPDATED_TO, newVersion),
                 icon = ns.ICON,
                 help = ''
             }

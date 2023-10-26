@@ -10,7 +10,7 @@ local Addon = ns.Addon
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
 local teamMenu = {
-    text = L.WRITE_SCRIPT,
+    text = L.EDITOR_CREATE_SCRIPT,
     func = function(_, key, ...)
         Addon:OpenScriptEditor(key, Rematch:GetTeamTitle(key))
     end
@@ -39,7 +39,7 @@ local scriptButtons = setmetatable({}, {
             button:SetScript('OnEnter', function(button)
                 GameTooltip:SetOwner(button, 'ANCHOR_RIGHT')
                 GameTooltip:SetText(L.ADDON_NAME)
-                GameTooltip:AddLine(L.WRITE_SCRIPT, HIGHLIGHT_FONT_COLOR:GetRGB())
+                GameTooltip:AddLine(L.EDITOR_CREATE_SCRIPT, HIGHLIGHT_FONT_COLOR:GetRGB())
                 GameTooltip:Show()
             end)
             button:SetScript('OnLeave', GameTooltip_Hide)

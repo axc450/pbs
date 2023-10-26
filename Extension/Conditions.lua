@@ -69,8 +69,22 @@ Addon:RegisterCondition('hp.high', { type = 'boolean', pet = false, arg = false 
 end)
 
 
-Addon:RegisterCondition('hpp', { type = 'compare', arg = false }, function(owner, pet)
+local function hpp(owner, pet)
     return C_PetBattles.GetHealth(owner, pet) / logical_max_health(owner, pet) * 100
+end
+
+Addon:RegisterCondition('hpp', { type = 'compare', arg = false }, function(owner, pet)
+    return hpp(owner, pet)
+end)
+
+
+Addon:RegisterCondition('hp.diff', { type = 'compare', arg = false }, function(owner, pet)
+    return C_PetBattles.GetHealth(owner, pet) - C_PetBattles.GetHealth(getOpponentActivePet(owner))
+end)
+
+
+Addon:RegisterCondition('hpp.diff', { type = 'compare', arg = false }, function(owner, pet)
+    return hpp(owner, pet) - hpp(getOpponentActivePet(owner))
 end)
 
 
@@ -88,7 +102,7 @@ Addon:RegisterCondition('aura.duration', { type = 'compare' }, function(owner, p
 end)
 
 
-Addon:RegisterCondition('weather', { type = 'boolean', owner = false, pet = false }, function(_, _, weather)
+Addon:RegisterCondition('weather', { type = 'boolean', owner = 'not-allowed', pet = false }, function(_, _, weather)
     local id, name = 0, ''
     local aura = C_PetBattles.GetAuraInfo(Enum.BattlePetOwner.Weather, PET_BATTLE_PAD_INDEX, 1)
     if aura then
@@ -98,7 +112,7 @@ Addon:RegisterCondition('weather', { type = 'boolean', owner = false, pet = fals
 end)
 
 
-Addon:RegisterCondition('weather.duration', { type = 'compare', owner = false, pet = false }, function(_, _, weather)
+Addon:RegisterCondition('weather.duration', { type = 'compare', owner = 'not-allowed', pet = false }, function(_, _, weather)
     local id, _, duration = C_PetBattles.GetAuraInfo(Enum.BattlePetOwner.Weather, PET_BATTLE_PAD_INDEX, 1)
     if weather and id and (id == weather or select(2, C_PetBattles.GetAbilityInfoByID(id)) == weather) then
         return duration
@@ -120,7 +134,7 @@ end)
 
 Addon:RegisterCondition('ability.duration', { type = 'compare', argParse = Util.ParseAbility }, function(owner, pet, ability)
     local isUsable, currentCooldown, currentLockdown = C_PetBattles.GetAbilityState(owner, pet, ability)
-    return ability and currentCooldown or infinite
+    return ability and max(currentCooldown, currentLockdown) or infinite
 end)
 
 
@@ -141,7 +155,7 @@ Addon:RegisterCondition('ability.type', { type = 'equality', argParse = Util.Par
 end)
 
 
-Addon:RegisterCondition('round', { type = 'compare', pet = false, arg = false }, function(owner)
+Addon:RegisterCondition('round', { type = 'compare', owner='optional', pet = false, arg = false }, function(owner)
     if owner then
         return Round:GetRoundByOwner(owner)
     else
@@ -224,7 +238,7 @@ Addon:RegisterCondition('collected.max', { type = 'compare', arg = false }, func
     return species and select(2, C_PetJournal.GetNumCollectedInfo(species)) or 0
 end)
 
-Addon:RegisterCondition('trap', { type = 'boolean', owner = false , pet = false, arg = false }, function()
+Addon:RegisterCondition('trap', { type = 'boolean', owner = 'not-allowed', pet = false, arg = false }, function()
     local usable, err = C_PetBattles.IsTrapAvailable()
     return usable or (not usable and err == 4)
 end)

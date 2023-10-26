@@ -12,8 +12,8 @@ local FirstEnemy = Addon:NewPlugin('FirstEnemy')
 
 function FirstEnemy:OnInitialize()
     self:EnableWithAddon('Blizzard_PetBattleUI')
-    self:SetPluginTitle(L.PLUGINFIRSTENEMY_TITLE)
-    self:SetPluginNotes(L.PLUGINFIRSTENEMY_NOTES)
+    self:SetPluginTitle(L.SELECTOR_FIRSTENEMY_TITLE)
+    self:SetPluginNotes(L.SELECTOR_FIRSTENEMY_NOTES)
     self:SetPluginIcon([[Interface\ICONS\Ability_Hisek_Aim]])
 end
 
