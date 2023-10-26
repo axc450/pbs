@@ -11,6 +11,7 @@
 ### Fixes
 
 - The condition `ability.duration` now correctly also takes lockdowns (not cooldowns!) into account.
+- Allow a dynamic number of spaces between action and condition to allow both `do  (x)   [ yes ]` and  `do(x)[yes]`.
 - Add missing check that conditions with comparisons compare against numbers.
 - If the same ability is available multiple times, the instance with the shortest cooldown **and** lockdown is chosen now.
 
