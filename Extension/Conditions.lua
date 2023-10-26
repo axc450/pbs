@@ -54,9 +54,10 @@ Addon:RegisterCondition('hp.full', { type = 'boolean', arg = false }, function(o
 end)
 
 
-Addon:RegisterCondition('hp.can_explode', { type = 'boolean', arg = false }, function(owner, pet)
+Addon:RegisterCondition('hp.can_be_exploded', { type = 'boolean', arg = false }, function(owner, pet)
     return pet and C_PetBattles.GetHealth(owner, pet) <= floor(logical_max_health(getOpponentActivePet(owner)) * 0.4)
 end)
+Addon:RegisterCondition('hp.can_explode', ns.Condition.opts['hp.can_be_exploded'], ns.Condition.apis['hp.can_be_exploded'])
 
 
 Addon:RegisterCondition('hp.low', { type = 'boolean', pet = false, arg = false }, function(owner, pet)

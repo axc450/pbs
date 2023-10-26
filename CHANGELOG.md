@@ -3,6 +3,7 @@
 ### New features
 
 - Added condition `hp.diff` and `hpp.diff` allowing to compare own and enemy pet HP. `hp.diff = self.hp - enemy.hp` and `hpp.diff = self.hpp - enemy.hpp`. This can be used as condition for abilities that do more than one effect but use a condition after a subset of those effects (i.e. "does double damage if health difference is bigger than x after first damage effect").
+- An alias `hp.can_be_exploded` has been added which is equivalent to `hp.can_explode` but phrased less confusingly. Prefer this in new scripts for clarity.
 
 ### Breaking Changes
 
