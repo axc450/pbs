@@ -1,3 +1,9 @@
+## v1.9
+
+### Fixes
+
+- Allow a dynamic number of spaces between action and condition to allow both `do(x)   [ yes ]` and  `do(x)[yes]`.
+
 ## v1.8
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.
