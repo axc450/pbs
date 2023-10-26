@@ -103,7 +103,7 @@ Addon:RegisterCondition('aura.duration', { type = 'compare' }, function(owner, p
 end)
 
 
-Addon:RegisterCondition('weather', { type = 'boolean', owner = 'not-allowed', pet = false }, function(_, _, weather)
+Addon:RegisterCondition('weather.exists', { type = 'boolean', owner = 'not-allowed', pet = false }, function(_, _, weather)
     local id, name = 0, ''
     local aura = C_PetBattles.GetAuraInfo(Enum.BattlePetOwner.Weather, PET_BATTLE_PAD_INDEX, 1)
     if aura then
@@ -111,6 +111,7 @@ Addon:RegisterCondition('weather', { type = 'boolean', owner = 'not-allowed', pe
     end
     return weather and (id == weather or name == weather)
 end)
+Addon:RegisterCondition('weather', ns.Condition.opts['weather.exists'], ns.Condition.apis['weather.exists'])
 
 
 Addon:RegisterCondition('weather.duration', { type = 'compare', owner = 'not-allowed', pet = false }, function(_, _, weather)
