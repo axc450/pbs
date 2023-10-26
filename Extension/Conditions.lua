@@ -69,8 +69,22 @@ Addon:RegisterCondition('hp.high', { type = 'boolean', pet = false, arg = false 
 end)
 
 
-Addon:RegisterCondition('hpp', { type = 'compare', arg = false }, function(owner, pet)
+local function hpp(owner, pet)
     return C_PetBattles.GetHealth(owner, pet) / logical_max_health(owner, pet) * 100
+end
+
+Addon:RegisterCondition('hpp', { type = 'compare', arg = false }, function(owner, pet)
+    return hpp(owner, pet)
+end)
+
+
+Addon:RegisterCondition('hp.diff', { type = 'compare', arg = false }, function(owner, pet)
+    return C_PetBattles.GetHealth(owner, pet) - C_PetBattles.GetHealth(getOpponentActivePet(owner))
+end)
+
+
+Addon:RegisterCondition('hpp.diff', { type = 'compare', arg = false }, function(owner, pet)
+    return hpp(owner, pet) - hpp(getOpponentActivePet(owner))
 end)
 
 
