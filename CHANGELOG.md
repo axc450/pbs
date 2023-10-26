@@ -3,6 +3,7 @@
 ### Fixes
 
 - The condition `ability.duration` now correctly also takes lockdowns (not cooldowns!) into account.
+- If the same ability is available multiple times, the instance with the shortest cooldown **and** lockdown is chosen now.
 
 ## v1.8
 
