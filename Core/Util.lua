@@ -16,7 +16,7 @@ function Util.ComparePet(owner, index, pet)
 end
 
 function Util.ParseQuote(str)
-    local major, quote = str:match('^([^()]+)%((.+)%)$')
+    local major, quote = str:match('^([^()]-)%s*%((.+)%)$')
     if major then
         return major, Util.ParseID(quote) or quote
     end
