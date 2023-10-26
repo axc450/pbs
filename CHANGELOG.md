@@ -4,6 +4,16 @@
 
 - Added condition `hp.diff` and `hpp.diff` allowing to compare own and enemy pet HP. `hp.diff = self.hp - enemy.hp` and `hpp.diff = self.hpp - enemy.hpp`. This can be used as condition for abilities that do more than one effect but use a condition after a subset of those effects (i.e. "does double damage if health difference is bigger than x after first damage effect").
 
+### Breaking Changes
+
+- Conditions that require to specify a pet now correctly check that. `[ hp > 1 ]` was never valid and thus never true, but did not provoke an error to hint users to change it to `[ self.hp > 1 ]`. This change only breaks scripts that are currently silently broken already.
+
+### Fixes
+
+- The condition `ability.duration` now correctly also takes lockdowns (not cooldowns!) into account.
+- Add missing check that conditions with comparisons compare against numbers.
+- If the same ability is available multiple times, the instance with the shortest cooldown **and** lockdown is chosen now.
+
 ## v1.8
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.

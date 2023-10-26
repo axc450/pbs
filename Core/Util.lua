@@ -69,7 +69,8 @@ function Util.ParseAbility(owner, pet, ability)
         for i = 1, NUM_BATTLE_PET_ABILITIES do
             local id, name = C_PetBattles.GetAbilityInfo(owner, pet, i)
             if id == tonumber(ability) or name == ability then
-                local usable, duration = C_PetBattles.GetAbilityState(owner, pet, i)
+                local usable, currentCooldown, currentLockdown = C_PetBattles.GetAbilityState(owner, pet, i)
+                local duration = max(currentCooldown, currentLockdown)
                 if usable then
                     return i
                 end
@@ -140,4 +141,8 @@ end
 
 function Util.ParseQuality(value)
     return value and PET_QUALITIES[lower(value)] or nil
+end
+
+function Util.ParseIsNumber(value)
+    return tonumber(value)
 end
