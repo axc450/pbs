@@ -142,3 +142,7 @@ end
 function Util.ParseQuality(value)
     return value and PET_QUALITIES[lower(value)] or nil
 end
+
+function Util.ParseIsNumber(value)
+    return tonumber(value)
+end

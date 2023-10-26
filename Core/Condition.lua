@@ -12,10 +12,11 @@ local Condition = {} ns.Condition = Condition
 Condition.apis = {}
 Condition.opts = setmetatable({
     __default = {
-        owner = true,
+        owner = 'required',
         pet   = true,
         arg   = true,
         type  = 'compare',
+        valueParse = Util.ParseIsNumber,
     }
 }, {
     __newindex = function(t, k, v)
@@ -61,6 +62,12 @@ local parses = {
     'argParse',
 }
 
+local ownerOptions = {
+    ['required'] = true,
+    ['not-allowed'] = true,
+    ['optional'] = true,
+}
+
 local function trynumber(value)
     return tonumber(value) or value
 end
@@ -73,6 +80,10 @@ function Addon:RegisterCondition(name, opts, api)
     if opts then
         if opts.type and not opTabler[opts.type] then
             error([[Bad argument opts.type (expect compare/boolean/equality)]], 2)
+        end
+
+        if opts.owner and not ownerOptions[opts.owner] then
+            error([[Bad argument opts.owner (expect required/not-allowed/optional)]], 2)
         end
 
         for i, v in ipairs(parses) do
@@ -222,7 +233,11 @@ function Condition:ParseCondition(condition)
         end
     end
 
-    if not opts.owner then
+    if opts.owner == 'required' then
+        Util.assert(owner, 'Invalid Condition: `%s` (Needs owner)', condition)
+    end
+
+    if opts.owner == 'not-allowed' then
         Util.assert(not owner, 'Invalid Condition: `%s` (Not need owner)', condition)
     end
 

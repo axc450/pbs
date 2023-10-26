@@ -1,8 +1,13 @@
 ## v1.9
 
+### Breaking Changes
+
+- Conditions that require to specify a pet now correctly check that. `[ hp > 1 ]` was never valid and thus never true, but did not provoke an error to hint users to change it to `[ self.hp > 1 ]`. This change only breaks scripts that are currently silently broken already.
+
 ### Fixes
 
 - The condition `ability.duration` now correctly also takes lockdowns (not cooldowns!) into account.
+- Add missing check that conditions with comparisons compare against numbers.
 - If the same ability is available multiple times, the instance with the shortest cooldown **and** lockdown is chosen now.
 
 ## v1.8
