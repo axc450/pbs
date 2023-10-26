@@ -1,3 +1,9 @@
+## v1.9
+
+### Fixes
+
+- The condition `ability.duration` now correctly also takes lockdowns (not cooldowns!) into account.
+
 ## v1.8
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.
