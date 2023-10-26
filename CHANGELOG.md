@@ -1,3 +1,11 @@
+## v1.9
+
+### Breaking Changes
+- Conditions that require to specify a pet now correctly check that. `[ hp > 1 ]` was never valid and thus never true, but did not provoke an error to hint users to change it to `[ self.hp > 1 ]`. This change only breaks scripts that are currently silently broken already.
+
+### Fixes
+- Add missing check that conditions with comparisons compare against numbers.
+
 ## v1.8
 
 - Restored the full set of configuration options. They were removed when the tdPetBattleScript and tdPetBattleScript_Rematch addons were merged.
