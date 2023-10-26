@@ -120,7 +120,7 @@ end)
 
 Addon:RegisterCondition('ability.duration', { type = 'compare', argParse = Util.ParseAbility }, function(owner, pet, ability)
     local isUsable, currentCooldown, currentLockdown = C_PetBattles.GetAbilityState(owner, pet, ability)
-    return ability and currentCooldown or infinite
+    return ability and max(currentCooldown, currentLockdown) or infinite
 end)
 
 
