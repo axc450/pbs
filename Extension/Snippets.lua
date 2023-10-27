@@ -76,7 +76,12 @@ do
             end
 
             local opts = Condition.opts[v]
-            if not opts.owner ~= not owner and v ~= 'round' then
+
+            local requiresOwner = opts.owner == 'required'
+            local forbidsOwner = opts.owner == 'not-allowed'
+            local hasOwner = not not owner
+
+            if (requiresOwner and not hasOwner) or (forbidsOwner and hasOwner) then
                 return false
             end
             if opts.pet and not pet then

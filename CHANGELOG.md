@@ -3,6 +3,8 @@
 ### New features
 
 - Added condition `hp.diff` and `hpp.diff` allowing to compare own and enemy pet HP. `hp.diff = self.hp - enemy.hp` and `hpp.diff = self.hpp - enemy.hpp`. This can be used as condition for abilities that do more than one effect but use a condition after a subset of those effects (i.e. "does double damage if health difference is bigger than x after first damage effect").
+- An alias `hp.can_be_exploded` has been added which is equivalent to `hp.can_explode` but phrased less confusingly. Prefer this in new scripts for clarity.
+- An alias `weather(x).exists` has been added which is equivalent to `weather(x)` but more verbose.
 
 ### Breaking Changes
 
@@ -13,6 +15,7 @@
 - The condition `ability.duration` now correctly also takes lockdowns (not cooldowns!) into account.
 - Allow a dynamic number of spaces between action and condition to allow both `do  (x)   [ yes ]` and  `do(x)[yes]`.
 - Add missing check that conditions with comparisons compare against numbers.
+- Script editor auto completion now correctly offers `weather`, `weather.duration` and `trap` and no longer offers the wrong `self.weather`.
 - If the same ability is available multiple times, the instance with the shortest cooldown **and** lockdown is chosen now.
 
 ### Other
