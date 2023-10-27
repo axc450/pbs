@@ -12,8 +12,8 @@ ns.Addon   = Addon
 
 function Addon:OnInitialize()
     self:EnableWithAddon('Rematch')
-    self:SetPluginTitle(L.TITLE)
-    self:SetPluginNotes(L.NOTES)
+    self:SetPluginTitle(L.SELECTOR_REMATCH_TITLE)
+    self:SetPluginNotes(L.SELECTOR_REMATCH_NOTES)
     self:SetPluginIcon([[Interface\Icons\Icon_petfamily_dragon]])
 end
 
@@ -36,10 +36,9 @@ end
 function Addon:OnTooltipFormatting(tip, key)
     local saved = Rematch.savedTeams[key]
     if not saved then
-        tip:AddLine(L.NO_TEAM_FOR_SCRIPT, RED_FONT_COLOR:GetRGB())
+        tip:AddLine(L.SELECTOR_REMATCH_NO_TEAM_FOR_SCRIPT, RED_FONT_COLOR:GetRGB())
     else
-        tip:AddLine(L['TEAM'] .. saved.name, GREEN_FONT_COLOR:GetRGB())
-        tip:AddLine(' ')
+        tip:AddLine(format(L.SELECTOR_REMATCH_TEAM_FORMAT, saved.name), GREEN_FONT_COLOR:GetRGB())
 
         for i=1,3 do
             local petID = saved.pets[i]

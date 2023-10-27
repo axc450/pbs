@@ -12,8 +12,8 @@ local AllInOne = Addon:NewPlugin('AllInOne')
 
 function AllInOne:OnInitialize(args)
     self:EnableWithAddon('Blizzard_PetBattleUI')
-    self:SetPluginTitle(L.PLUGINALLINONE_TITLE)
-    self:SetPluginNotes(L.PLUGINALLINONE_NOTES)
+    self:SetPluginTitle(L.SELECTOR_ALLINONE_TITLE)
+    self:SetPluginNotes(L.SELECTOR_ALLINONE_NOTES)
     self:SetPluginIcon([[Interface\ICONS\ABILITY_SEAL]])
 end
 
@@ -26,7 +26,7 @@ function AllInOne:IterateKeys()
 end
 
 function AllInOne:GetTitleByKey(key)
-    return L.PLUGINALLINONE_TITLE
+    return L.SELECTOR_ALLINONE_TITLE
 end
 
 function AllInOne:OnTooltipFormatting(tip, key)

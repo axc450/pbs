@@ -38,7 +38,7 @@ function Director:Test(item)
     elseif type(item) == 'string' then
         if Action:Test(item) then
             GUI:Notify {
-                        text = format('%s\n|cff00ffff%s: |cffffff00%s|r', L.ADDON_NAME, L.NEXT_ACTION, item or "-"),
+                        text = format('%s\n|cff00ffff%s: |cffffff00%s|r', L.ADDON_NAME, L.DIRECTOR_TEST_NEXT_ACTION, item or "-"),
                         icon = ns.ICON,
                         help = ''
             }
@@ -149,7 +149,7 @@ function Director:BuildScript(code)
                 if line:find('^%-%-') then
                     action = line
                 elseif line:find('[', nil, true) then
-                    action, condition = line:match('^/?(.+)%s+%[(.+)%]$')
+                    action, condition = line:match('^/?([^%[]-)%s*%[([^%]]+)%]$')
                 else
                     action = line:match('^/?(.+)$')
                 end

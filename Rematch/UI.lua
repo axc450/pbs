@@ -10,7 +10,7 @@ local Addon = ns.Addon
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
 local scriptMenu = {
-    text = L.WRITE_SCRIPT,
+    text = L.EDITOR_CREATE_SCRIPT,
     func = function(_, key, ...)
         Addon:OpenScriptEditor(key, Addon:GetTitleByKey(key))
     end
