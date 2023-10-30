@@ -62,7 +62,7 @@ function RematchPlugin:SetupUI()
     end)
 
     -- Button to indicate a script exists
-    local version = ns.Version:Current()
+    local version = ns.Version:Current('Rematch')
     if version >= ns.Version:New(4, 8, 10, 5) then
         self:SecureHook(RematchTeamPanel.List, 'callback', function(button, key)
             local script = scriptButtons[button]

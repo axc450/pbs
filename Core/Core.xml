@@ -13,4 +13,5 @@
     <Script file="Director.lua" />
     <Script file="Script.lua" />
     <Script file="Share.lua" />
+    <Script file="Version.lua" />
 </Ui>
