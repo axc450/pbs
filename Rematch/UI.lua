@@ -14,7 +14,7 @@ local scriptMenuItem = {
         return RematchPlugin:GetScript(key) and L.EDITOR_EDIT_SCRIPT or L.EDITOR_CREATE_SCRIPT
     end,
     func = function(_, key, ...)
-        RematchPlugin:OpenScriptEditor(key, Rematch:GetTeamTitle(key))
+        RematchPlugin:OpenScriptEditor(key, RematchPlugin:GetTitleByKey(key))
     end
 }
 
