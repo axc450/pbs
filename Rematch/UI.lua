@@ -189,6 +189,8 @@ function RematchPlugin:SetupUI()
             UpdateUIPanelPositions()
         end)
     end
+
+    updateFrames()
 end
 
 function RematchPlugin:TeardownUI()
