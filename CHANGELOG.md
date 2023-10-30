@@ -1,5 +1,13 @@
 ## v1.9
 
+### Compatibility with Rematch 5
+
+Together with patch 10.2 Gello releases Rematch 5, which is a major change both under the hood and in the user interface. To properly integrate again we had to make changes to this addon as well. To allow for users updating with a delay, this addon is compatible with Rematch 4 and Rematch 5 at the same time.
+
+Rematch offers `/rematch reset everything` in case anything goes wrong in the update process, which this addon hooks to also save your matching scripts and tries to restore them in a reset case as well. Hopefully, there is no reason to use it though.
+
+One small change you will encounter is that the "script button" in the team list is now non-interactive: It only shows whether there is a script or not, but you can't click it anymore to edit the script. The option to create and edit the script from the right click menu is still there, of course.
+
 ### New features
 
 - Added condition `hp.diff` and `hpp.diff` allowing to compare own and enemy pet HP. `hp.diff = self.hp - enemy.hp` and `hpp.diff = self.hpp - enemy.hpp`. This can be used as condition for abilities that do more than one effect but use a condition after a subset of those effects (i.e. "does double damage if health difference is bigger than x after first damage effect").
@@ -9,6 +17,7 @@
 ### Breaking Changes
 
 - Conditions that require to specify a pet now correctly check that. `[ hp > 1 ]` was never valid and thus never true, but did not provoke an error to hint users to change it to `[ self.hp > 1 ]`. This change only breaks scripts that are currently silently broken already.
+- Plugins that use extra data in import/export strings are now forced to import the data without user choice. The plugin API has changed from `Plugin:OnImport(extra)` to `Plugin:OnImport(script, extra)` to allow for mapping between script and extra data.
 
 ### Fixes
 

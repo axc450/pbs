@@ -24,12 +24,23 @@ end
 function RematchPlugin:OnEnable()
     local rematchVersion = ns.Version:Current('Rematch')
 
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        self.savedRematchTeams = Rematch.savedTeams
+    else
         self.savedRematchTeams = RematchSaved
     end
 
     -- Team is deleted
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        Rematch.events:Register(self, 'REMATCH_TEAM_DELETED', function(self, teamID)
+            self:RemoveScript(teamID)
+        end)
+        Rematch.events:Register(self, 'REMATCH_TEAMS_WIPED', function(self)
+            for key, script in ipairs(IterateScripts()) do
+                self:RemoveScript(key)
+            end
+        end)
+    else
         local function FindMenuItem(menu, text)
             for i, v in ipairs(menu) do
                 if v.text == text then
@@ -50,7 +61,31 @@ function RematchPlugin:OnEnable()
     end
 
     -- Maintain sync between script name, and team name
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        local function overwriteName(self, teamID)
+            local team = Rematch.savedTeams[teamID]
+            local script = self:GetScript(teamID)
+
+            if team and script then
+                script:SetName(team.name)
+            end
+        end
+
+        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, newTeamID, oldTeamID)
+            if not oldTeamID or
+               not newTeamID or
+               oldTeamID == newTeamID or
+               not self:GetScript(oldTeamID)then
+                return
+            end
+
+            self:MoveScript(oldTeamID, newTeamID)
+
+            overwriteName(self, teamID)
+        end)
+
+        Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED', overwriteName)
+    else
         local function rename(old, new)
             if not old then
                 return
@@ -63,8 +98,7 @@ function RematchPlugin:OnEnable()
                 return
             end
 
-            self:RemoveScript(old)
-            self:AddScript(new, script)
+            self:MoveScript(old, new)
         end
 
         local function errorhandler(err)
@@ -92,6 +126,33 @@ function RematchPlugin:OnEnable()
         end)
     end
 
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        Rematch.events:Register(self, 'REMATCH_TEAM_CREATED', function(self, teamID)
+            self:OnImportContinuation(teamID)
+        end)
+    else
+        -- TODO: Should be done in Rematch4 as well, but apparently nobody noticed for years,
+        -- so probably not worth bothering.
+    end
+
+    -- Database script conversion. Also hook `/rematch reset everything` to allow for it to be
+    -- used if update was in wrong order. There is no other way too hook this (implementation
+    -- directly in handler).
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        local convertedTeams, _ = Rematch.convert:GetConvertedTeams()
+        if next(convertedTeams) ~= nil then
+            self:UpdateDBRematch4To5(convertedTeams)
+        else
+            Rematch.events:Register(self, 'REMATCH_TEAMS_CONVERTED', self.UpdateDBRematch4To5)
+        end
+
+        self:Hook(Rematch.dialog, 'Register', function(_, name, info)
+            if name == 'ResetEverything' then
+                self:Hook(info, 'acceptFunc', self.ResetEverything)
+            end
+        end)
+    end
+
     -- UI
     self:SetupUI()
 end
@@ -103,13 +164,24 @@ function RematchPlugin:OnDisable()
 
     self:UnhookAll()
 
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        Rematch.events:Unregister(self, 'REMATCH_TEAMS_CONVERTED')
+        Rematch.events:Unregister(self, 'REMATCH_TEAM_OVERWRITTEN')
+        Rematch.events:Unregister(self, 'REMATCH_TEAM_UPDATED')
+        Rematch.events:Unregister(self, 'REMATCH_TEAMS_WIPED')
+        Rematch.events:Unregister(self, 'REMATCH_TEAM_DELETED')
+        Rematch.events:Unregister(self, 'REMATCH_TEAM_CREATED')
+    end
+
     self.savedRematchTeams = nil
 end
 
 function RematchPlugin:GetCurrentKey()
     local rematchVersion = ns.Version:Current('Rematch')
 
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        return Rematch.settings.currentTeamID
+    else
         return RematchSettings.loadedTeam
     end
 end
@@ -131,7 +203,9 @@ end
 function RematchPlugin:GetTitleByKey(key)
     local rematchVersion = ns.Version:Current('Rematch')
 
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        return Rematch.savedTeams[key].name
+    else
         return Rematch:GetTeamTitle(key)
     end
 end
@@ -146,7 +220,10 @@ function RematchPlugin:OnTooltipFormatting(tip, key)
 
     local GetTeamName
     local GetTeamPets
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        GetTeamName = function(key) return Rematch.savedTeams[key].name end
+        GetTeamPets = function(team, i) return team.pets[i] end
+    else
         GetTeamName = function(key) return Rematch:GetTeamTitle(key) end
         GetTeamPets = function(team, i) return team[i][1] end
     end
@@ -165,6 +242,17 @@ function RematchPlugin:OnTooltipFormatting(tip, key)
     end
 end
 
+function RematchPlugin:OnExportImpl(key)
+    local rematchVersion = ns.Version:Current('Rematch')
+
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        return Rematch.teamStrings:ExportTeam(key)
+    else
+        Rematch:SetSideline(key, self.savedRematchTeams[key])
+        return Rematch:ConvertSidelineToString()
+    end
+end
+
 function RematchPlugin:OnExport(key)
     local rematchVersion = ns.Version:Current('Rematch')
 
@@ -172,23 +260,81 @@ function RematchPlugin:OnExport(key)
         return
     end
 
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-        if self.savedRematchTeams[key] then
-            Rematch:SetSideline(key, self.savedRematchTeams[key])
-            return Rematch:ConvertSidelineToString()
-        end
+    if not self.savedRematchTeams[key] then
+        return
     end
+
+    return self:OnExportImpl(key)
 end
 
-function RematchPlugin:OnImport(data)
+local importTeamIdCounter = 0
+local importTeamIdMapping = {}
+
+function RematchPlugin:OnImport(script, extra)
     local rematchVersion = ns.Version:Current('Rematch')
 
     if not rematchVersion then
         return
     end
 
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        local temporaryTeamId = 'temporary-team-id-' .. importTeamIdCounter
+        importTeamIdCounter = importTeamIdCounter + 1
+        self:MoveScript(script:GetKey(), temporaryTeamId)
+        importTeamIdMapping[extra] = temporaryTeamId
+
+        Rematch.dialog:ShowDialog('ImportTeams')
+        Rematch.dialog.Canvas.MultiLineEditBox:SetText(extra)
+    else
         Rematch:ShowImportDialog()
-        RematchDialog.MultiLine.EditBox:SetText(data)
+        RematchDialog.MultiLine.EditBox:SetText(extra)
+    end
+end
+
+function RematchPlugin:OnImportContinuation(addedTeamID)
+    local extra = self:OnExportImpl(addedTeamID)
+    local temporaryTeamId = importTeamIdMapping[extra]
+
+    if not temporaryTeamId then
+        return
+    end
+
+    importTeamIdMapping[extra] = nil
+
+    self:MoveScript(temporaryTeamId, addedTeamID)
+end
+
+function RematchPlugin.ResetEverything()
+    local scriptsDB = PetBattleScripts.db.global.scripts
+
+    scriptsDB.Rematch = CopyTable(scriptsDB.Rematch4)
+    wipe(scriptsDB.Rematch4)
+end
+
+function RematchPlugin:UpdateDBRematch4To5(convertedTeams)
+    -- Backup old scripts.
+    local scriptsDB = PetBattleScripts.db.global.scripts
+    scriptsDB.Rematch4 = CopyTable(scriptsDB.Rematch)
+
+    -- First we need a cache list of all of our scripts, so we can modify our scripts
+    -- database without messing up the loops.
+    local scriptList = {}
+    for key, script in self:IterateScripts() do
+        scriptList[key] = script
+    end
+
+    -- Second we can migrate scripts.
+    for oldTeamID, script in pairs(scriptList) do
+        local newTeamID = convertedTeams[oldTeamID]
+        if newTeamID then
+            self:MoveScript(oldTeamID, newTeamID)
+        end
+    end
+
+    -- Warn about scripts that are not linked to anything.
+    for teamID, script in self:IterateScripts() do
+        if not self.savedRematchTeams[teamID] then
+            print(ns.L.ADDON_NAME, 'Found an orphaned script:', 'name:', script:GetName(), 'key:', teamID)
+        end
     end
 end

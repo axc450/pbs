@@ -50,13 +50,23 @@ function RematchPlugin:SetupUI()
     local rematchVersion = ns.Version:Current('Rematch')
 
     -- Add menu to edit script
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
+        Rematch.menus:AddToMenu('TeamMenu', scriptMenuItem, afterText)
+        Rematch.menus:AddToMenu('LoadedTeamMenu', scriptMenuItem, afterText)
+    else
         tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItem)
     end
 
     -- When a script is added/removed, refresh the teams list.
     local updateFrames
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        updateFrames = function()
+            if Rematch.frame:IsVisible() then
+                Rematch.frame:Update()
+            end
+        end
+    else
         updateFrames = function()
             if RematchLoadedTeamPanel:IsVisible() then
                 RematchLoadedTeamPanel:Update()
@@ -73,7 +83,12 @@ function RematchPlugin:SetupUI()
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', updateFrames)
 
     -- Button to indicate a script exists
-    if rematchVersion >= ns.Version:New(4, 8, 10, 5) then
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        -- TODO: restore tooltip/button once Rematch supports that again
+        Rematch.badges:RegisterBadge('teams', 'PetBattleScripts', scriptButtonIcon, nil, function(teamID)
+            return teamID and self:GetScript(teamID)
+        end)
+    elseif rematchVersion >= ns.Version:New(4, 8, 10, 5) then
         self:SecureHook(RematchTeamPanel.List, 'callback', function(button, key)
             local script = scriptButtons[button]
             if self:GetScript(key) then
@@ -196,8 +211,19 @@ end
 function RematchPlugin:TeardownUI()
     local rematchVersion = ns.Version:Current('Rematch')
 
-    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+    self:UnregisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
+
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        tDeleteItem(Rematch.menus:GetDefinition('TeamMenu'), scriptMenuItem)
+        tDeleteItem(Rematch.menus:GetDefinition('LoadedTeamMenu'), scriptMenuItem)
+
+        -- TODO: Currently can't unregister badges
+        -- Rematch.badges:RegisterBadge('teams', 'PetBattleScripts')
+    else
+        self:UnhookAll()
+
         tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItem)
+
         for _, frame in pairs(scriptButtons) do
             frame:ClearAllPoints()
             frame:Hide()

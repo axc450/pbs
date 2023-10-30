@@ -29,7 +29,7 @@ function PluginPrototype:OnExport(key)
     return
 end
 
-function PluginPrototype:OnImport(data)
+function PluginPrototype:OnImport(script, extra)
     return
 end
 
@@ -45,6 +45,10 @@ end
 
 function PluginPrototype:AddScript(key, script)
     return ScriptManager:AddScript(self, key, script)
+end
+
+function PluginPrototype:MoveScript(oldKey, newKey)
+    return ScriptManager:MoveScript(self, oldKey, newKey)
 end
 
 function PluginPrototype:IterateScripts()
