@@ -18,6 +18,8 @@ function RematchPlugin:OnInitialize()
 end
 
 function RematchPlugin:OnEnable()
+    self.savedRematchTeams = RematchSaved
+
     -- Team is deleted
     local function FindMenuItem(menu, text)
         for i, v in ipairs(menu) do
@@ -65,7 +67,7 @@ function RematchPlugin:OnEnable()
     self:RawHook(Rematch, 'SaveAsAccept', function(...)
         safecall(function()
             local team, key = Rematch:GetSideline()
-            if not RematchSaved[key] or not Rematch:SidelinePetsDifferentThan(key) then
+            if not self.savedRematchTeams[key] or not Rematch:SidelinePetsDifferentThan(key) then
                 rename(Rematch:GetSidelineContext('originalKey'), key)
             end
         end)
@@ -92,7 +94,7 @@ end
 
 function RematchPlugin:IterateKeys()
     return coroutine.wrap(function()
-        for key in pairs(RematchSaved) do
+        for key in pairs(self.savedRematchTeams) do
             coroutine.yield(key)
         end
     end)
@@ -103,14 +105,19 @@ function RematchPlugin:GetTitleByKey(key)
 end
 
 function RematchPlugin:OnTooltipFormatting(tip, key)
-    local saved = RematchSaved[key]
+    local GetTeamName
+    local GetTeamPets
+    GetTeamName = function(key) return Rematch:GetTeamTitle(key) end
+    GetTeamPets = function(team, i) return team[i][1] end
+
+    local saved = self.savedRematchTeams[key]
     if not saved then
         tip:AddLine(L.SELECTOR_REMATCH_NO_TEAM_FOR_SCRIPT, RED_FONT_COLOR:GetRGB())
     else
-        tip:AddLine(format(L.SELECTOR_REMATCH_TEAM_FORMAT, Rematch:GetTeamTitle(key)), GREEN_FONT_COLOR:GetRGB())
+        tip:AddLine(format(L.SELECTOR_REMATCH_TEAM_FORMAT, GetTeamName(key)), GREEN_FONT_COLOR:GetRGB())
 
         for i=1,3 do
-            local petID = saved[i][1]
+            local petID = GetTeamPets(saved, i)
             local petInfo = Rematch.petInfo:Fetch(petID)
             tip:AddLine(format([[|T%s:20|t %s]],petInfo.icon,petInfo.name))
         end
@@ -118,8 +125,8 @@ function RematchPlugin:OnTooltipFormatting(tip, key)
 end
 
 function RematchPlugin:OnExport(key)
-    if RematchSaved[key] then
-        Rematch:SetSideline(key, RematchSaved[key])
+    if self.savedRematchTeams[key] then
+        Rematch:SetSideline(key, self.savedRematchTeams[key])
         return Rematch:ConvertSidelineToString()
     end
 end

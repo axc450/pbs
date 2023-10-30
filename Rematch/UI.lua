@@ -48,7 +48,8 @@ function RematchPlugin:SetupUI()
     tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItem)
 
     -- When a script is added/removed, refresh the teams list.
-    self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', function()
+    local updateFrames
+    updateFrames = function()
         if RematchLoadedTeamPanel:IsVisible() then
             RematchLoadedTeamPanel:Update()
         end
@@ -59,11 +60,12 @@ function RematchPlugin:SetupUI()
                 RematchTeamPanel.List:Update()
             end
         end
-    end)
+    end
+    self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', updateFrames)
 
     -- Button to indicate a script exists
-    local version = ns.Version:Current('Rematch')
-    if version >= ns.Version:New(4, 8, 10, 5) then
+    local rematchVersion = ns.Version:Current('Rematch')
+    if rematchVersion >= ns.Version:New(4, 8, 10, 5) then
         self:SecureHook(RematchTeamPanel.List, 'callback', function(button, key)
             local script = scriptButtons[button]
             if self:GetScript(key) then
