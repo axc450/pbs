@@ -18,6 +18,7 @@ local scriptMenuItem = {
     end
 }
 
+-- Rematch4 only
 local scriptButtons = setmetatable({}, {
     __index = function(t, parent)
         local button = CreateFrame('Button', nil, parent, 'RematchFootnoteButtonTemplate') do
@@ -44,11 +45,16 @@ local scriptButtons = setmetatable({}, {
 })
 
 function RematchPlugin:SetupUI()
+    local rematchVersion = ns.Version:Current('Rematch')
+
     -- Add menu to edit script
+if rematchVersion < ns.Version:New(5, 0, 0, 0) then
     tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItem)
+end
 
     -- When a script is added/removed, refresh the teams list.
     local updateFrames
+if rematchVersion < ns.Version:New(5, 0, 0, 0) then
     updateFrames = function()
         if RematchLoadedTeamPanel:IsVisible() then
             RematchLoadedTeamPanel:Update()
@@ -61,10 +67,10 @@ function RematchPlugin:SetupUI()
             end
         end
     end
+end
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', updateFrames)
 
     -- Button to indicate a script exists
-    local rematchVersion = ns.Version:Current('Rematch')
     if rematchVersion >= ns.Version:New(4, 8, 10, 5) then
         self:SecureHook(RematchTeamPanel.List, 'callback', function(button, key)
             local script = scriptButtons[button]
@@ -131,6 +137,7 @@ function RematchPlugin:SetupUI()
         end)
     end
 
+if rematchVersion < ns.Version:New(5, 0, 0, 0) then
     local function move(button, add)
         if not button:IsShown() then
             return 0
@@ -168,7 +175,9 @@ function RematchPlugin:SetupUI()
             script:Hide()
         end
     end)
+end
 
+if rematchVersion < ns.Version:New(5, 0, 0, 0) then
     self:HookScript(RematchJournal, 'OnShow', function(self)
         CollectionsJournal:SetAttribute('UIPanelLayout-width', 870)
         UpdateUIPanelPositions()
@@ -178,7 +187,12 @@ function RematchPlugin:SetupUI()
         UpdateUIPanelPositions()
     end)
 end
+end
 
 function RematchPlugin:TeardownUI()
+    local rematchVersion = ns.Version:Current('Rematch')
+
+if rematchVersion < ns.Version:New(5, 0, 0, 0) then
     tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItem)
+end
 end
