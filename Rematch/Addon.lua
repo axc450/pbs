@@ -109,11 +109,11 @@ function RematchPlugin:OnTooltipFormatting(tip, key)
     else
         tip:AddLine(format(L.SELECTOR_REMATCH_TEAM_FORMAT, Rematch:GetTeamTitle(key)), GREEN_FONT_COLOR:GetRGB())
 
-		for i=1,3 do
-			local petID = saved[i][1]
-			local petInfo = Rematch.petInfo:Fetch(petID)
-			tip:AddLine(format([[|T%s:20|t %s]],petInfo.icon,petInfo.name))
-		end
+        for i=1,3 do
+            local petID = saved[i][1]
+            local petInfo = Rematch.petInfo:Fetch(petID)
+            tip:AddLine(format([[|T%s:20|t %s]],petInfo.icon,petInfo.name))
+        end
     end
 end
 
