@@ -10,7 +10,9 @@ local RematchPlugin = ns.RematchPlugin
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
 local scriptMenuItem = {
-    text = L.EDITOR_CREATE_SCRIPT,
+    text = function(_, key, ...)
+        return RematchPlugin:GetScript(key) and L.EDITOR_EDIT_SCRIPT or L.EDITOR_CREATE_SCRIPT
+    end,
     func = function(_, key, ...)
         RematchPlugin:OpenScriptEditor(key, Rematch:GetTeamTitle(key))
     end
