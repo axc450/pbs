@@ -14,7 +14,7 @@ function Addon:OnInitialize()
     self:EnableWithAddon('Rematch')
     self:SetPluginTitle(L.SELECTOR_REMATCH_TITLE)
     self:SetPluginNotes(L.SELECTOR_REMATCH_NOTES)
-    self:SetPluginIcon([[Interface\Icons\Icon_petfamily_dragon]])
+    self:SetPluginIcon([[Interface\AddOns\Rematch\Textures\icon]])
 end
 
 function Addon:GetCurrentKey()
