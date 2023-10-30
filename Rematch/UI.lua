@@ -16,14 +16,6 @@ local teamMenu = {
     end
 }
 
-local function errorhandler(err)
-    return geterrorhandler()(err)
-end
-
-local function safecall(func, ...)
-    return xpcall(func, errorhandler, ...)
-end
-
 local scriptButtons = setmetatable({}, {
     __index = function(t, parent)
         local button = CreateFrame('Button', nil, parent, 'RematchFootnoteButtonTemplate') do
@@ -49,60 +41,11 @@ local scriptButtons = setmetatable({}, {
     end
 })
 
-function RematchPlugin:OnEnable()
-    local menu = Rematch:GetMenu('TeamMenu')
-    local deleteItem = self:FindMenuItem(menu, DELETE)
+function RematchPlugin:SetupUI()
+    -- Add menu to edit script
+    tinsert(Rematch:GetMenu('TeamMenu'), 6, teamMenu)
 
-    tinsert(menu, 6, teamMenu)
-
-    -- team delete
-
-    self:RawHook(deleteItem, 'func', function(obj, key, ...)
-        self.hooks[deleteItem].func(obj, key, ...)
-
-        local origAccept = RematchDialog.acceptFunc
-        RematchDialog.acceptFunc = function(...)
-            self:RemoveScript(key)
-            return origAccept(...)
-        end
-    end, true)
-
-    -- team rename
-
-    local function rename(old, new)
-        if not old then
-            return
-        end
-        if old == new then
-            return
-        end
-        local script = self:GetScript(old)
-        if not script then
-            return
-        end
-
-        self:RemoveScript(old)
-        self:AddScript(new, script)
-    end
-
-    self:RawHook(Rematch, 'SaveAsAccept', function(...)
-        safecall(function()
-            local team, key = Rematch:GetSideline()
-            if not RematchSaved[key] or not Rematch:SidelinePetsDifferentThan(key) then
-                rename(Rematch:GetSidelineContext('originalKey'), key)
-            end
-        end)
-        return self.hooks[Rematch].SaveAsAccept(...)
-    end, true)
-
-    self:SecureHook(Rematch, 'OverwriteAccept', function()
-        safecall(function()
-            rename(Rematch:GetSidelineContext('originalKey'), select(2, Rematch:GetSideline()))
-        end)
-    end)
-
-    -- team update
-
+    -- When a script is added/removed, refresh the teams list.
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', function()
         if RematchLoadedTeamPanel:IsVisible() then
             RematchLoadedTeamPanel:Update()
@@ -116,10 +59,9 @@ function RematchPlugin:OnEnable()
         end
     end)
 
+    -- Button to indicate a script exists
     local version = ns.Version:Current()
-
     if version >= ns.Version:New(4, 8, 10, 5) then
-
         self:SecureHook(RematchTeamPanel.List, 'callback', function(button, key)
             local script = scriptButtons[button]
             if self:GetScript(key) then
@@ -142,7 +84,6 @@ function RematchPlugin:OnEnable()
                 script:Hide()
             end
         end)
-
     else
         self:SecureHook(RematchTeamPanel, 'FillTeamButton', function(_, button, key)
             local script = scriptButtons[button]
@@ -234,26 +175,6 @@ function RematchPlugin:OnEnable()
     end)
 end
 
-function RematchPlugin:OnDisable()
+function RematchPlugin:TeardownUI()
     tDeleteItem(Rematch:GetMenu('TeamMenu'), teamMenu)
-end
-
-function RematchPlugin:FindMenuItem(menu, text)
-    for i, v in ipairs(menu) do
-        if v.text == text then
-            return v
-        end
-    end
-end
-
-function RematchPlugin:OnExport(key)
-    if RematchSaved[key] then
-        Rematch:SetSideline(key, RematchSaved[key])
-        return Rematch:ConvertSidelineToString()
-    end
-end
-
-function RematchPlugin:OnImport(data)
-    Rematch:ShowImportDialog()
-    RematchDialog.MultiLine.EditBox:SetText(data)
 end
