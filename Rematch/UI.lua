@@ -6,13 +6,13 @@ UI.lua
 
 local ns = select(2, ...)
 
-local Addon = ns.Addon
+local RematchPlugin = ns.RematchPlugin
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
 local teamMenu = {
     text = L.EDITOR_CREATE_SCRIPT,
     func = function(_, key, ...)
-        Addon:OpenScriptEditor(key, Rematch:GetTeamTitle(key))
+        RematchPlugin:OpenScriptEditor(key, Rematch:GetTeamTitle(key))
     end
 }
 
@@ -34,7 +34,7 @@ local scriptButtons = setmetatable({}, {
             button:SetNormalTexture("Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon")
             button:SetPushedTexture("Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon")
             button:SetScript('OnClick', function(button)
-                Addon:OpenScriptEditor(button.key, Rematch:GetTeamTitle(button.key))
+                RematchPlugin:OpenScriptEditor(button.key, Rematch:GetTeamTitle(button.key))
             end)
             button:SetScript('OnEnter', function(button)
                 GameTooltip:SetOwner(button, 'ANCHOR_RIGHT')
@@ -49,7 +49,7 @@ local scriptButtons = setmetatable({}, {
     end
 })
 
-function Addon:OnEnable()
+function RematchPlugin:OnEnable()
     local menu = Rematch:GetMenu('TeamMenu')
     local deleteItem = self:FindMenuItem(menu, DELETE)
 
@@ -234,11 +234,11 @@ function Addon:OnEnable()
     end)
 end
 
-function Addon:OnDisable()
+function RematchPlugin:OnDisable()
     tDeleteItem(Rematch:GetMenu('TeamMenu'), teamMenu)
 end
 
-function Addon:FindMenuItem(menu, text)
+function RematchPlugin:FindMenuItem(menu, text)
     for i, v in ipairs(menu) do
         if v.text == text then
             return v
@@ -246,14 +246,14 @@ function Addon:FindMenuItem(menu, text)
     end
 end
 
-function Addon:OnExport(key)
+function RematchPlugin:OnExport(key)
     if RematchSaved[key] then
         Rematch:SetSideline(key, RematchSaved[key])
         return Rematch:ConvertSidelineToString()
     end
 end
 
-function Addon:OnImport(data)
+function RematchPlugin:OnImport(data)
     Rematch:ShowImportDialog()
     RematchDialog.MultiLine.EditBox:SetText(data)
 end
