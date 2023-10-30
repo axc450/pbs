@@ -9,7 +9,7 @@ local ns = select(2, ...)
 local RematchPlugin = ns.RematchPlugin
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
-local teamMenu = {
+local scriptMenuItem = {
     text = L.EDITOR_CREATE_SCRIPT,
     func = function(_, key, ...)
         RematchPlugin:OpenScriptEditor(key, Rematch:GetTeamTitle(key))
@@ -43,7 +43,7 @@ local scriptButtons = setmetatable({}, {
 
 function RematchPlugin:SetupUI()
     -- Add menu to edit script
-    tinsert(Rematch:GetMenu('TeamMenu'), 6, teamMenu)
+    tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItem)
 
     -- When a script is added/removed, refresh the teams list.
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', function()
@@ -176,5 +176,5 @@ function RematchPlugin:SetupUI()
 end
 
 function RematchPlugin:TeardownUI()
-    tDeleteItem(Rematch:GetMenu('TeamMenu'), teamMenu)
+    tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItem)
 end
