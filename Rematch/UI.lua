@@ -22,7 +22,8 @@ local scriptButtonIcon = 'Interface/AddOns/tdBattlePetScript/Rematch/Textures/Sc
 -- Rematch4 only
 local scriptButtons = setmetatable({}, {
     __index = function(t, parent)
-        local button = CreateFrame('Button', nil, parent, 'RematchFootnoteButtonTemplate') do
+        local button = CreateFrame('Button', nil, parent, 'RematchFootnoteButtonTemplate')
+        do
             if parent.slim then
                 button:SetSize(18, 18)
             end
@@ -195,5 +196,19 @@ function RematchPlugin:TeardownUI()
 
     if rematchVersion < ns.Version:New(5, 0, 0, 0) then
         tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItem)
+        for _, frame in pairs(scriptButtons) do
+            frame:ClearAllPoints()
+            frame:Hide()
+        end
+        if RematchLoadedTeamPanel:IsVisible() then
+            RematchLoadedTeamPanel:Update()
+        end
+        if RematchTeamPanel:IsVisible() then
+            if RematchTeamPanel.UpdateList then
+                RematchTeamPanel:UpdateList()
+            elseif RematchTeamPanel.List then
+                RematchTeamPanel.List:Update()
+            end
+        end
     end
 end

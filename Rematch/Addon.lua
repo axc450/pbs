@@ -97,7 +97,13 @@ function RematchPlugin:OnEnable()
 end
 
 function RematchPlugin:OnDisable()
+    local rematchVersion = ns.Version:Current('Rematch')
+
     self:TeardownUI()
+
+    self:UnhookAll()
+
+    self.savedRematchTeams = nil
 end
 
 function RematchPlugin:GetCurrentKey()
