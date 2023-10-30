@@ -18,6 +18,7 @@ local scriptMenuItem = {
     end
 }
 
+local scriptButtonIcon = 'Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon'
 -- Rematch4 only
 local scriptButtons = setmetatable({}, {
     __index = function(t, parent)
@@ -26,8 +27,8 @@ local scriptButtons = setmetatable({}, {
                 button:SetSize(18, 18)
             end
             button:SetPoint('CENTER')
-            button:SetNormalTexture("Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon")
-            button:SetPushedTexture("Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon")
+            button:SetNormalTexture(scriptButtonIcon)
+            button:SetPushedTexture(scriptButtonIcon)
             button:SetScript('OnClick', function(button)
                 RematchPlugin:OpenScriptEditor(button.key, Rematch:GetTeamTitle(button.key))
             end)
