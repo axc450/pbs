@@ -15,6 +15,10 @@ ns.ICON  = [[Interface\Icons\Icon_petfamily_dragon]]
 
 _G.PetBattleScripts = Addon
 
+-- TODO: remove before merge, add to curseforge
+ns.L['SELECTOR_REMATCH_CANT_FORMAT_TOOLTIP_REMATCH_NOT_LOADED'] = "Can't show information: Rematch addon not loaded."
+ns.L['SHARE_IMPORT_PLUGIN_NOT_ENABLED'] = "Can't import: Plugin is not enabled."
+
 function Addon:OnInitialize()
     local defaults = {
         global = {

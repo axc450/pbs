@@ -18,6 +18,7 @@
 - Script editor auto completion now correctly offers `weather`, `weather.duration` and `trap` and no longer offers the wrong `self.weather`.
 - If the same ability is available multiple times, the instance with the shortest cooldown **and** lockdown is chosen now.
 - Correctly import scripts with spaces in their name.
+- No longer break when Rematch is not loaded and script browser or the share functionality is used.
 
 ### Other
 

@@ -494,6 +494,10 @@ function Import:UpdateData()
         return self:ShowWarning(L.SHARE_IMPORT_STRING_INCOMPLETE)
     end
 
+    if not plugin:IsEnabled() then
+        return self:ShowWarning(L.SHARE_IMPORT_PLUGIN_NOT_ENABLED)
+    end
+
     local script = Addon:GetClass('Script'):New(data.db, plugin, data.key)
     self:SetScript(script, data.extra)
     self.PageFrame:SetPage(3)

@@ -14,7 +14,11 @@ function RematchPlugin:OnInitialize()
     self:EnableWithAddon('Rematch')
     self:SetPluginTitle(L.SELECTOR_REMATCH_TITLE)
     self:SetPluginNotes(L.SELECTOR_REMATCH_NOTES)
-    self:SetPluginIcon([[Interface\AddOns\Rematch\Textures\icon]])
+
+    local rematchIcon = [[Interface\AddOns\Rematch\Textures\icon]]
+    local fallbackIcon = [[Interface\Icons\inv_misc_questionmark]]
+    local rematchExists = select(5, GetAddOnInfo('Rematch')) ~= 'MISSING'
+    self:SetPluginIcon(rematchExists and rematchIcon or fallbackIcon)
 end
 
 function RematchPlugin:OnEnable()
@@ -105,6 +109,12 @@ function RematchPlugin:GetCurrentKey()
 end
 
 function RematchPlugin:IterateKeys()
+    local rematchVersion = ns.Version:Current('Rematch')
+
+    if not rematchVersion then
+        return
+    end
+
     return coroutine.wrap(function()
         for key in pairs(self.savedRematchTeams) do
             coroutine.yield(key)
@@ -122,6 +132,11 @@ end
 
 function RematchPlugin:OnTooltipFormatting(tip, key)
     local rematchVersion = ns.Version:Current('Rematch')
+
+    if not rematchVersion then
+        tip:AddLine(L.SELECTOR_REMATCH_CANT_FORMAT_TOOLTIP_REMATCH_NOT_LOADED, RED_FONT_COLOR:GetRGB())
+        return
+    end
 
     local GetTeamName
     local GetTeamPets
@@ -147,6 +162,10 @@ end
 function RematchPlugin:OnExport(key)
     local rematchVersion = ns.Version:Current('Rematch')
 
+    if not rematchVersion then
+        return
+    end
+
     if rematchVersion < ns.Version:New(5, 0, 0, 0) then
         if self.savedRematchTeams[key] then
             Rematch:SetSideline(key, self.savedRematchTeams[key])
@@ -157,6 +176,10 @@ end
 
 function RematchPlugin:OnImport(data)
     local rematchVersion = ns.Version:Current('Rematch')
+
+    if not rematchVersion then
+        return
+    end
 
     if rematchVersion < ns.Version:New(5, 0, 0, 0) then
         Rematch:ShowImportDialog()

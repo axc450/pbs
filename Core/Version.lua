@@ -18,6 +18,10 @@ function Version:Constructor(major, minor, build, revision)
 end
 
 function Version:Current(addon)
+    if GetAddOnEnableState(nil, addon) == 0 then
+        -- Disabled addon is considered not loaded.
+        return
+    end
     local version = GetAddOnMetadata(addon, 'Version')
     if not version then
         return
