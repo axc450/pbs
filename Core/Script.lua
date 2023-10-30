@@ -25,6 +25,8 @@ end
 
 function Script:SetName(name)
     self.db.name = name
+    Addon:SendMessage('PET_BATTLE_SCRIPT_SCRIPT_UPDATE')
+    Addon:SendMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
 end
 
 function Script:GetCode()
@@ -39,6 +41,8 @@ function Script:SetCode(code)
 
     self.db.code = code
     self.script  = script
+    Addon:SendMessage('PET_BATTLE_SCRIPT_SCRIPT_UPDATE')
+    Addon:SendMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
     return true
 end
 
