@@ -20,73 +20,73 @@ end
 function RematchPlugin:OnEnable()
     local rematchVersion = ns.Version:Current('Rematch')
 
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    self.savedRematchTeams = RematchSaved
-end
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        self.savedRematchTeams = RematchSaved
+    end
 
     -- Team is deleted
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    local function FindMenuItem(menu, text)
-        for i, v in ipairs(menu) do
-            if v.text == text then
-                return v
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        local function FindMenuItem(menu, text)
+            for i, v in ipairs(menu) do
+                if v.text == text then
+                    return v
+                end
             end
         end
-    end
-    local deleteItem = FindMenuItem(Rematch:GetMenu('TeamMenu'), DELETE)
-    self:RawHook(deleteItem, 'func', function(obj, key, ...)
-        self.hooks[deleteItem].func(obj, key, ...)
+        local deleteItem = FindMenuItem(Rematch:GetMenu('TeamMenu'), DELETE)
+        self:RawHook(deleteItem, 'func', function(obj, key, ...)
+            self.hooks[deleteItem].func(obj, key, ...)
 
-        local origAccept = RematchDialog.acceptFunc
-        RematchDialog.acceptFunc = function(...)
-            self:RemoveScript(key)
-            return origAccept(...)
-        end
-    end, true)
-end
+            local origAccept = RematchDialog.acceptFunc
+            RematchDialog.acceptFunc = function(...)
+                self:RemoveScript(key)
+                return origAccept(...)
+            end
+        end, true)
+    end
 
     -- Maintain sync between script name, and team name
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    local function rename(old, new)
-        if not old then
-            return
-        end
-        if old == new then
-            return
-        end
-        local script = self:GetScript(old)
-        if not script then
-            return
-        end
-
-        self:RemoveScript(old)
-        self:AddScript(new, script)
-    end
-
-    local function errorhandler(err)
-        return geterrorhandler()(err)
-    end
-
-    local function safecall(func, ...)
-        return xpcall(func, errorhandler, ...)
-    end
-
-    self:RawHook(Rematch, 'SaveAsAccept', function(...)
-        safecall(function()
-            local team, key = Rematch:GetSideline()
-            if not self.savedRematchTeams[key] or not Rematch:SidelinePetsDifferentThan(key) then
-                rename(Rematch:GetSidelineContext('originalKey'), key)
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        local function rename(old, new)
+            if not old then
+                return
             end
-        end)
-        return self.hooks[Rematch].SaveAsAccept(...)
-    end, true)
+            if old == new then
+                return
+            end
+            local script = self:GetScript(old)
+            if not script then
+                return
+            end
 
-    self:SecureHook(Rematch, 'OverwriteAccept', function()
-        safecall(function()
-            rename(Rematch:GetSidelineContext('originalKey'), select(2, Rematch:GetSideline()))
+            self:RemoveScript(old)
+            self:AddScript(new, script)
+        end
+
+        local function errorhandler(err)
+            return geterrorhandler()(err)
+        end
+
+        local function safecall(func, ...)
+            return xpcall(func, errorhandler, ...)
+        end
+
+        self:RawHook(Rematch, 'SaveAsAccept', function(...)
+            safecall(function()
+                local team, key = Rematch:GetSideline()
+                if not self.savedRematchTeams[key] or not Rematch:SidelinePetsDifferentThan(key) then
+                    rename(Rematch:GetSidelineContext('originalKey'), key)
+                end
+            end)
+            return self.hooks[Rematch].SaveAsAccept(...)
+        end, true)
+
+        self:SecureHook(Rematch, 'OverwriteAccept', function()
+            safecall(function()
+                rename(Rematch:GetSidelineContext('originalKey'), select(2, Rematch:GetSideline()))
+            end)
         end)
-    end)
-end
+    end
 
     -- UI
     self:SetupUI()
@@ -99,9 +99,9 @@ end
 function RematchPlugin:GetCurrentKey()
     local rematchVersion = ns.Version:Current('Rematch')
 
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    return RematchSettings.loadedTeam
-end
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        return RematchSettings.loadedTeam
+    end
 end
 
 function RematchPlugin:IterateKeys()
@@ -115,9 +115,9 @@ end
 function RematchPlugin:GetTitleByKey(key)
     local rematchVersion = ns.Version:Current('Rematch')
 
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    return Rematch:GetTeamTitle(key)
-end
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        return Rematch:GetTeamTitle(key)
+    end
 end
 
 function RematchPlugin:OnTooltipFormatting(tip, key)
@@ -125,10 +125,10 @@ function RematchPlugin:OnTooltipFormatting(tip, key)
 
     local GetTeamName
     local GetTeamPets
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    GetTeamName = function(key) return Rematch:GetTeamTitle(key) end
-    GetTeamPets = function(team, i) return team[i][1] end
-end
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        GetTeamName = function(key) return Rematch:GetTeamTitle(key) end
+        GetTeamPets = function(team, i) return team[i][1] end
+    end
 
     local saved = self.savedRematchTeams[key]
     if not saved then
@@ -147,19 +147,19 @@ end
 function RematchPlugin:OnExport(key)
     local rematchVersion = ns.Version:Current('Rematch')
 
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    if self.savedRematchTeams[key] then
-        Rematch:SetSideline(key, self.savedRematchTeams[key])
-        return Rematch:ConvertSidelineToString()
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        if self.savedRematchTeams[key] then
+            Rematch:SetSideline(key, self.savedRematchTeams[key])
+            return Rematch:ConvertSidelineToString()
+        end
     end
-end
 end
 
 function RematchPlugin:OnImport(data)
     local rematchVersion = ns.Version:Current('Rematch')
 
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    Rematch:ShowImportDialog()
-    RematchDialog.MultiLine.EditBox:SetText(data)
-end
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        Rematch:ShowImportDialog()
+        RematchDialog.MultiLine.EditBox:SetText(data)
+    end
 end

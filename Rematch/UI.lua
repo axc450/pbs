@@ -48,26 +48,26 @@ function RematchPlugin:SetupUI()
     local rematchVersion = ns.Version:Current('Rematch')
 
     -- Add menu to edit script
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItem)
-end
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItem)
+    end
 
     -- When a script is added/removed, refresh the teams list.
     local updateFrames
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    updateFrames = function()
-        if RematchLoadedTeamPanel:IsVisible() then
-            RematchLoadedTeamPanel:Update()
-        end
-        if RematchTeamPanel:IsVisible() then
-            if RematchTeamPanel.UpdateList then
-                RematchTeamPanel:UpdateList()
-            elseif RematchTeamPanel.List then
-                RematchTeamPanel.List:Update()
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        updateFrames = function()
+            if RematchLoadedTeamPanel:IsVisible() then
+                RematchLoadedTeamPanel:Update()
+            end
+            if RematchTeamPanel:IsVisible() then
+                if RematchTeamPanel.UpdateList then
+                    RematchTeamPanel:UpdateList()
+                elseif RematchTeamPanel.List then
+                    RematchTeamPanel.List:Update()
+                end
             end
         end
     end
-end
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', updateFrames)
 
     -- Button to indicate a script exists
@@ -137,62 +137,62 @@ end
         end)
     end
 
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    local function move(button, add)
-        if not button:IsShown() then
-            return 0
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        local function move(button, add)
+            if not button:IsShown() then
+                return 0
+            end
+
+            local point, relative, relativePoint, x, y = button:GetPoint()
+            button:SetPoint(point, relative, relativePoint, x + 21, y)
+            return add
         end
 
-        local point, relative, relativePoint, x, y = button:GetPoint()
-        button:SetPoint(point, relative, relativePoint, x + 21, y)
-        return add
+        self:SecureHook(RematchLoadedTeamPanel, 'Update', function(panel)
+            local footnotes = panel.Footnotes
+            local script = scriptButtons[footnotes]
+
+            if self:GetScript(RematchSettings.loadedTeam) then
+                script.key = RematchSettings.loadedTeam
+                script:Show()
+                script:ClearAllPoints()
+                script:SetPoint('LEFT', 5, -0.5)
+
+                local fx = 5 + 21
+                fx = fx + move(footnotes.Preferences, 21)
+                fx = fx + move(footnotes.Notes, 21)
+                fx = fx + move(footnotes.WinRecord, footnotes.WinRecord:GetWidth())
+                fx = fx + move(footnotes.Maximize, 21)
+                fx = fx + move(footnotes.Close, 21)
+
+                local footnoteWidth = fx + 4
+                local panelWidth = panel.maxWidth or 280
+
+                footnotes:SetWidth(footnoteWidth)
+                footnotes:Show()
+                panel:SetWidth(panelWidth-footnoteWidth-3)
+            else
+                script:Hide()
+            end
+        end)
     end
 
-    self:SecureHook(RematchLoadedTeamPanel, 'Update', function(panel)
-        local footnotes = panel.Footnotes
-        local script = scriptButtons[footnotes]
-
-        if self:GetScript(RematchSettings.loadedTeam) then
-            script.key = RematchSettings.loadedTeam
-            script:Show()
-            script:ClearAllPoints()
-            script:SetPoint('LEFT', 5, -0.5)
-
-            local fx = 5 + 21
-            fx = fx + move(footnotes.Preferences, 21)
-            fx = fx + move(footnotes.Notes, 21)
-            fx = fx + move(footnotes.WinRecord, footnotes.WinRecord:GetWidth())
-            fx = fx + move(footnotes.Maximize, 21)
-            fx = fx + move(footnotes.Close, 21)
-
-            local footnoteWidth = fx + 4
-            local panelWidth = panel.maxWidth or 280
-
-            footnotes:SetWidth(footnoteWidth)
-            footnotes:Show()
-            panel:SetWidth(panelWidth-footnoteWidth-3)
-        else
-            script:Hide()
-        end
-    end)
-end
-
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    self:HookScript(RematchJournal, 'OnShow', function(self)
-        CollectionsJournal:SetAttribute('UIPanelLayout-width', 870)
-        UpdateUIPanelPositions()
-    end)
-    self:HookScript(RematchJournal, 'OnHide', function(self)
-        CollectionsJournal:SetAttribute('UIPanelLayout-width', 710)
-        UpdateUIPanelPositions()
-    end)
-end
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        self:HookScript(RematchJournal, 'OnShow', function(self)
+            CollectionsJournal:SetAttribute('UIPanelLayout-width', 870)
+            UpdateUIPanelPositions()
+        end)
+        self:HookScript(RematchJournal, 'OnHide', function(self)
+            CollectionsJournal:SetAttribute('UIPanelLayout-width', 710)
+            UpdateUIPanelPositions()
+        end)
+    end
 end
 
 function RematchPlugin:TeardownUI()
     local rematchVersion = ns.Version:Current('Rematch')
 
-if rematchVersion < ns.Version:New(5, 0, 0, 0) then
-    tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItem)
-end
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItem)
+    end
 end
