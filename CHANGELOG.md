@@ -17,6 +17,7 @@
 - Add missing check that conditions with comparisons compare against numbers.
 - Script editor auto completion now correctly offers `weather`, `weather.duration` and `trap` and no longer offers the wrong `self.weather`.
 - If the same ability is available multiple times, the instance with the shortest cooldown **and** lockdown is chosen now.
+- Correctly import scripts with spaces in their name.
 
 ### Other
 
