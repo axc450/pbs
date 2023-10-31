@@ -59,15 +59,15 @@ function RematchPlugin:SetupUI()
     end
 
     -- When a script is added/removed, refresh the teams list.
-    local updateFrames
+    self.updateFrames = nil
     if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
-        updateFrames = function()
+        self.updateFrames = function()
             if Rematch.frame:IsVisible() then
                 Rematch.frame:Update()
             end
         end
     else
-        updateFrames = function()
+        self.updateFrames = function()
             if RematchLoadedTeamPanel:IsVisible() then
                 RematchLoadedTeamPanel:Update()
             end
@@ -80,13 +80,14 @@ function RematchPlugin:SetupUI()
             end
         end
     end
-    self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', updateFrames)
+    self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', self.updateFrames)
 
     -- Button to indicate a script exists
     if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
         -- TODO: restore tooltip/button once Rematch supports that again
         Rematch.badges:RegisterBadge('teams', 'PetBattleScripts', scriptButtonIcon, nil, function(teamID)
-            return teamID and self:GetScript(teamID)
+            -- TODO: No need to `self:IsEnabled() and` if we properly remove on TeardownUI().
+            return self:IsEnabled() and teamID and self:GetScript(teamID)
         end)
     elseif rematchVersion >= ns.Version:New(4, 8, 10, 5) then
         self:SecureHook(RematchTeamPanel.List, 'callback', function(button, key)
@@ -205,7 +206,7 @@ function RematchPlugin:SetupUI()
         end)
     end
 
-    updateFrames()
+    self.updateFrames()
 end
 
 function RematchPlugin:TeardownUI()
@@ -238,5 +239,9 @@ function RematchPlugin:TeardownUI()
                 RematchTeamPanel.List:Update()
             end
         end
+    end
+
+    if self.updateFrames then
+        self.updateFrames()
     end
 end
