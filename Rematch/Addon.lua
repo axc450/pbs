@@ -7,6 +7,7 @@ Addon.lua
 local ns    = select(2, ...)
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 local RematchPlugin = PetBattleScripts:NewPlugin('Rematch', 'AceEvent-3.0', 'AceHook-3.0', 'LibClass-2.0')
+local GUI   = LibStub('tdGUI-1.0')
 
 ns.RematchPlugin   = RematchPlugin
 
@@ -320,6 +321,14 @@ function RematchPlugin:UpdateDBRematch4To5(convertedTeams)
     end
     scriptsDB.Rematch4 = CopyTable(scriptsDB.Rematch)
 
+    C_Timer.After(0.9, function()
+        GUI:Notify{
+            text = format('%s\n|cff00ffff%s|r', ns.L.ADDON_NAME, ns.L.SELECTOR_REMATCH_4_TO_5_UPDATE_NOTE),
+            icon = ns.ICON,
+            duration = -1,
+        }
+    end)
+
     -- First we need a cache list of all of our scripts, so we can modify our scripts
     -- database without messing up the loops.
     local scriptList = {}
@@ -340,7 +349,13 @@ function RematchPlugin:UpdateDBRematch4To5(convertedTeams)
     -- Warn about scripts that are not linked to anything.
     for teamID, script in self:IterateScripts() do
         if not self.savedRematchTeams[teamID] then
-            print(ns.L.ADDON_NAME, 'Found an orphaned script:', 'name:', script:GetName(), 'key:', teamID)
+            C_Timer.After(0.9, function()
+                GUI:Notify{
+                    text = format('%s\n|cff00ffff%s|r', ns.L.ADDON_NAME, format(ns.L.SELECTOR_REMATCH_4_TO_5_UPDATE_ORPHAN, script:GetName(), teamID)),
+                    icon = ns.ICON,
+                    duration = -1,
+                }
+            end)
         end
     end
 end

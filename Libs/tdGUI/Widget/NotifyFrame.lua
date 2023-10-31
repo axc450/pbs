@@ -258,7 +258,9 @@ function NotifyManager:Update()
     end)
     notify:SetOptions(opts)
     notify:FadeIn()
-	C_Timer.After(5, function() notify:FadeOut() end)
+    if opts.duration ~= -1 then
+        C_Timer.After(opts.duration or 5, function() notify:FadeOut() end)
+    end
 
     table.insert(ns.used, notify)
 
@@ -279,7 +281,7 @@ function GUI:Notify(opts)
             error(format([[bad argument opts.type to 'Notify' (ONCE|DAY)]]), 2)
         end
         if type(opts.storage) ~= 'table' then
-            error(format([[bad argument opts.storage to 'Notify' (string expected, got %s)]], type(opts.storage)), 2)
+            error(format([[bad argument opts.storage to 'Notify' (table expected, got %s)]], type(opts.storage)), 2)
         end
         if not opts.id then
             error(format([[bad argument opts.storage to 'Notify']]), 2)
