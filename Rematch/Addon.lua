@@ -326,8 +326,10 @@ function RematchPlugin:UpdateDBRematch4To5(convertedTeams)
     -- Second we can migrate scripts.
     for oldTeamID, script in pairs(scriptList) do
         local newTeamID = convertedTeams[oldTeamID]
-        if newTeamID then
+        local newTeam = Rematch.savedTeams[newTeamID]
+        if newTeamID and newTeam then
             self:MoveScript(oldTeamID, newTeamID)
+            self:GetScript(newTeamID):SetName(newTeam.name)
         end
     end
 
