@@ -314,6 +314,10 @@ end
 function RematchPlugin:UpdateDBRematch4To5(convertedTeams)
     -- Backup old scripts.
     local scriptsDB = PetBattleScripts.db.global.scripts
+    if scriptsDB.Rematch4 then
+        -- Already did an upgrade at some point, so don't do it again.
+        return
+    end
     scriptsDB.Rematch4 = CopyTable(scriptsDB.Rematch)
 
     -- First we need a cache list of all of our scripts, so we can modify our scripts
