@@ -37,7 +37,7 @@ function RematchPlugin:OnEnable()
             self:RemoveScript(teamID)
         end)
         Rematch.events:Register(self, 'REMATCH_TEAMS_WIPED', function(self)
-            for key, script in ipairs(IterateScripts()) do
+            for key, script in self:IterateScripts() do
                 self:RemoveScript(key)
             end
         end)
