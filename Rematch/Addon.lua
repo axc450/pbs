@@ -238,7 +238,11 @@ function RematchPlugin:OnTooltipFormatting(tip, key)
         for i=1,3 do
             local petID = GetTeamPets(saved, i)
             local petInfo = Rematch.petInfo:Fetch(petID)
-            tip:AddLine(format([[|T%s:20|t %s]],petInfo.icon,petInfo.name))
+            if petInfo.icon and petInfo.name then
+                tip:AddLine(format([[|T%s:20|t %s]],petInfo.icon,petInfo.name))
+            else
+                tip:AddLine(SEARCH_LOADING_TEXT)
+            end
         end
     end
 end
