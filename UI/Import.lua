@@ -24,7 +24,6 @@ function Import:OnInitialize()
             self.data = nil
             self.EditBox:SetText('')
             self.EditBox:SetFocus()
-            self.ExtraCheck:SetChecked(true)
             self.PluginDropdown:SetValue(nil)
             self.KeyDropdown:SetValue(nil)
             self.PageFrame:SetPage(1, true)
@@ -388,12 +387,11 @@ function Import:InitPageImport(frame)
         end)
     end
 
-    local ExtraCheck = CreateFrame('CheckButton', nil, frame, 'UICheckButtonTemplate') do
-        ExtraCheck:SetPoint('BOTTOM', CoverCheck, 'TOP', 0, -3)
-        ExtraCheck:SetSize(26, 26)
-        ExtraCheck:SetHitRectInsets(0, -100, 0, 0)
-        ExtraCheck:SetFontString(ExtraCheck.text)
-        ExtraCheck:SetText(L.SHARE_IMPORT_LABEL_EXTRA)
+    local ExtraHint = frame:CreateFontString(nil, 'OVERLAY', 'GameFontNormalSmall') do
+        ExtraHint:SetPoint('BOTTOM', CoverCheck, 'TOP', 0, -3)
+        ExtraHint:SetPoint('LEFT', 20, 0)
+        ExtraHint:SetPoint('RIGHT', -20, 0)
+        ExtraHint:SetText(L.SHARE_IMPORT_LABEL_HAS_EXTRA)
     end
 
     local SaveButton = CreateFrame('Button', nil, frame, 'UIPanelButtonTemplate') do
@@ -406,7 +404,7 @@ function Import:InitPageImport(frame)
     end
 
     self.CoverCheck = CoverCheck
-    self.ExtraCheck = ExtraCheck
+    self.ExtraHint = ExtraHint
     self.SaveButton = SaveButton
     self.WarningHelp = WarningHelp
     self.ScriptInfo = ScriptInfo
@@ -425,15 +423,15 @@ function Import:OnSaveButtonClick()
     self.Frame:Hide()
     self.script:GetPlugin():AddScript(self.script:GetKey(), self.script)
 
-    if self.extra and self.ExtraCheck:GetChecked() then
-        self.script:GetPlugin():OnImport(self.extra)
+    if self.extra then
+        self.script:GetPlugin():OnImport(self.script, self.extra)
     end
 end
 
 function Import:SetScript(script, extra)
     self.script = script
     self.extra  = extra
-    self.ExtraCheck:SetShown(extra)
+    self.ExtraHint:SetShown(extra)
 
     if script then
         self.ScriptInfo.Icon:SetTexture(script:GetPlugin():GetPluginIcon())
@@ -453,13 +451,13 @@ function Import:SetScript(script, extra)
 
     if extra then
         if not self.CoverCheck:IsShown() then
-            self.ExtraCheck:SetPoint('BOTTOM', self.CoverCheck, 'BOTTOM')
+            self.ExtraHint:SetPoint('BOTTOM', self.CoverCheck, 'BOTTOM')
         else
-            self.ExtraCheck:SetPoint('BOTTOM', self.CoverCheck, 'TOP', 0, -3)
+            self.ExtraHint:SetPoint('BOTTOM', self.CoverCheck, 'TOP', 0, -3)
         end
-        self.ExtraCheck:Show()
+        self.ExtraHint:Show()
     else
-        self.ExtraCheck:Hide()
+        self.ExtraHint:Hide()
     end
 
     self:UpdateControl()
@@ -492,6 +490,10 @@ function Import:UpdateData()
     local plugin = data.plugin and Addon:GetPlugin(data.plugin)
     if not plugin or not data.key then
         return self:ShowWarning(L.SHARE_IMPORT_STRING_INCOMPLETE)
+    end
+
+    if not plugin:IsEnabled() then
+        return self:ShowWarning(L.SHARE_IMPORT_PLUGIN_NOT_ENABLED)
     end
 
     local script = Addon:GetClass('Script'):New(data.db, plugin, data.key)

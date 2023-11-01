@@ -18,7 +18,6 @@ function PluginManager:OnInitialize()
     self.moduleWatings = {}
     self.moduleEnableQueue = {}
     self.pluginsOrdered = {}
-    self.rematchInstalled = false
     self.db = Addon.db
 end
 
@@ -27,7 +26,6 @@ function PluginManager:OnEnable()
     self:InitOrders()
     self:UpdatePlugins()
     self:RebuildPluginOrders()
-    self:CheckRematch()
 
     C_Timer.After(0, function()
         self:LoadPlugins()
@@ -111,20 +109,6 @@ function PluginManager:UpdatePlugins()
             }
         end)
     end
-end
-
-function PluginManager:CheckRematch()
-    for i = 1, GetNumAddOns() do
-        local name = GetAddOnInfo(i)
-        if (name == "Rematch") then
-            self.rematchInstalled = true
-            return
-        end
-    end
-end
-
-function PluginManager:RematchInstalled()
-    return self.rematchInstalled
 end
 
 function PluginManager:RebuildPluginOrders()

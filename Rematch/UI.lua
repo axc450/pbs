@@ -6,35 +6,32 @@ UI.lua
 
 local ns = select(2, ...)
 
-local Addon = ns.Addon
+local RematchPlugin = ns.RematchPlugin
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
-local teamMenu = {
-    text = L.EDITOR_CREATE_SCRIPT,
+local scriptMenuItem = {
+    text = function(_, key, ...)
+        return RematchPlugin:GetScript(key) and L.EDITOR_EDIT_SCRIPT or L.EDITOR_CREATE_SCRIPT
+    end,
     func = function(_, key, ...)
-        Addon:OpenScriptEditor(key, Rematch:GetTeamTitle(key))
+        RematchPlugin:OpenScriptEditor(key, RematchPlugin:GetTitleByKey(key))
     end
 }
 
-local function errorhandler(err)
-    return geterrorhandler()(err)
-end
-
-local function safecall(func, ...)
-    return xpcall(func, errorhandler, ...)
-end
-
+local scriptButtonIcon = 'Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon'
+-- Rematch4 only
 local scriptButtons = setmetatable({}, {
     __index = function(t, parent)
-        local button = CreateFrame('Button', nil, parent, 'RematchFootnoteButtonTemplate') do
+        local button = CreateFrame('Button', nil, parent, 'RematchFootnoteButtonTemplate')
+        do
             if parent.slim then
                 button:SetSize(18, 18)
             end
             button:SetPoint('CENTER')
-            button:SetNormalTexture("Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon")
-            button:SetPushedTexture("Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon")
+            button:SetNormalTexture(scriptButtonIcon)
+            button:SetPushedTexture(scriptButtonIcon)
             button:SetScript('OnClick', function(button)
-                Addon:OpenScriptEditor(button.key, Rematch:GetTeamTitle(button.key))
+                RematchPlugin:OpenScriptEditor(button.key, Rematch:GetTeamTitle(button.key))
             end)
             button:SetScript('OnEnter', function(button)
                 GameTooltip:SetOwner(button, 'ANCHOR_RIGHT')
@@ -49,77 +46,50 @@ local scriptButtons = setmetatable({}, {
     end
 })
 
-function Addon:OnEnable()
-    local menu = Rematch:GetMenu('TeamMenu')
-    local deleteItem = self:FindMenuItem(menu, DELETE)
+function RematchPlugin:SetupUI()
+    local rematchVersion = ns.Version:Current('Rematch')
 
-    tinsert(menu, 6, teamMenu)
-
-    -- team delete
-
-    self:RawHook(deleteItem, 'func', function(obj, key, ...)
-        self.hooks[deleteItem].func(obj, key, ...)
-
-        local origAccept = RematchDialog.acceptFunc
-        RematchDialog.acceptFunc = function(...)
-            self:RemoveScript(key)
-            return origAccept(...)
-        end
-    end, true)
-
-    -- team rename
-
-    local function rename(old, new)
-        if not old then
-            return
-        end
-        if old == new then
-            return
-        end
-        local script = self:GetScript(old)
-        if not script then
-            return
-        end
-
-        self:RemoveScript(old)
-        self:AddScript(new, script)
+    -- Add menu to edit script
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
+        Rematch.menus:AddToMenu('TeamMenu', scriptMenuItem, afterText)
+        Rematch.menus:AddToMenu('LoadedTeamMenu', scriptMenuItem, afterText)
+    else
+        tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItem)
     end
 
-    self:RawHook(Rematch, 'SaveAsAccept', function(...)
-        safecall(function()
-            local team, key = Rematch:GetSideline()
-            if not RematchSaved[key] or not Rematch:SidelinePetsDifferentThan(key) then
-                rename(Rematch:GetSidelineContext('originalKey'), key)
-            end
-        end)
-        return self.hooks[Rematch].SaveAsAccept(...)
-    end, true)
-
-    self:SecureHook(Rematch, 'OverwriteAccept', function()
-        safecall(function()
-            rename(Rematch:GetSidelineContext('originalKey'), select(2, Rematch:GetSideline()))
-        end)
-    end)
-
-    -- team update
-
-    self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', function()
-        if RematchLoadedTeamPanel:IsVisible() then
-            RematchLoadedTeamPanel:Update()
-        end
-        if RematchTeamPanel:IsVisible() then
-            if RematchTeamPanel.UpdateList then
-                RematchTeamPanel:UpdateList()
-            elseif RematchTeamPanel.List then
-                RematchTeamPanel.List:Update()
+    -- When a script is added/removed, refresh the teams list.
+    self.updateFrames = nil
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        self.updateFrames = function()
+            if Rematch.frame:IsVisible() then
+                Rematch.frame:Update()
             end
         end
-    end)
+    else
+        self.updateFrames = function()
+            if RematchLoadedTeamPanel:IsVisible() then
+                RematchLoadedTeamPanel:Update()
+            end
+            if RematchTeamPanel:IsVisible() then
+                if RematchTeamPanel.UpdateList then
+                    RematchTeamPanel:UpdateList()
+                elseif RematchTeamPanel.List then
+                    RematchTeamPanel.List:Update()
+                end
+            end
+        end
+    end
+    self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', self.updateFrames)
 
-    local version = ns.Version:Current()
-
-    if version >= ns.Version:New(4, 8, 10, 5) then
-
+    -- Button to indicate a script exists
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        -- TODO: restore tooltip/button once Rematch supports that again
+        Rematch.badges:RegisterBadge('teams', 'PetBattleScripts', scriptButtonIcon, nil, function(teamID)
+            -- TODO: No need to `self:IsEnabled() and` if we properly remove on TeardownUI().
+            return self:IsEnabled() and teamID and self:GetScript(teamID)
+        end)
+    elseif rematchVersion >= ns.Version:New(4, 8, 10, 5) then
         self:SecureHook(RematchTeamPanel.List, 'callback', function(button, key)
             local script = scriptButtons[button]
             if self:GetScript(key) then
@@ -142,7 +112,6 @@ function Addon:OnEnable()
                 script:Hide()
             end
         end)
-
     else
         self:SecureHook(RematchTeamPanel, 'FillTeamButton', function(_, button, key)
             local script = scriptButtons[button]
@@ -186,74 +155,93 @@ function Addon:OnEnable()
         end)
     end
 
-    local function move(button, add)
-        if not button:IsShown() then
-            return 0
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        local function move(button, add)
+            if not button:IsShown() then
+                return 0
+            end
+
+            local point, relative, relativePoint, x, y = button:GetPoint()
+            button:SetPoint(point, relative, relativePoint, x + 21, y)
+            return add
         end
 
-        local point, relative, relativePoint, x, y = button:GetPoint()
-        button:SetPoint(point, relative, relativePoint, x + 21, y)
-        return add
+        self:SecureHook(RematchLoadedTeamPanel, 'Update', function(panel)
+            local footnotes = panel.Footnotes
+            local script = scriptButtons[footnotes]
+
+            if self:GetScript(RematchSettings.loadedTeam) then
+                script.key = RematchSettings.loadedTeam
+                script:Show()
+                script:ClearAllPoints()
+                script:SetPoint('LEFT', 5, -0.5)
+
+                local fx = 5 + 21
+                fx = fx + move(footnotes.Preferences, 21)
+                fx = fx + move(footnotes.Notes, 21)
+                fx = fx + move(footnotes.WinRecord, footnotes.WinRecord:GetWidth())
+                fx = fx + move(footnotes.Maximize, 21)
+                fx = fx + move(footnotes.Close, 21)
+
+                local footnoteWidth = fx + 4
+                local panelWidth = panel.maxWidth or 280
+
+                footnotes:SetWidth(footnoteWidth)
+                footnotes:Show()
+                panel:SetWidth(panelWidth-footnoteWidth-3)
+            else
+                script:Hide()
+            end
+        end)
     end
 
-    self:SecureHook(RematchLoadedTeamPanel, 'Update', function(panel)
-        local footnotes = panel.Footnotes
-        local script = scriptButtons[footnotes]
+    if rematchVersion < ns.Version:New(5, 0, 0, 0) then
+        self:HookScript(RematchJournal, 'OnShow', function(self)
+            CollectionsJournal:SetAttribute('UIPanelLayout-width', 870)
+            UpdateUIPanelPositions()
+        end)
+        self:HookScript(RematchJournal, 'OnHide', function(self)
+            CollectionsJournal:SetAttribute('UIPanelLayout-width', 710)
+            UpdateUIPanelPositions()
+        end)
+    end
 
-        if self:GetScript(RematchSettings.loadedTeam) then
-            script.key = RematchSettings.loadedTeam
-            script:Show()
-            script:ClearAllPoints()
-            script:SetPoint('LEFT', 5, -0.5)
+    self.updateFrames()
+end
 
-            local fx = 5 + 21
-            fx = fx + move(footnotes.Preferences, 21)
-            fx = fx + move(footnotes.Notes, 21)
-            fx = fx + move(footnotes.WinRecord, footnotes.WinRecord:GetWidth())
-            fx = fx + move(footnotes.Maximize, 21)
-            fx = fx + move(footnotes.Close, 21)
+function RematchPlugin:TeardownUI()
+    local rematchVersion = ns.Version:Current('Rematch')
 
-            local footnoteWidth = fx + 4
-            local panelWidth = panel.maxWidth or 280
+    self:UnregisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
 
-            footnotes:SetWidth(footnoteWidth)
-            footnotes:Show()
-            panel:SetWidth(panelWidth-footnoteWidth-3)
-        else
-            script:Hide()
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        tDeleteItem(Rematch.menus:GetDefinition('TeamMenu'), scriptMenuItem)
+        tDeleteItem(Rematch.menus:GetDefinition('LoadedTeamMenu'), scriptMenuItem)
+
+        -- TODO: Currently can't unregister badges
+        -- Rematch.badges:RegisterBadge('teams', 'PetBattleScripts')
+    else
+        self:UnhookAll()
+
+        tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItem)
+
+        for _, frame in pairs(scriptButtons) do
+            frame:ClearAllPoints()
+            frame:Hide()
         end
-    end)
-
-    self:HookScript(RematchJournal, 'OnShow', function(self)
-        CollectionsJournal:SetAttribute('UIPanelLayout-width', 870)
-        UpdateUIPanelPositions()
-    end)
-    self:HookScript(RematchJournal, 'OnHide', function(self)
-        CollectionsJournal:SetAttribute('UIPanelLayout-width', 710)
-        UpdateUIPanelPositions()
-    end)
-end
-
-function Addon:OnDisable()
-    tDeleteItem(Rematch:GetMenu('TeamMenu'), teamMenu)
-end
-
-function Addon:FindMenuItem(menu, text)
-    for i, v in ipairs(menu) do
-        if v.text == text then
-            return v
+        if RematchLoadedTeamPanel:IsVisible() then
+            RematchLoadedTeamPanel:Update()
+        end
+        if RematchTeamPanel:IsVisible() then
+            if RematchTeamPanel.UpdateList then
+                RematchTeamPanel:UpdateList()
+            elseif RematchTeamPanel.List then
+                RematchTeamPanel.List:Update()
+            end
         end
     end
-end
 
-function Addon:OnExport(key)
-    if RematchSaved[key] then
-        Rematch:SetSideline(key, RematchSaved[key])
-        return Rematch:ConvertSidelineToString()
+    if self.updateFrames then
+        self.updateFrames()
     end
-end
-
-function Addon:OnImport(data)
-    Rematch:ShowImportDialog()
-    RematchDialog.MultiLine.EditBox:SetText(data)
 end

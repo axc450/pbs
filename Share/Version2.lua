@@ -54,7 +54,7 @@ function Share:DecodeData(data)
 end
 
 function Share:Import(code)
-    local name = code:match('# Name: (%S+)')
+    local name = code:match('# Name: ([^\n]+)')
     local data = code:match('# Data: (%S+)')
     local code = code:match('# Code Start(.+)# Code End')
 

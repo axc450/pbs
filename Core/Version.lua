@@ -17,8 +17,12 @@ function Version:Constructor(major, minor, build, revision)
     self.revision = revision or 0
 end
 
-function Version:Current()
-    local version = GetAddOnMetadata('Rematch', 'Version')
+function Version:Current(addon)
+    if GetAddOnEnableState(nil, addon) == 0 then
+        -- Disabled addon is considered not loaded.
+        return
+    end
+    local version = GetAddOnMetadata(addon, 'Version')
     if not version then
         return
     end

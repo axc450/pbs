@@ -15,6 +15,14 @@ ns.ICON  = [[Interface\Icons\Icon_petfamily_dragon]]
 
 _G.PetBattleScripts = Addon
 
+-- TODO: remove before merge, add to curseforge
+ns.L['SELECTOR_REMATCH_CANT_FORMAT_TOOLTIP_REMATCH_NOT_LOADED'] = "Can't show information: Rematch addon not loaded."
+ns.L['SHARE_IMPORT_PLUGIN_NOT_ENABLED'] = "Can't import: Plugin is not enabled."
+ns.L['SHARE_IMPORT_LABEL_HAS_EXTRA'] = "This import string will import extra data in addition to just the script, depending on the script plugin. Usually, this is information about the corresponding team."
+ns.L['SHARE_IMPORT_LABEL_EXTRA'] = nil
+ns.L.SELECTOR_REMATCH_4_TO_5_UPDATE_NOTE = 'Updated from Rematch 4 to Rematch 5. Please check whether your scripts are still correctly linked to teams.\nIf the upgrade failed, restore a backup of wow/WTF/Account/<your account>/SavedVariables/tdBattlePetScript.lua, or open it and search for "Rematch" and remove or replace with "Rematch5", then search for "Rematch4" and replace it with "Rematch". Then downgrade back to Rematch 4 and report a bug on https://github.com/axc450/pbs/issues/new, attaching your saved variables file for Rematch and this addon.'
+ns.L.SELECTOR_REMATCH_4_TO_5_UPDATE_ORPHAN = 'Found script named "%s" which is linked to the non-existent Rematch team id "%s".\nThis can indicate an issue during updating the database, or a previous corruption. If this error has happened to a lot of teams, please report it as a bug. Otherwise, just remove orphaned teams via the Script Browser and re-add them to the correct teams.'
+
 function Addon:OnInitialize()
     local defaults = {
         global = {
