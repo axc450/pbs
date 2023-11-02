@@ -4,11 +4,17 @@ ListView2.lua
 @Link    : https://dengsir.github.io
 ]]
 
-local MAJOR, MINOR = 'ListView', 2
+local MAJOR, MINOR = 'ListView', 3
 local ListView = LibStub('tdGUI-1.0'):NewClass(MAJOR, MINOR, 'ScrollFrame.BasicHybridScrollFrameTemplate', 'Refresh', 'View', 'Select')
 if not ListView then return end
 
 function ListView:Constructor(parent)
+    -- HACK: `BasicHybridScrollFrameTemplate` is the only scroll frame template which uses `ScrollBar`
+    -- rather than `scrollBar`. This was fine for years, but apparently now it is case sensitive.
+    -- Since `BasicHybridScrollFrameTemplate` inherits from the other template, it uses *both* spellings
+    -- of the variable, so give it both variables.
+    self.scrollBar = self.ScrollBar
+
     self._buttons = {}
     self.update = self.Refresh
     self:SetScript('OnSizeChanged', self.OnSizeChanged)
