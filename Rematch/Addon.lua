@@ -73,16 +73,19 @@ function RematchPlugin:OnEnable()
         end
 
         Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, newTeamID, oldTeamID)
-            if not oldTeamID or
-               not newTeamID or
-               oldTeamID == newTeamID or
-               not self:GetScript(oldTeamID)then
+            -- This event sadly isn't straight forward. It only makes sense in combination with tracking
+            -- *what* has changed. Additionally, it isn't really "new" and "old", but rather "modified"
+            -- and "with stuff from". It can be a copy or a move, but it doesn't tell. In #65 there are
+            -- some scenarios that have made @bloerwald come to the conclusion to do nothing but delete
+            -- the script of the "modified" team id.
+            local modified = newTeamID
+            local withDataFrom = oldTeamID
+
+            if not modified or not self:GetScript(modified) then
                 return
             end
 
-            self:MoveScript(oldTeamID, newTeamID)
-
-            overwriteName(self, teamID)
+            self:RemoveScript(modified)
         end)
 
         Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED', overwriteName)
