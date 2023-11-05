@@ -41,6 +41,14 @@ function ScriptManager:MoveScript(plugin, oldKey, newKey)
     self:SendMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
 end
 
+function ScriptManager:CopyScript(plugin, sourceKey, destinationKey)
+    local script = db[plugin][sourceKey]
+    script = Addon:GetClass('Script'):New(CopyTable(script:GetDB()), script:GetPlugin(), destinationKey)
+    db[plugin][destinationKey] = script
+    self:SendMessage('PET_BATTLE_SCRIPT_SCRIPT_ADDED', plugin, destinationKey, script)
+    self:SendMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
+end
+
 function ScriptManager:IteratePluginScripts(plugin)
     return pairs(db[plugin])
 end

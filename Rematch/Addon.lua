@@ -72,20 +72,22 @@ function RematchPlugin:OnEnable()
             end
         end
 
-        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, newTeamID, oldTeamID)
-            -- This event sadly isn't straight forward. It only makes sense in combination with tracking
-            -- *what* has changed. Additionally, it isn't really "new" and "old", but rather "modified"
-            -- and "with stuff from". It can be a copy or a move, but it doesn't tell. In #65 there are
-            -- some scenarios that have made @bloerwald come to the conclusion to do nothing but delete
-            -- the script of the "modified" team id.
-            local modified = newTeamID
-            local withDataFrom = oldTeamID
-
-            if not modified or not self:GetScript(modified) then
-                return
+        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, teamID, overwriteID)
+            -- teamID is being overwritten with import, and wont have a script
+            if teamID and not overwriteID then
+                return self:RemoveScript(teamID)
             end
 
-            self:RemoveScript(modified)
+            -- Note: Getting the subject from the UI instead of event data is Gello-approved.
+            local subject = Rematch.dialog:GetSubject()
+            if subject and subject.saveMode ~= Rematch.constants.SAVE_MODE_EDIT then
+                if teamID and self:GetScript(teamID) then -- team exists, and has script
+                    self:CopyScript(teamID, overwriteID)
+                else -- teamID doesnt exist or teamID has no script
+                    self:RemoveScript(overwriteID)
+                end
+            end
+            -- if SAVE_MODE_EDIT, no action is needed, REMATCH_TEAM_DELETED will delete overwriteID's script
         end)
 
         Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED', overwriteName)
