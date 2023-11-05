@@ -3,7 +3,7 @@
 -- @Link   : https://dengsir.github.io
 -- @Date   : 9/22/2018, 11:26:58 AM
 
-local MAJOR, MINOR = 'NotifyFrame', 2
+local MAJOR, MINOR = 'NotifyFrame', 3
 local GUI = LibStub('tdGUI-1.0')
 local NotifyFrame, oldminor, ns = GUI:NewClass(MAJOR, MINOR, 'Button', 'Backdrop')
 if not NotifyFrame then return end

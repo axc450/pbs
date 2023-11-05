@@ -37,7 +37,7 @@ function RematchPlugin:OnEnable()
             self:RemoveScript(teamID)
         end)
         Rematch.events:Register(self, 'REMATCH_TEAMS_WIPED', function(self)
-            for key, script in ipairs(IterateScripts()) do
+            for key, script in self:IterateScripts() do
                 self:RemoveScript(key)
             end
         end)
@@ -72,17 +72,22 @@ function RematchPlugin:OnEnable()
             end
         end
 
-        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, newTeamID, oldTeamID)
-            if not oldTeamID or
-               not newTeamID or
-               oldTeamID == newTeamID or
-               not self:GetScript(oldTeamID)then
-                return
+        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, teamID, overwriteID)
+            -- teamID is being overwritten with import, and wont have a script
+            if teamID and not overwriteID then
+                return self:RemoveScript(teamID)
             end
 
-            self:MoveScript(oldTeamID, newTeamID)
-
-            overwriteName(self, teamID)
+            -- Note: Getting the subject from the UI instead of event data is Gello-approved.
+            local subject = Rematch.dialog:GetSubject()
+            if subject and subject.saveMode ~= Rematch.constants.SAVE_MODE_EDIT then
+                if teamID and self:GetScript(teamID) then -- team exists, and has script
+                    self:CopyScript(teamID, overwriteID)
+                else -- teamID doesnt exist or teamID has no script
+                    self:RemoveScript(overwriteID)
+                end
+            end
+            -- if SAVE_MODE_EDIT, no action is needed, REMATCH_TEAM_DELETED will delete overwriteID's script
         end)
 
         Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED', overwriteName)

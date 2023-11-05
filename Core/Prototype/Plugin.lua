@@ -51,6 +51,10 @@ function PluginPrototype:MoveScript(oldKey, newKey)
     return ScriptManager:MoveScript(self, oldKey, newKey)
 end
 
+function PluginPrototype:CopyScript(sourceKey, destinationKey)
+    return ScriptManager:CopyScript(self, sourceKey, destinationKey)
+end
+
 function PluginPrototype:IterateScripts()
     return ScriptManager:IteratePluginScripts(self)
 end

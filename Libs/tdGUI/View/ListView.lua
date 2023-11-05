@@ -4,20 +4,26 @@ ListView2.lua
 @Link    : https://dengsir.github.io
 ]]
 
-local MAJOR, MINOR = 'ListView', 2
+local MAJOR, MINOR = 'ListView', 3
 local ListView = LibStub('tdGUI-1.0'):NewClass(MAJOR, MINOR, 'ScrollFrame.BasicHybridScrollFrameTemplate', 'Refresh', 'View', 'Select')
 if not ListView then return end
 
 function ListView:Constructor(parent)
+    -- HACK: `BasicHybridScrollFrameTemplate` is the only scroll frame template which uses `ScrollBar`
+    -- rather than `scrollBar`. This was fine for years, but apparently now it is case sensitive.
+    -- Since `BasicHybridScrollFrameTemplate` inherits from the other template, it uses *both* spellings
+    -- of the variable, so give it both variables.
+    self.scrollBar = self.ScrollBar
+
     self._buttons = {}
     self.update = self.Refresh
     self:SetScript('OnSizeChanged', self.OnSizeChanged)
 
-    self.ScrollBar:ClearAllPoints()
-    self.ScrollBar:SetPoint('TOPRIGHT', 0, -18)
-    self.ScrollBar:SetPoint('BOTTOMRIGHT', 0, 18)
+    self.scrollBar:ClearAllPoints()
+    self.scrollBar:SetPoint('TOPRIGHT', 0, -18)
+    self.scrollBar:SetPoint('BOTTOMRIGHT', 0, 18)
 
-    self.ScrollBar.doNotHide = true
+    self.scrollBar.doNotHide = true
 
     self:SetSelectMode('NONE')
     self:ClearAllPoints()
@@ -57,14 +63,14 @@ function ListView:UpdateScroll()
     self.buttonHeight = buttonHeight
 
     self:GetScrollChild():SetSize(self:GetWidth(), maxHeight)
-    self:SetVerticalScroll(0)
-    self:UpdateScrollChildRect()
+	self:SetVerticalScroll(0)
+	self:UpdateScrollChildRect()
 
-    self.ScrollBar:SetMinMaxValues(0, maxHeight)
-    self.ScrollBar.buttonHeight = buttonHeight
-    self.ScrollBar:SetValueStep(buttonHeight)
-    self.ScrollBar:SetStepsPerPage(maxCount - 2)
-    self.ScrollBar:SetValue(0)
+    self.scrollBar:SetMinMaxValues(0, maxHeight)
+    self.scrollBar.buttonHeight = buttonHeight
+    self.scrollBar:SetValueStep(buttonHeight)
+    self.scrollBar:SetStepsPerPage(maxCount - 2)
+    self.scrollBar:SetValue(0)
 end
 
 function ListView:UpdateItems()
