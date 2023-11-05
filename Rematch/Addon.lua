@@ -72,10 +72,10 @@ function RematchPlugin:OnEnable()
             end
         end
 
-        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, teamID, overwriteID)
-            -- teamID is being overwritten with import, and wont have a script
-            if teamID and not overwriteID then
-                return self:RemoveScript(teamID)
+        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, overwriteID, teamID)
+            -- overwriteID is being overwritten with import, and wont have a script
+            if overwriteID and not teamID then
+                return self:RemoveScript(overwriteID)
             end
 
             -- Note: Getting the subject from the UI instead of event data is Gello-approved.
