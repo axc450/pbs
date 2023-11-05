@@ -18,7 +18,7 @@ local scriptMenuItem = {
     end
 }
 
-local scriptButtonIcon = 'Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon'
+local scriptButtonIcon = 'Interface/AddOns/tdBattlePetScript/Rematch/Textures/ScriptIcon-Rematch{{REMATCHVERSION}}.png'
 -- Rematch4 only
 local scriptButtons = setmetatable({}, {
     __index = function(t, parent)
@@ -83,6 +83,7 @@ function RematchPlugin:SetupUI()
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE', self.updateFrames)
 
     -- Button to indicate a script exists
+    scriptButtonIcon = scriptButtonIcon:gsub('{{REMATCHVERSION}}', rematchVersion.major)
     if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
         -- TODO: restore tooltip/button once Rematch supports that again
         Rematch.badges:RegisterBadge('teams', 'PetBattleScripts', scriptButtonIcon, nil, function(teamID)
