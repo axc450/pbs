@@ -72,15 +72,16 @@ function RematchPlugin:OnEnable()
             end
         end
 
-        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, overwriteID, teamID)
+        Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, overwriteID, teamID, saveMode)
             -- overwriteID is being overwritten with import, and wont have a script
             if overwriteID and not teamID then
                 return self:RemoveScript(overwriteID)
             end
 
-            -- Note: Getting the subject from the UI instead of event data is Gello-approved.
-            local subject = Rematch.dialog:GetSubject()
-            if subject and subject.saveMode ~= Rematch.constants.SAVE_MODE_EDIT then
+            -- Note: Getting the subject from the UI instead of event data is Gello-approved. A later version
+            -- added it as an event argument to avoid future breakage.
+            saveMode = saveMode or (Rematch.dialog:GetSubject() and Rematch.dialog:GetSubject().saveMode)
+            if saveMode and saveMode ~= Rematch.constants.SAVE_MODE_EDIT then
                 if teamID and self:GetScript(teamID) then -- team exists, and has script
                     self:CopyScript(teamID, overwriteID)
                 else -- teamID doesnt exist or teamID has no script
