@@ -1,3 +1,9 @@
+## v1.9.1
+
+### Other
+
+- Bumped TOC for patch 10.2.
+
 ## v1.9
 
 ### Compatibility with Rematch 5
