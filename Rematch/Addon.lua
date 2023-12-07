@@ -200,8 +200,15 @@ function RematchPlugin:IterateKeys()
         return
     end
 
+    local iter,tbl
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        iter,tbl = Rematch.savedTeams:AllTeams()
+    else
+        iter,tbl = pairs(RematchSaved)
+    end
+
     return coroutine.wrap(function()
-        for key in pairs(self.savedRematchTeams) do
+        for key in iter,tbl do
             coroutine.yield(key)
         end
     end)
