@@ -1,3 +1,9 @@
+## v1.9.2
+
+### Other
+
+- Bumped TOC for patch 10.2.5.
+
 ## v1.9.1
 
 ### Other
