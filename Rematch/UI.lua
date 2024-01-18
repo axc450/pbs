@@ -86,7 +86,7 @@ function RematchPlugin:SetupUI()
     scriptButtonIcon = scriptButtonIcon:gsub('{{REMATCHVERSION}}', rematchVersion.major)
     if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
         -- TODO: restore tooltip/button once Rematch supports that again
-        Rematch.badges:RegisterBadge('teams', 'PetBattleScripts', scriptButtonIcon, nil, function(teamID)
+        Rematch.badges:RegisterBadge('teams', 'PetBattleScripts', scriptButtonIcon, nil, function(_, teamID)
             return teamID and self:GetScript(teamID)
         end)
     elseif rematchVersion >= ns.Version:New(4, 8, 10, 5) then
