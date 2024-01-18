@@ -1,3 +1,9 @@
+## v1.9.3
+
+### Other
+
+- Compatibility with Rematch 5.1 (in addition to old versions).
+
 ## v1.9.2
 
 ### Other
