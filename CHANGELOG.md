@@ -2,6 +2,7 @@
 
 ### Fixes
 
+- Import dialog no longer breaks with Rematch 5.
 - Import dialog no longer breaks with disabled plugins. If you ever disabled a plugin, please contact us to win a price.
 
 ## v1.9.3
