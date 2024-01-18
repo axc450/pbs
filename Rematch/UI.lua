@@ -89,7 +89,7 @@ function RematchPlugin:SetupUI()
         Rematch.badges:RegisterBadge('teams', 'PetBattleScripts', scriptButtonIcon, nil, function(parent, teamID)
             if rematchVersion < ns.Version:New(5, 1, 0, 0) then
                 teamID = parent
-            en
+            end
             return teamID and self:GetScript(teamID)
         end)
     elseif rematchVersion >= ns.Version:New(4, 8, 10, 5) then
