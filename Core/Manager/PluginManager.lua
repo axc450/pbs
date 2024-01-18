@@ -183,6 +183,8 @@ end
 function PluginManager:EnableModuleWithAddonLoaded(module, addon)
     module:Disable()
 
+    module.requiredAddon = addon
+
     if not IsAddOnLoaded(addon) then
         self.moduleWatings[addon] = self.moduleWatings[addon] or {}
         tinsert(self.moduleWatings[addon], module)
@@ -202,7 +204,7 @@ function PluginManager:SetPluginAllowed(name, flag)
 
     C_Timer.After(0, function()
         local module = Addon:GetPlugin(name)
-        if flag then
+        if flag and IsAddOnLoaded(module.requiredAddon) then
             module:Enable()
         else
             module:Disable()

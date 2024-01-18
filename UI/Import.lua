@@ -212,7 +212,7 @@ function Import:InitPageSelector(frame)
         PluginDropdown:SetMaxItem(20)
         PluginDropdown:SetDefaultText(L.SHARE_IMPORT_CHOOSE_SELECTOR)
         PluginDropdown:SetMenuTable(function(list)
-            for _, plugin in Addon:IteratePlugins() do
+            for _, plugin in Addon:IterateEnabledPlugins() do
                 if type(plugin.IterateKeys) == 'function' then
                     tinsert(list, {
                         text = plugin:GetPluginTitle(),

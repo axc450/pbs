@@ -390,7 +390,7 @@ function Module:UpdateScriptList()
     end
 
     local list = {} do
-        for _, plugin in Addon:IteratePlugins() do
+        for _, plugin in Addon:IterateEnabledPlugins() do
             tinsert(list, {
                 type = 'plugin',
                 value = plugin

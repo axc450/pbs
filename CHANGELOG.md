@@ -1,3 +1,9 @@
+## v1.10
+
+### Fixes
+
+- Import dialog no longer breaks with disabled plugins. If you ever disabled a plugin, please contact us to win a price.
+
 ## v1.9.3
 
 ### Other
