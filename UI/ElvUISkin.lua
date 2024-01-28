@@ -31,11 +31,17 @@ function S:tdBattlePetScript()
     ArtFrame2.SetShown = nop
 
     local yOffset = E.PixelMode and -1 or 1
-    local gap = E.PixelMode and 1 or 3
+    local gap = E.PixelMode and -1 or 1
     local xOffset = gap + AutoButton:GetWidth()
 
     S:HandleButton(AutoButton)
     AutoButton:SetPoint('LEFT', SkipButton,'RIGHT', gap, 0)
+    AutoButton:SetParent(SkipButton:GetParent())
+
+    -- Raise up the frame to show the border glow above the skip button's border
+    local frameLevel = AutoButton:GetFrameLevel()
+    AutoButton:HookScript("OnEnter", function(self) self:SetFrameLevel(frameLevel+1) end)
+    AutoButton:HookScript("OnLeave", function(self) self:SetFrameLevel(frameLevel) end)
 
     -- When the SkipButton is placed, make room for the AutoButton
     hooksecurefunc(SkipButton, "SetPoint", function(_, _, _, _, _, _, forced)
