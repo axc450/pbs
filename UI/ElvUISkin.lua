@@ -30,33 +30,27 @@ function S:tdBattlePetScript()
     ArtFrame2.Show = nop
     ArtFrame2.SetShown = nop
 
-    local yOffset = E.PixelMode and -1 or 1
-    local gap = E.PixelMode and -1 or 1
-    local xOffset = gap + AutoButton:GetWidth()
+    local ABOffset = 1 + AutoButton:GetWidth()
+    local XPOffset = E.PixelMode and 2 or 3
 
     S:HandleButton(AutoButton)
-    AutoButton:SetPoint('LEFT', SkipButton,'RIGHT', gap, 0)
+    AutoButton:SetPoint('LEFT', SkipButton,'RIGHT', 1, 0)
     AutoButton:SetParent(SkipButton:GetParent())
-
-    -- Raise up the frame to show the border glow above the skip button's border
-    local frameLevel = AutoButton:GetFrameLevel()
-    AutoButton:HookScript("OnEnter", function(self) self:SetFrameLevel(frameLevel+1) end)
-    AutoButton:HookScript("OnLeave", function(self) self:SetFrameLevel(frameLevel) end)
 
     -- When the SkipButton is placed, make room for the AutoButton
     hooksecurefunc(SkipButton, "SetPoint", function(_, _, _, _, _, _, forced)
         if forced == true then return end
 
-        SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', -xOffset, yOffset, true)
-        XPBar:Point('BOTTOMRIGHT', SkipButton, 'TOPRIGHT', xOffset-E.Border, yOffset)
+        SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', -ABOffset, 1, true)
+        XPBar:Point('BOTTOMRIGHT', SkipButton, 'TOPRIGHT', ABOffset-E.Border, XPOffset)
     end)
 
     -- When the AutoButton visibility is toggled, reset the SkipButton width
     hooksecurefunc(AutoButton, "SetShown", function(_, show)
-        local xOffset = show and -xOffset or 0
+        local ABOffset = show and ABOffset or 0
 
-        SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', xOffset, yOffset, true)
-        XPBar:Point('BOTTOMRIGHT', SkipButton, 'TOPRIGHT', -E.Border, yOffset)
+        SkipButton:Point('BOTTOMRIGHT', ElvUIPetBattleActionBar, 'TOPRIGHT', -ABOffset, 1, true)
+        XPBar:Point('BOTTOMRIGHT', SkipButton, 'TOPRIGHT', ABOffset-E.Border, XPOffset)
     end)
 end
 
