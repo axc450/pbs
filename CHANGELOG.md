@@ -1,3 +1,10 @@
+## v1.10.1
+
+### Other
+
+- Pixel nudging with ElvUI changes while in combat.
+- Bumped TOC for patch 10.2.6.
+
 ## v1.10
 
 ### Fixes
