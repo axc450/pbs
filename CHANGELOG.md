@@ -1,3 +1,9 @@
+## v1.10.1
+
+### Other
+
+- Pixel nudging with ElvUI changes while in combat.
+
 ## v1.10
 
 ### Fixes
