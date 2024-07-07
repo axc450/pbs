@@ -73,7 +73,7 @@ end
 
 function Addon:UpdateDatabase()
     local oldVersion = self.db.global.version
-    local newVersion = GetAddOnMetadata(ADDON, 'Version')
+    local newVersion = tostring(ns.Version:Current(ADDON))
 
     if oldVersion ~= newVersion then
         self.db.global.version = newVersion
