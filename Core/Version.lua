@@ -22,7 +22,7 @@ function Version:Current(addon)
         -- Disabled addon is considered not loaded.
         return
     end
-    local version = GetAddOnMetadata(addon, 'Version')
+    local version = C_AddOns.GetAddOnMetadata(addon, 'Version')
     if not version then
         return
     end
