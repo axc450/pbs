@@ -1,3 +1,9 @@
+## v1.10.2
+
+### Other
+
+- Adopt to patch 10.1.0 deprecation in preparation of TWW.
+
 ## v1.10.1
 
 ### Other
