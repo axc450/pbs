@@ -204,7 +204,7 @@ function PluginManager:SetPluginAllowed(name, flag)
 
     C_Timer.After(0, function()
         local module = Addon:GetPlugin(name)
-        if flag and IsAddOnLoaded(module.requiredAddon) then
+        if flag and C_AddOns.IsAddOnLoaded(module.requiredAddon) then
             module:Enable()
         else
             module:Disable()
