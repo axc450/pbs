@@ -185,7 +185,7 @@ function PluginManager:EnableModuleWithAddonLoaded(module, addon)
 
     module.requiredAddon = addon
 
-    if not IsAddOnLoaded(addon) then
+    if not C_AddOns.IsAddOnLoaded(addon) then
         self.moduleWatings[addon] = self.moduleWatings[addon] or {}
         tinsert(self.moduleWatings[addon], module)
 
