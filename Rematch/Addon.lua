@@ -18,7 +18,7 @@ function RematchPlugin:OnInitialize()
 
     local rematchIcon = [[Interface\AddOns\Rematch\Textures\icon]]
     local fallbackIcon = [[Interface\Icons\inv_misc_questionmark]]
-    local rematchExists = select(5, GetAddOnInfo('Rematch')) ~= 'MISSING'
+    local rematchExists = select(5, C_AddOns.GetAddOnInfo('Rematch')) ~= 'MISSING'
     self:SetPluginIcon(rematchExists and rematchIcon or fallbackIcon)
 end
 

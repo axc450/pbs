@@ -1,3 +1,9 @@
+## v1.10.3
+
+### Other
+
+- Adopt to patch 10.2.0 deprecations missed in previous check, update libraries.
+
 ## v1.10.2
 
 ### Other
