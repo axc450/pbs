@@ -18,7 +18,7 @@ function Version:Constructor(major, minor, build, revision)
 end
 
 function Version:Current(addon)
-    if C_AddOns.GetAddOnEnableState(addon) == 0 then
+    if C_AddOns.GetAddOnEnableState(addon, nil) == 0 then
         -- Disabled addon is considered not loaded.
         return
     end
