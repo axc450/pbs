@@ -223,5 +223,5 @@ function Options:FillInstalledPlugins(args, order)
 end
 
 function Addon:OpenOptionsFrame()
-    InterfaceOptionsFrame_OpenToCategory(L.ADDON_NAME)
+    Settings.OpenToCategory(L.ADDON_NAME)
 end

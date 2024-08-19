@@ -1,3 +1,9 @@
+## v1.10.5
+
+### Other
+
+- Replace `InterfaceOptionsFrame_OpenToCategory` with modern API.
+
 ## v1.10.4
 
 ### Other
