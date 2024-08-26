@@ -1,3 +1,9 @@
+## v1.10.6
+
+### Fixes
+
+- Adapt to silent change where pet qualities are now 0…5 instead of 1…6. Scripts using `[ ….quality ]` conditions should work as expected again.
+
 ## v1.10.5
 
 ### Other

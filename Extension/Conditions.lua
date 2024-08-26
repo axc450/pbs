@@ -195,7 +195,7 @@ end)
 
 
 Addon:RegisterCondition('quality', { type = 'compare', arg = false, valueParse = Util.ParseQuality }, function(owner, pet)
-    return pet and C_PetBattles.GetBreedQuality(owner, pet)
+    return pet and (C_PetBattles.GetBreedQuality(owner, pet) + 1)
 end)
 
 
