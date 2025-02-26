@@ -1,4 +1,4 @@
-## Interface: 110007
+## Interface: 110100
 ## Title: Pet Battle Scripts
 ## Notes: Battle Pet Combat Scripting
 ## Author: axc450
@@ -11,5 +11,16 @@
 ## X-Curse-Project-ID: 699660
 ## X-Wago-ID: WYK9036L
 ## X-WoWI-ID: 26435
+## Category-enUS: Pet Battles
+## Category-deDE: Haustierkämpfe
+## Category-esES: Duelos de mascotas
+## Category-esMX: Duelos de mascotas
+## Category-frFR: Combats de mascottes
+## Category-itIT: Mostra allenatori di mascotte
+## Category-koKR: 애완동물 대전
+## Category-ptBR: Batalhas de mascotes
+## Category-ruRU: Битвы питомцев
+## Category-zhCN: 宠物对战
+## Category-zhTW: 寵物對戰
 
 Load.xml

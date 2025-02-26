@@ -2,6 +2,13 @@
 
 ### Other
 
+- Added addon category
+- Bumped TOC for patch 11.1.0
+
+## v1.10.7
+
+### Other
+
 - Bumped TOC for patch 11.0.7
 
 ## v1.10.6
