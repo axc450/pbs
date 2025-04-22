@@ -1,5 +1,9 @@
 ## v1.11.0
 
+### Compatibility with Rematch 4
+
+Compatibility will be dropped this year (2025). Hopefully, nobody still uses it anyway. If you still do, please upgrade. Also, please tell us so we know whether there still actually are users of it.
+
 ### Fixes
 
 - The notifications about (Rematch 4 to 5) database updates now actually work.

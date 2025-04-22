@@ -22,6 +22,14 @@ function RematchPlugin:OnInitialize()
     self:SetPluginIcon(rematchExists and rematchIcon or fallbackIcon)
 end
 
+local function runIfOnceOutOfCombat(fun)
+    if InCombatLockdown() then
+        EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_REGEN_ENABLED", fun)
+    else
+        C_Timer.After(0, fun)
+    end
+end
+
 function RematchPlugin:OnEnable()
     local rematchVersion = ns.Version:Current('Rematch')
 
@@ -29,6 +37,16 @@ function RematchPlugin:OnEnable()
         self.savedRematchTeams = Rematch.savedTeams
     else
         self.savedRematchTeams = RematchSaved
+
+        C_Timer.After(1, function()
+            runIfOnceOutOfCombat(function()
+                GUI:Notify({
+                    text = format('%s\n|cff00ffff%s|r', ns.L.ADDON_NAME, ns.L.REMATCH4_DEPRECATED),
+                    icon = ns.ICON,
+                    duration = 30,
+                })
+            end)
+        end)
     end
 
     -- Team is deleted
