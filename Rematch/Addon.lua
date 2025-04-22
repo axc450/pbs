@@ -408,9 +408,14 @@ end
 
 local section           = 'PET BATTLE SCRIPT'
 local patternSeps       = '%-%-%-%-%-'
+local outputSeps        = '-----'
 local patternBegin      = patternSeps .. 'BEGIN ' .. section .. patternSeps
+local outputBegin       = outputSeps  .. 'BEGIN ' .. section .. outputSeps
 local patternEnd        = patternSeps .. 'END '   .. section .. patternSeps
-local patternScriptNote = '\n*' .. patternBegin .. "\n(.*)" .. patternEnd .. '\n*'
+local outputEnd         = outputSeps  .. 'END '   .. section .. outputSeps
+local patternScriptNote = '\n*' .. patternBegin .. '\n(.*)' .. patternEnd .. '\n*'
+local outputScriptNoteB = '\n'  .. outputBegin .. '\n'
+local outputScriptNoteA =                             '\n'  .. outputEnd .. '\n'
 
 function RematchPlugin:_UpdateTeamNote(key, note)
     if self.savedRematchTeams[key].notes == note then
@@ -493,4 +498,20 @@ function RematchPlugin:CheckAllTeamsForScriptsInNotes()
     for key, team in Rematch.savedTeams:AllTeams() do
         self:MaybeTakeScriptFromNotes(key, team)
     end
+end
+
+function RematchPlugin:AddScriptToNote(key)
+    local existingScript = self:GetScript(key)
+    if not existingScript then
+        return
+    end
+
+    local checkedExistingCode, err = Director:BuildScript(existingScript:GetCode())
+    if err then
+        return
+    end
+    local code = Director:BeautyScript(checkedExistingCode)
+
+    local note = self.savedRematchTeams[key].notes or ''
+    self:_UpdateTeamNote(key, note .. outputScriptNoteB .. code .. outputScriptNoteA)
 end

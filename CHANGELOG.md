@@ -19,6 +19,8 @@ This feature works together with the [Xu-Fu](https://www.wow-petguide.com) featu
 
 This happens on login (i.e. is retroactive) and when importing a team.
 
+The other way around needs manual interaction. Use the 'Add script to note' menu item to add it until the next game session (where it will be automatically imported and removed again).
+
 ### Compatibility with Rematch 4
 
 Compatibility will be dropped this year (2025). Hopefully, nobody still uses it anyway. If you still do, please upgrade. Also, please tell us so we know whether there still actually are users of it.
