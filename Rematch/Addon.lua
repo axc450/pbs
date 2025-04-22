@@ -8,6 +8,8 @@ local ns    = select(2, ...)
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 local RematchPlugin = PetBattleScripts:NewPlugin('Rematch', 'AceEvent-3.0', 'AceHook-3.0', 'LibClass-2.0')
 local GUI   = LibStub('tdGUI-1.0')
+local Addon    = ns.Addon
+local Director = ns.Director
 
 ns.RematchPlugin   = RematchPlugin
 
@@ -180,6 +182,14 @@ function RematchPlugin:OnEnable()
 
     -- UI
     self:SetupUI()
+
+    if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
+        C_Timer.After(2, function()
+            runIfOnceOutOfCombat(function()
+                self:CheckAllTeamsForScriptsInNotes()
+            end)
+        end)
+    end
 end
 
 function RematchPlugin:OnDisable()
@@ -332,6 +342,7 @@ function RematchPlugin:OnImportContinuation(addedTeamID)
     local temporaryTeamId = importTeamIdMapping[extra]
 
     if not temporaryTeamId then
+        self:MaybeTakeScriptFromNotes(addedTeamID, self.savedRematchTeams[addedTeamID])
         return
     end
 
@@ -392,5 +403,94 @@ function RematchPlugin:UpdateDBRematch4To5(convertedTeams)
                 })
             end)
         end
+    end
+end
+
+local section           = 'PET BATTLE SCRIPT'
+local patternSeps       = '%-%-%-%-%-'
+local patternBegin      = patternSeps .. 'BEGIN ' .. section .. patternSeps
+local patternEnd        = patternSeps .. 'END '   .. section .. patternSeps
+local patternScriptNote = '\n*' .. patternBegin .. "\n(.*)" .. patternEnd .. '\n*'
+
+function RematchPlugin:_UpdateTeamNote(key, note)
+    if self.savedRematchTeams[key].notes == note then
+        return
+    end
+
+    self.savedRematchTeams[key].notes = note
+    Rematch.events:Fire("REMATCH_NOTES_CHANGED", key)
+
+    if not self.hasRematchUiUpdateQueued then
+        self.hasRematchUiUpdateQueued = true
+        runIfOnceOutOfCombat(function()
+            Rematch.frame:Update()
+            self.hasRematchUiUpdateQueued = false
+        end)
+    end
+end
+
+function RematchPlugin:MaybeTakeScriptFromNotes(key, team)
+    local note = self.savedRematchTeams[key].notes
+
+    if not note then
+        return
+    end
+
+    local len = string.len(note)
+    local istart, iend, code = string.find(note, patternScriptNote)
+
+    if not istart or not iend or not code then
+        return
+    end
+
+    local function queueError(team, err)
+        if not self.failedScriptImports then
+            C_Timer.After(5, function()
+                local fails = self.failedScriptImports
+                self.failedScriptImports = nil
+
+                local errors = ''
+                for key, info in pairs(fails) do
+                    errors = errors .. format(L.REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE, info.name, info.error) .. '\n'
+                end
+
+                GUI:Notify({
+                    text = format('%s\n|cff00ffff%s|r', ns.L.ADDON_NAME, format(L.REMATCH_NOTE_SCRIPT_IMPORT_FAIL, errors)),
+                    icon = ns.ICON,
+                    duration = -1,
+                })
+            end)
+        end
+        self.failedScriptImports = self.failedScriptImports or {}
+        self.failedScriptImports[key] = {name = team.name, error = err}
+    end
+
+    local checkedCode, err = Director:BuildScript(code)
+    if not checkedCode then
+        queueError(team, err)
+        return
+    end
+    checkedCode = Director:BeautyScript(checkedCode)
+
+    local pre = istart > 1 and string.sub(note, 1, istart - 1) or nil
+    local post = iend < len and string.sub(note, iend + 1, len) or nil
+
+    local existingScript = self:GetScript(key)
+    if existingScript then
+        local checkedExistingCode, err = Director:BuildScript(existingScript:GetCode())
+        if err or Director:BeautyScript(checkedExistingCode) ~= checkedCode then
+            queueError(team, L.REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT)
+            return
+        end
+    else
+        local scriptData = {name = team.name, code = checkedCode,}
+        self:AddScript(key, Addon:GetClass('Script'):New(scriptData, self, key))
+    end
+    self:_UpdateTeamNote(key, pre and post and (pre .. '\n' .. post) or pre or post)
+end
+
+function RematchPlugin:CheckAllTeamsForScriptsInNotes()
+    for key, team in Rematch.savedTeams:AllTeams() do
+        self:MaybeTakeScriptFromNotes(key, team)
     end
 end

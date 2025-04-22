@@ -1,5 +1,24 @@
 ## v1.11.0
 
+### Automatic script import from Rematch notes
+
+If a Rematch team contains a block like
+
+```
+Other text.
+-----BEGIN PET BATTLE SCRIPT-----
+standby
+change(next)
+-----END PET BATTLE SCRIPT-----
+More text.
+```
+
+the script will be automatically added, if it is valid and the team does not yet have a (different) script attached. The note will then have the script data removed.
+
+This feature works together with the [Xu-Fu](https://www.wow-petguide.com) feature which now adds this exact block on exporting teams. It is now enough to only export the teams, and no longer needed to add the script manually afterwards.
+
+This happens on login (i.e. is retroactive) and when importing a team.
+
 ### Compatibility with Rematch 4
 
 Compatibility will be dropped this year (2025). Hopefully, nobody still uses it anyway. If you still do, please upgrade. Also, please tell us so we know whether there still actually are users of it.
