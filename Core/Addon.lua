@@ -79,11 +79,11 @@ function Addon:UpdateDatabase()
         self.db.global.version = newVersion
 
         C_Timer.After(0.9, function()
-            GUI:Notify{
+            GUI:Notify({
                 text = format('%s\n|cff00ffff%s: |cffffff00%s|r', ns.L.ADDON_NAME, ns.L.DATABASE_UPDATED_TO, newVersion),
                 icon = ns.ICON,
                 help = ''
-            }
+            })
         end)
     end
 end

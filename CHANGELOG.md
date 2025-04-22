@@ -1,3 +1,9 @@
+## v1.11.0
+
+### Fixes
+
+- The notifications about (Rematch 4 to 5) database updates now actually work.
+
 ## v1.10.8
 
 ### Other
