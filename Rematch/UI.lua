@@ -60,11 +60,9 @@ function RematchPlugin:SetupUI()
 
     -- Add menu to edit script
     if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
-        local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
-        Rematch.menus:AddToMenu('TeamMenu', scriptMenuItemAddScriptToNote, afterText)
-        Rematch.menus:AddToMenu('LoadedTeamMenu', scriptMenuItemAddScriptToNote, afterText)
-        Rematch.menus:AddToMenu('TeamMenu', scriptMenuItemEditScript, afterText)
-        Rematch.menus:AddToMenu('LoadedTeamMenu', scriptMenuItemEditScript, afterText)
+        Rematch.menus:AddToMenu('TeamMenu', scriptMenuItemEditScript, Rematch.localization['Set Notes'])
+        Rematch.menus:AddToMenu('LoadedTeamMenu', scriptMenuItemEditScript, Rematch.localization['Set Notes'])
+        Rematch.menus:AddToMenu('ShareTeamMenu', scriptMenuItemAddScriptToNote, Rematch.localization['Plain Text'])
     else
         tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItemEditScript)
     end
@@ -229,10 +227,9 @@ function RematchPlugin:TeardownUI()
     self:UnregisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
 
     if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
-        tDeleteItem(Rematch.menus:GetDefinition('TeamMenu'), scriptMenuItemAddScriptToNote)
-        tDeleteItem(Rematch.menus:GetDefinition('LoadedTeamMenu'), scriptMenuItemAddScriptToNote)
         tDeleteItem(Rematch.menus:GetDefinition('TeamMenu'), scriptMenuItemEditScript)
         tDeleteItem(Rematch.menus:GetDefinition('LoadedTeamMenu'), scriptMenuItemEditScript)
+        tDeleteItem(Rematch.menus:GetDefinition('ShareTeamMenu'), scriptMenuItemAddScriptToNote)
 
         Rematch.badges:UnregisterBadge('teams', 'PetBattleScripts')
     else
