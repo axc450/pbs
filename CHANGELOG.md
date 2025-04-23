@@ -29,6 +29,10 @@ Compatibility will be dropped this year (2025). Hopefully, nobody still uses it 
 
 - The notifications about (Rematch 4 to 5) database updates now actually work.
 
+### Other
+
+- Bumped TOC for patch 11.1.5
+
 ## v1.10.8
 
 ### Other
