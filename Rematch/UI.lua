@@ -9,12 +9,21 @@ local ns = select(2, ...)
 local RematchPlugin = ns.RematchPlugin
 local L     = LibStub('AceLocale-3.0'):GetLocale('PetBattleScripts')
 
-local scriptMenuItem = {
+local scriptMenuItemEditScript = {
     text = function(_, key, ...)
         return RematchPlugin:GetScript(key) and L.EDITOR_EDIT_SCRIPT or L.EDITOR_CREATE_SCRIPT
     end,
     func = function(_, key, ...)
         RematchPlugin:OpenScriptEditor(key, RematchPlugin:GetTitleByKey(key))
+    end
+}
+local scriptMenuItemAddScriptToNote = {
+    hidden = function(_, key, ...)
+        return RematchPlugin:GetScript(key) == nil
+    end,
+    text = L.REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM,
+    func = function(_, key, ...)
+        RematchPlugin:AddScriptToNote(key)
     end
 }
 
@@ -51,11 +60,11 @@ function RematchPlugin:SetupUI()
 
     -- Add menu to edit script
     if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
-        local afterText = Rematch.localization['Set Notes'] -- Use Rematch's locale string.
-        Rematch.menus:AddToMenu('TeamMenu', scriptMenuItem, afterText)
-        Rematch.menus:AddToMenu('LoadedTeamMenu', scriptMenuItem, afterText)
+        Rematch.menus:AddToMenu('TeamMenu', scriptMenuItemEditScript, Rematch.localization['Set Notes'])
+        Rematch.menus:AddToMenu('LoadedTeamMenu', scriptMenuItemEditScript, Rematch.localization['Set Notes'])
+        Rematch.menus:AddToMenu('ShareTeamMenu', scriptMenuItemAddScriptToNote, Rematch.localization['Plain Text'])
     else
-        tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItem)
+        tinsert(Rematch:GetMenu('TeamMenu'), 6, scriptMenuItemEditScript)
     end
 
     -- When a script is added/removed, refresh the teams list.
@@ -218,14 +227,15 @@ function RematchPlugin:TeardownUI()
     self:UnregisterMessage('PET_BATTLE_SCRIPT_SCRIPT_LIST_UPDATE')
 
     if rematchVersion >= ns.Version:New(5, 0, 0, 0) then
-        tDeleteItem(Rematch.menus:GetDefinition('TeamMenu'), scriptMenuItem)
-        tDeleteItem(Rematch.menus:GetDefinition('LoadedTeamMenu'), scriptMenuItem)
+        tDeleteItem(Rematch.menus:GetDefinition('TeamMenu'), scriptMenuItemEditScript)
+        tDeleteItem(Rematch.menus:GetDefinition('LoadedTeamMenu'), scriptMenuItemEditScript)
+        tDeleteItem(Rematch.menus:GetDefinition('ShareTeamMenu'), scriptMenuItemAddScriptToNote)
 
         Rematch.badges:UnregisterBadge('teams', 'PetBattleScripts')
     else
         self:UnhookAll()
 
-        tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItem)
+        tDeleteItem(Rematch:GetMenu('TeamMenu'), scriptMenuItemEditScript)
 
         for _, frame in pairs(scriptButtons) do
             frame:ClearAllPoints()
