@@ -1,3 +1,9 @@
+## v1.11.1
+
+### Fixes
+
+- Added workaround for XuFu script-in-note exports escaping HTML characters.
+
 ## v1.11.0
 
 ### Automatic script import from Rematch notes
