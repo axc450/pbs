@@ -90,6 +90,8 @@ function RematchPlugin:OnEnable()
             if team and script then
                 script:SetName(team.name)
             end
+
+            self:OnImportContinuation(teamID)
         end
 
         Rematch.events:Register(self, 'REMATCH_TEAM_OVERWRITTEN', function(self, overwriteID, teamID, saveMode)
@@ -109,6 +111,8 @@ function RematchPlugin:OnEnable()
                 end
             end
             -- if SAVE_MODE_EDIT, no action is needed, REMATCH_TEAM_DELETED will delete overwriteID's script
+
+            self:OnImportContinuation(teamID)
         end)
 
         Rematch.events:Register(self, 'REMATCH_TEAM_UPDATED', overwriteName)

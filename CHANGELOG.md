@@ -1,3 +1,9 @@
+## v1.11.2
+
+### Fixes
+
+- Also pick up scripts in notes on overwritten Rematch teams.
+
 ## v1.11.1
 
 ### Fixes
