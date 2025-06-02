@@ -15,7 +15,7 @@ function Base:OnInitialize()
     self:EnableWithAddon('Blizzard_PetBattleUI')
     self:SetPluginTitle(L.SELECTOR_BASE_TITLE)
     self:SetPluginNotes(L.SELECTOR_BASE_NOTES)
-    self:SetPluginIcon([[Interface\ICONS\Ability_Garrison_OrangeBird]])
+    self:SetPluginIcon([[Interface\ICONS\ability_karoz_leap]])
 end
 
 function Base:OnEnable()
