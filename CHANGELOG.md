@@ -1,3 +1,9 @@
+## v1.11.3
+
+### Other
+
+- Compatibility with MoP Classic (Beta).
+
 ## v1.11.2
 
 ### Fixes
