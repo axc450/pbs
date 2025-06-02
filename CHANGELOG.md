@@ -1,3 +1,9 @@
+## v1.11.3
+
+### Other
+
+- Allow specifying a secondary hotkey for the auto button.
+
 ## v1.11.2
 
 ### Fixes
