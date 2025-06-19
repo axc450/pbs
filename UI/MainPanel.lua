@@ -49,6 +49,9 @@ function Module:OnInitialize()
         MainPanel:SetAttribute('UIPanelLayout-pushable', 1)
     end
 
+    _G["PetBattleScripts_MainPanel"] = MainPanel
+    tinsert(UISpecialFrames, "PetBattleScripts_MainPanel")
+
     local Inset = CreateFrame('Frame', nil, MainPanel, 'InsetFrameTemplate') do
         Inset:SetPoint('TOPLEFT', 4, -60)
         Inset:SetPoint('BOTTOMRIGHT', -6, 26)
