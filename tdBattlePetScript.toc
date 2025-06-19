@@ -1,4 +1,4 @@
-## Interface: 110105
+## Interface: 110105, 50500
 ## Title: Pet Battle Scripts
 ## Notes: Battle Pet Combat Scripting
 ## Author: axc450
