@@ -114,7 +114,8 @@ function Options:UpdateOptions()
     local optionsArgs = wipe(self.optionsArgs)
 
     --- General
-    optionsArgs.autoButtonHotKey = makeKeybinding(L.OPTION_AUTOBUTTON_HOTKEY)
+    optionsArgs.autoButtonHotKey = makeKeybinding(L.OPTION_AUTOBUTTON_HOTKEY, {width='double'})
+    optionsArgs.autoButtonHotKey2 = makeKeybinding(L.OPTION_AUTOBUTTON_HOTKEY_SECONDARY, {width='fill'})
     optionsArgs.notifyButtonActive = makeToggle(L.OPTION_NOTIFY_BUTTON_ACTIVE, {width = 'double'})
     optionsArgs.notifyButtonActivePadding = makePadding(0.2)
     optionsArgs.notifyButtonActiveSound = makeSelect(L.OPTION_NOTIFY_BUTTON_ACTIVE_SOUND, LibSharedMedia.MediaType.SOUND, {width = 'normal',})

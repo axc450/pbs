@@ -215,6 +215,7 @@ function Module:OnEnable()
     self:RegisterMessage('PET_BATTLE_SCRIPT_SCRIPT_UPDATE', 'UpdateAutoButton')
 
     self:RegisterMessage('PET_BATTLE_SCRIPT_SETTING_CHANGED_autoButtonHotKey', 'UpdateHotKey')
+    self:RegisterMessage('PET_BATTLE_SCRIPT_SETTING_CHANGED_autoButtonHotKey2', 'UpdateHotKey')
     self:RegisterMessage('PET_BATTLE_SCRIPT_SETTING_CHANGED_lockScriptSelector', 'UpdateLocked')
 
     self:RegisterMessage('PET_BATTLE_SCRIPT_RESET_FRAMES')
@@ -255,10 +256,18 @@ function Module:UpdateHotKey()
 
     ClearOverrideBindings(self.AutoButton)
 
-    local hotKey = Addon:GetSetting('autoButtonHotKey')
-    if hotKey then
-        SetOverrideBindingClick(self.AutoButton, true, hotKey, self.AutoButton:GetName())
-        self.AutoButton.HotKey:SetText(hotKey)
+    local hotKey1 = Addon:GetSetting('autoButtonHotKey')
+    local hotKey2 = Addon:GetSetting('autoButtonHotKey2')
+    if hotKey1 ~= "" and hotKey2 ~= "" then
+        SetOverrideBindingClick(self.AutoButton, true, hotKey1, self.AutoButton:GetName())
+        SetOverrideBindingClick(self.AutoButton, true, hotKey2, self.AutoButton:GetName())
+        self.AutoButton.HotKey:SetText(hotKey1 .. '/' .. hotKey2)
+    elseif hotKey1 ~= "" then
+        SetOverrideBindingClick(self.AutoButton, true, hotKey1, self.AutoButton:GetName())
+        self.AutoButton.HotKey:SetText(hotKey1)
+    elseif hotKey2 ~= "" then
+        SetOverrideBindingClick(self.AutoButton, true, hotKey2, self.AutoButton:GetName())
+        self.AutoButton.HotKey:SetText(hotKey2)
     else
         self.AutoButton.HotKey:SetText('')
     end
