@@ -3,6 +3,7 @@
 ### Other
 
 - Allow specifying a secondary hotkey for the auto button.
+- Allow closing script editor/list with escape.
 
 ## v1.11.2
 
