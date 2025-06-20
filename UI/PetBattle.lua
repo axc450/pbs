@@ -254,23 +254,23 @@ function Module:UpdateHotKey()
         return
     end
 
-    ClearOverrideBindings(self.AutoButton)
-
-    local hotKey1 = Addon:GetSetting('autoButtonHotKey')
-    local hotKey2 = Addon:GetSetting('autoButtonHotKey2')
-    if hotKey1 ~= "" and hotKey2 ~= "" then
-        SetOverrideBindingClick(self.AutoButton, true, hotKey1, self.AutoButton:GetName())
-        SetOverrideBindingClick(self.AutoButton, true, hotKey2, self.AutoButton:GetName())
-        self.AutoButton.HotKey:SetText(hotKey1 .. '/' .. hotKey2)
-    elseif hotKey1 ~= "" then
-        SetOverrideBindingClick(self.AutoButton, true, hotKey1, self.AutoButton:GetName())
-        self.AutoButton.HotKey:SetText(hotKey1)
-    elseif hotKey2 ~= "" then
-        SetOverrideBindingClick(self.AutoButton, true, hotKey2, self.AutoButton:GetName())
-        self.AutoButton.HotKey:SetText(hotKey2)
-    else
-        self.AutoButton.HotKey:SetText('')
+    local function maybeHotkey(optionName)
+        local res = Addon:GetSetting(optionName)
+        return res ~= "" and res
     end
+
+    local hotKey1 = maybeHotkey('autoButtonHotKey')
+    local hotKey2 = maybeHotkey('autoButtonHotKey2')
+
+    ClearOverrideBindings(self.AutoButton)
+    if hotKey1 then
+        SetOverrideBindingClick(self.AutoButton, true, hotKey1, self.AutoButton:GetName())
+    end
+    if hotKey2 then
+        SetOverrideBindingClick(self.AutoButton, true, hotKey2, self.AutoButton:GetName())
+    end
+
+    self.AutoButton.HotKey:SetText((hotKey1 and hotKey2) and (hotKey1 .. '/' .. hotKey2) or hotKey1 or hotKey2 or '')
 end
 
 function Module:UpdateAutoButton()

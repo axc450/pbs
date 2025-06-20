@@ -1,3 +1,9 @@
+## v1.11.4
+
+### Fixes
+
+- Fix behavior for initially unset secondary hotkey and never opening settings.
+
 ## v1.11.3
 
 ### Other

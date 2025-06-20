@@ -36,6 +36,7 @@ function Addon:OnInitialize()
                 editorFontFace     = STANDARD_TEXT_FONT,
                 editorFontSize     = 14,
                 autoButtonHotKey   = 'A',
+                autoButtonHotKey2  = nil,
                 testBreak          = true,
                 lockScriptSelector = false,
                 notifyButtonActive = false,
