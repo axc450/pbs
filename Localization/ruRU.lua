@@ -1,4 +1,82 @@
 local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'ruRU')
 if not L then return end
 
-@localization(locale="ruRU")@
+--[[ L["ADDON_NAME"] = "Pet Battle Scripts" --]]
+L["DATABASE_UPDATE_BASE_TO_FIRSTENEMY_NOTIFICATION"] = "Обнаружив, что вы ранее использовали модифицированную версию tdBattlePetScript, мы перенесли часть скрипта измененной версии базового селектора в селектор FirstEnemy."
+L["DATABASE_UPDATED_TO"] = "Обновление до версии"
+L["DEFAULT_NEW_SCRIPT_NAME"] = "Новый скрипт"
+L["DIRECTOR_TEST_NEXT_ACTION"] = "Следующее действие"
+L["EDITOR_CREATE_SCRIPT"] = "Создать скрипт"
+L["EDITOR_EDIT_SCRIPT"] = "Редактировать скрипт"
+L["IN_BATTLE_DEBUGGING_SCRIPT"] = "Отладка скрипта"
+L["IN_BATTLE_EXECUTE"] = "Автобой"
+L["IN_BATTLE_NO_SCRIPT"] = "Нет скрипта"
+L["IN_BATTLE_SELECT_SCRIPT"] = "Выбор скрипта."
+L["OPTION_AUTO_SELECT_SCRIPT_BY_ORDER"] = "Автоматически выбирает сценарий на основе приоритета селектора сценариев"
+L["OPTION_AUTO_SELECT_SCRIPT_ONLY_ONE"] = "Автоматически выбирать, когда есть только один скрипт."
+L["OPTION_AUTOBUTTON_HOTKEY"] = "Назначение автоматической кнопки."
+--[[ L["OPTION_AUTOBUTTON_HOTKEY_SECONDARY"] = "(secondary)" --]]
+L["OPTION_EDITOR_FONT_FACE"] = "Шрифт"
+L["OPTION_EDITOR_FONT_SIZE"] = "Размер шрифта"
+L["OPTION_HIDE_MINIMAP"] = "Скрыть иконку у миникарты"
+L["OPTION_HIDE_SELECTOR_NO_SCRIPT"] = "Не показывать, если нет скриптов."
+L["OPTION_LOCK_SCRIPT_SELECTOR"] = "Блокировка селектора сценариев"
+L["OPTION_NO_WAIT_DELETE_SCRIPT"] = "Не ждать перед удалением."
+L["OPTION_NOTIFY_BUTTON_ACTIVE"] = "Воспроизведение звука, когда кнопка \"Автобой\" становится активной"
+L["OPTION_NOTIFY_BUTTON_ACTIVE_SOUND"] = "Звук"
+L["OPTION_RESET_FRAMES"] = "Сброс размера и положения панели"
+L["OPTION_SCRIPTSELECTOR_NOTES"] = "Настройки селекторов скриптов"
+L["OPTION_SETTINGS_HIDE_MINIMAP_TOOLTIP"] = "Обнаружена модификация \"MinimapButtonBag\", для изменения настройки необходимо перезагрузить интерфейс. Сделать это?"
+L["OPTION_TEST_BREAK"] = "Отладка: скрипт проверки тестового сценария."
+--[[ L["REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM"] = "Add script to note" --]]
+--[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL"] = [=[Importing at least one script from Rematch team notes failed:
+%s]=] --]]
+--[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "A script already exists, and it is a different one. Delete note or script." --]]
+--[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE"] = "- Team \"%s\": %s" --]]
+--[[ L["REMATCH4_DEPRECATED"] = [=[Rematch 4 is old and support of the pet battle scripts addon for it will be dropped mid 2025. Please upgrade to Rematch 5.
+
+Also, please notify us on Curseforge or GitHub, as we want to count whether a relevant number of users still use Rematch 4, contrary to our assumptions.]=] --]]
+L["SCRIPT_EDITOR_AUTOFORMAT_SCRIPT"] = "Отформатировать скрипт"
+L["SCRIPT_EDITOR_DELETE_SCRIPT_CONFIRMATION"] = "Вы действительно хотите |cffff0000удалить|r скрипт |cffffd000[%s - %s]|r ?"
+L["SCRIPT_EDITOR_FOUND_ERROR"] = "Найдена ошибка"
+L["SCRIPT_EDITOR_LABEL_TOGGLE_EXTRA"] = "Дополнительная информация"
+L["SCRIPT_EDITOR_NAME_TITLE"] = "Имя скрипта"
+L["SCRIPT_EDITOR_RUN_BUTTON"] = "Запуск"
+L["SCRIPT_EDITOR_SAVE_SUCCESS"] = "Сохранено"
+L["SCRIPT_EDITOR_TEXTAREA_TITLE"] = "Скрипт"
+L["SCRIPT_EDITOR_TITLE"] = "Редактор скриптов"
+L["SCRIPT_MANAGER_TITLE"] = "Менеджер скриптов"
+L["SCRIPT_MANAGER_TOGGLE"] = "Показать менеджер скриптов"
+L["SCRIPT_SELECTOR_TITLE"] = "Селектор скриптов"
+L["SCRIPT_SELECTOR_TOGGLE"] = "Показать селектор скриптов"
+L["SELECTOR_ALLINONE_NOTES"] = "Все битвы питомцев доступны с помощью этого скрипта."
+L["SELECTOR_ALLINONE_TITLE"] = "Все в одном"
+L["SELECTOR_BASE_ALLY"] = "Друг"
+L["SELECTOR_BASE_ENEMY"] = "Враг"
+L["SELECTOR_BASE_NOTES"] = "Базовый селектор выбирает обе стороны"
+L["SELECTOR_BASE_TITLE"] = "Базовый"
+L["SELECTOR_FIRSTENEMY_NOTES"] = "Этот селектор сценариев привязывает скрипт к первому врагу в битве."
+L["SELECTOR_FIRSTENEMY_TITLE"] = "Первый Враг"
+L["SELECTOR_REMATCH_4_TO_5_UPDATE_NOTE"] = [=[Rematch был обновлении с версии 4 до версии 5. Проверьте связь скриптов с соответствующими командами.\n
+Если обновление не было успешно, восстановите копию из wow/WTF/Account/<account>/SavedVariables/tdBattlePetScript.lua, либо откройте этот файл и замените "Rematch" на "Rematch5", также замените "Rematch4" на "Rematch". Затем понизьте версию на Rematch 4 и отправьте баг на https://github.com/axc450/pbs/issues/new, приложив saved variables для Rematch и для данного аддона.]=]
+L["SELECTOR_REMATCH_4_TO_5_UPDATE_ORPHAN"] = [=[Найден скрипт с именем "%s" который назначен на несуществующую команду Rematch с id "%s".\n
+Это может быть связано с неудачным обновлением базы данных, или с иными поврежденными файлами. Если эта ошибка наблюдается в большом количестве команд - пожалуйста сообщите о баге. В противном случае просто удалите проблемные скрипты с помощью Обозревателя Скриптов и добавьте их заново для соответствующих команд.]=]
+L["SELECTOR_REMATCH_CANT_FORMAT_TOOLTIP_REMATCH_NOT_LOADED"] = "Невозможно отобразить информацию: Rematch не загружен."
+L["SELECTOR_REMATCH_NO_TEAM_FOR_SCRIPT"] = "Ни одна команда не соответствует этому сценарию"
+L["SELECTOR_REMATCH_NOTES"] = "Этот селектор скриптов будет привязан к команде Rematch."
+--[[ L["SELECTOR_REMATCH_TEAM_FORMAT"] = "Team: %s" --]]
+--[[ L["SELECTOR_REMATCH_TITLE"] = "Rematch" --]]
+L["SHARE_EXPORT_SCRIPT"] = "Экспорт"
+L["SHARE_IMPORT_CHOOSE_KEY"] = "Пожалуйста, выберите значение \"закрыть\"..."
+L["SHARE_IMPORT_CHOOSE_SELECTOR"] = "Выберите селектор сценариев..."
+L["SHARE_IMPORT_LABEL_ALREADY_EXISTS_CHECKBOX"] = "Продолжить с перезаписью."
+L["SHARE_IMPORT_LABEL_ALREADY_EXISTS_WARNING"] = "Сценарий уже существует, если вы продолжите - предыдущий сценарий будет перезаписан импортируемым скриптом"
+L["SHARE_IMPORT_LABEL_HAS_EXTRA"] = "Вместо со скриптом будут загружены дополнительные данные, в зависимости от плагина. Обычно это информация о соответствующей команде."
+L["SHARE_IMPORT_PLUGIN_NOT_ENABLED"] = "Импорт невозможен: Плагин недоступен."
+L["SHARE_IMPORT_REINPUT_TEXT"] = "Повторное редактирование"
+L["SHARE_IMPORT_SCRIPT"] = "Импорт"
+L["SHARE_IMPORT_SCRIPT_EXISTS"] = "Сценарий уже существует"
+L["SHARE_IMPORT_SCRIPT_NOT_IMPORT_STRING_WARNING"] = "Вы ввели сценарий, который предлагает вам использовать импорт кода обмена, и, конечно же, вы можете продолжить импорт."
+L["SHARE_IMPORT_SCRIPT_WELCOME"] = "Скопируйте общую строку или скрипт в поле ввода."
+L["SHARE_IMPORT_STRING_INCOMPLETE"] = "Совместное использование строковых данных не является полным. Но все равно можно импортировать."
+L["TOOLTIP_CREATE_OR_DEBUG_SCRIPT"] = "Создание или отладка скрипта."
