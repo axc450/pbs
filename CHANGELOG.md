@@ -1,3 +1,11 @@
+## v1.11.5
+
+### Other
+
+- frFR: Some localization fixes.
+- Localization is no longer maintained on Curseforge but within the GitHub repository.
+- Bumped TOC for patch 11.1.7
+
 ## v1.11.4
 
 ### Fixes
