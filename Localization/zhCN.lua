@@ -15,7 +15,7 @@ L["IN_BATTLE_SELECT_SCRIPT"] = "选择脚本"
 L["OPTION_AUTO_SELECT_SCRIPT_BY_ORDER"] = "自动根据脚本选择器优先级选择脚本"
 L["OPTION_AUTO_SELECT_SCRIPT_ONLY_ONE"] = "只有一个脚本时自动选择"
 L["OPTION_AUTOBUTTON_HOTKEY"] = "自动按钮快捷键"
---[[ L["OPTION_AUTOBUTTON_HOTKEY_SECONDARY"] = "(secondary)" --]]
+L["OPTION_AUTOBUTTON_HOTKEY_SECONDARY"] = "(次)"
 L["OPTION_EDITOR_FONT_FACE"] = "字体"
 L["OPTION_EDITOR_FONT_SIZE"] = "字体大小"
 L["OPTION_HIDE_MINIMAP"] = "隐藏小地图图标"
@@ -28,14 +28,14 @@ L["OPTION_RESET_FRAMES"] = "重置面板大小与位置"
 L["OPTION_SCRIPTSELECTOR_NOTES"] = "在这里你可以管理脚本选择器是否开启以及脚本选择器的优先级。"
 L["OPTION_SETTINGS_HIDE_MINIMAP_TOOLTIP"] = "修改这项设置需要重新载入UI，是否继续？"
 L["OPTION_TEST_BREAK"] = "Debug: test 命令中断脚本"
---[[ L["REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM"] = "Add script to note" --]]
---[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL"] = [=[Importing at least one script from Rematch team notes failed:
-%s]=] --]]
---[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "A script already exists, and it is a different one. Delete note or script." --]]
---[[ L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE"] = "- Team \"%s\": %s" --]]
---[[ L["REMATCH4_DEPRECATED"] = [=[Rematch 4 is old and support of the pet battle scripts addon for it will be dropped mid 2025. Please upgrade to Rematch 5.
+L["REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM"] = "添加脚本到备注"
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL"] = [=[导入Rematch队伍备注中的脚本失败：
+%s]=]
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "已存在不同的脚本。请删除备注或脚本。"
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE"] = "- 队伍 \"%s\": %s"
+L["REMATCH4_DEPRECATED"] = [=[Rematch 4 已经过时，宠物对战脚本插件将于2025年中停止对其的支持。请升级到 Rematch 5。
 
-Also, please notify us on Curseforge or GitHub, as we want to count whether a relevant number of users still use Rematch 4, contrary to our assumptions.]=] --]]
+另外，请在 Curseforge 或 GitHub 上通知我们，因为我们想要统计 Rematch 4 的用户数量是否与我们的假设相符。]=]
 L["SCRIPT_EDITOR_AUTOFORMAT_SCRIPT"] = "美化脚本"
 L["SCRIPT_EDITOR_DELETE_SCRIPT_CONFIRMATION"] = "你确定要|cffff0000删除|r脚本 |cffffd000[%s - %s]|r 么？"
 L["SCRIPT_EDITOR_FOUND_ERROR"] = "发现错误"
