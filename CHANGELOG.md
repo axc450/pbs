@@ -1,3 +1,13 @@
+## v1.11.6
+
+### Fixes
+
+- Fix localization for non-enUS clients.
+
+### Other
+
+- zhCN: Some localization additions.
+
 ## v1.11.5
 
 ### Other
