@@ -1,4 +1,4 @@
-local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'enUS')
+local L = LibStub('AceLocale-3.0'):NewLocale('PetBattleScripts', 'enUS', true)
 if not L then return end
 
 L["ADDON_NAME"] = "Pet Battle Scripts"
