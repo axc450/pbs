@@ -1,3 +1,9 @@
+## v1.11.7
+
+### Other
+
+- Bumped TOC for patch 11.2.0
+
 ## v1.11.6
 
 ### Fixes
