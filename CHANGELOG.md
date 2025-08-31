@@ -1,3 +1,9 @@
+## v1.11.8
+
+### Other
+
+- Adopt to removed GameFontNormalGraySmall, just use GameFontNormalSmall.
+
 ## v1.11.7
 
 ### Other

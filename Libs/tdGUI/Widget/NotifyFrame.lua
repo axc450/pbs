@@ -101,12 +101,12 @@ function NotifyFrame:Constructor()
             self:OnIgnoreClick()
         end)
 
-        local Text = IgnoreButton:CreateFontString(nil, 'OVERLAY', 'GameFontNormalGraySmall') do
+        local Text = IgnoreButton:CreateFontString(nil, 'OVERLAY', 'GameFontNormalSmall') do
             Text:SetFont(Text:GetFont(), 11)
             Text:SetPoint('CENTER')
             IgnoreButton:SetFontString(Text)
             IgnoreButton:SetHighlightFontObject('GameFontHighlightSmall')
-            IgnoreButton:SetNormalFontObject('GameFontNormalGraySmall')
+            IgnoreButton:SetNormalFontObject('GameFontNormalSmall')
         end
     end
 
