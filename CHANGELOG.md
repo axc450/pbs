@@ -1,3 +1,9 @@
+## v1.11.9
+
+### Other
+
+- Bumped TOC for patch 11.2.7
+
 ## v1.11.8
 
 ### Other
