@@ -1,3 +1,9 @@
+## v1.11.10
+
+### Other
+
+- Bumped TOC for classic patch 5.0.3
+
 ## v1.11.9
 
 ### Other
