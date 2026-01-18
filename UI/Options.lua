@@ -27,7 +27,8 @@ function Options:InitOptions()
         args = self.optionsArgs
     }
     AceConfigRegistry:RegisterOptionsTable(L.ADDON_NAME, options)
-    AceConfigDialog:AddToBlizOptions(L.ADDON_NAME, L.ADDON_NAME)
+    local _, optionsCategoryId = AceConfigDialog:AddToBlizOptions(L.ADDON_NAME, L.ADDON_NAME)
+    Addon.optionsCategoryId = optionsCategoryId
 
     self:UpdateOptions()
 end
@@ -224,5 +225,5 @@ function Options:FillInstalledPlugins(args, order)
 end
 
 function Addon:OpenOptionsFrame()
-    Settings.OpenToCategory(L.ADDON_NAME)
+    Settings.OpenToCategory(self.optionsCategoryId)
 end
