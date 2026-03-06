@@ -1,3 +1,9 @@
+## v1.12.1
+
+### Other
+
+- Bumped TOC for mainline patch 12.0.1
+
 ## v1.12
 
 ### Fixes
