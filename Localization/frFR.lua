@@ -31,7 +31,7 @@ L["OPTION_TEST_BREAK"] = "Débogage : la commande de test interrompt le script"
 L["REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM"] = "Ajouter un script à la note"
 L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL"] = [=[L’importation d’au moins un script à partir des notes de l’équipe Rematch a échoué :
 %s]=]
-L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "Un script existe déjà, mais il s’agit d’un script différent. Supprimez la note ou le script."
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "Un script existe déjà, mais il s’agit d’un script différent. Supprimez la Rematch note ou le script."
 L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE"] = "– équipe \"%s\" : %s"
 L["REMATCH4_DEPRECATED"] = [=[Rematch 4 est ancien et sa prise en charge par l’addon Pet Battle Scripts sera abandonnée à la mi-2025. Veuillez passer à Rematch 5.
 

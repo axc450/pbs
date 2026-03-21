@@ -1,3 +1,9 @@
+## v1.13
+
+### Other
+
+- If automatic script import from Rematch notes fails due to bad script code, the note is now deleted either way. It was previously kept for sake of not messing with user data, and to avoid the bad experience of expecting a script to be imported but that not happening, but it turns out most users are confused and nobody knows how to fix the situation.
+
 ## v1.12.1
 
 ### Other

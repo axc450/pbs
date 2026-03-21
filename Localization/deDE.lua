@@ -31,7 +31,7 @@ L["OPTION_TEST_BREAK"] = "Entwickler: Die 'test' Aktion unterbricht die Ausführ
 L["REMATCH_NOTE_SCRIPT_EXPORT_ADD_TO_NOTE_MENU_ITEM"] = "Füge Skript an Notiz dran"
 L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL"] = [=[Mindestens ein Import von Skripten aus Rematch Team Notizen ist fehlgeschlagen:
 %s]=]
-L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "Ein Skript existiert bereits, aber es ist unterschiedlich. Lösche Notiz oder Skript."
+L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_EXIST_DIFFERENT"] = "Ein Skript existiert bereits, aber es ist unterschiedlich. Lösche die Rematch-Notiz oder das Skript."
 L["REMATCH_NOTE_SCRIPT_IMPORT_FAIL_LINE"] = "- Team \"%s\": %s"
 L["REMATCH4_DEPRECATED"] = [=[Rematch 4 ist alt und die Unterstützung seitens des Pet Battle Script addons wird Mitte 2025 beendet. Bitte update zu Rematch 5.
 

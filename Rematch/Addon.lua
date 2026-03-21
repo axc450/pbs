@@ -556,6 +556,10 @@ function RematchPlugin:MaybeTakeScriptFromNotes(key, team)
         return
     end
 
+    local pre = istart > 1 and string.sub(note, 1, istart - 1) or nil
+    local post = iend < len and string.sub(note, iend + 1, len) or nil
+    local noteWithoutScript = pre and post and (pre .. '\n' .. post) or pre or post
+
     -- Hack-around for bad Xufu exports
     code = htmlUnescape(code)
 
@@ -584,12 +588,10 @@ function RematchPlugin:MaybeTakeScriptFromNotes(key, team)
     local checkedCode, err = Director:BuildScript(code)
     if not checkedCode then
         queueError(team, err)
+        self:_UpdateTeamNote(key, noteWithoutScript)
         return
     end
     checkedCode = Director:BeautyScript(checkedCode)
-
-    local pre = istart > 1 and string.sub(note, 1, istart - 1) or nil
-    local post = iend < len and string.sub(note, iend + 1, len) or nil
 
     local existingScript = self:GetScript(key)
     if existingScript then
@@ -602,7 +604,7 @@ function RematchPlugin:MaybeTakeScriptFromNotes(key, team)
         local scriptData = {name = team.name, code = checkedCode,}
         self:AddScript(key, Addon:GetClass('Script'):New(scriptData, self, key))
     end
-    self:_UpdateTeamNote(key, pre and post and (pre .. '\n' .. post) or pre or post)
+    self:_UpdateTeamNote(key, noteWithoutScript)
 end
 
 function RematchPlugin:CheckAllTeamsForScriptsInNotes()
