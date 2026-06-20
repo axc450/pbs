@@ -1,4 +1,4 @@
-## Interface: 120001, 110207, 50503, 120000
+## Interface: 120007, 50504
 ## Title: Pet Battle Scripts
 ## Notes: Battle Pet Combat Scripting
 ## Author: axc450
