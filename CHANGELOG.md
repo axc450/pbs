@@ -1,3 +1,9 @@
+## v1.13.2
+
+### Other
+
+- Update libraries.
+
 ## v1.13.1
 
 ### Other
