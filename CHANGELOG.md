@@ -2,6 +2,7 @@
 
 ### Other
 
+- Bumped TOC for patch 12.1.0.
 - Update libraries.
 
 ## v1.13.1
